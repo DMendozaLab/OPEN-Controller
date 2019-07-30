@@ -15,5 +15,30 @@ namespace MANDRAKEware.Experiment
     class Experiment
     {
         //TODO: saving/exporting experiment to database
+
+        #region Properties
+
+        #endregion
+
+        #region Constructors
+        public Experiment()
+        {
+
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// For saving experiment to database
+        /// </summary>
+        public void Saving()
+        {
+            //TODO
+        }
+
+        public void Loading()
+        {
+            //TODO: may not be needed
+        }
     }
 }
