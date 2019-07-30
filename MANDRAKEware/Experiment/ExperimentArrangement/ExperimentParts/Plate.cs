@@ -68,6 +68,15 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
             }
         }
 
+        /// <summary>
+        /// Sees if Plate is active
+        /// </summary>
+        /// <returns>Returns 1 for success and 0 for failure</returns>
+        public int isActive()
+        {
+            //TODO
+        }
+
         #endregion
     }
 }

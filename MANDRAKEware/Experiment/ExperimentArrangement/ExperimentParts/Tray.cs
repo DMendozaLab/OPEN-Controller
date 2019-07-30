@@ -19,12 +19,13 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
         /// Numbers of rows and cols of plates in tray
         /// </summary>
         private int numRow;
-        private int numCol
+        private int numCol;
 
         public int XPos { get => xPos; set => xPos = value; }
         public bool Active { get => active; set => active = value; }
         internal Plate[,] PlateArray { get => plateArray; set => plateArray = value; }
         public int NumRows { get => numRow; set => numRow = value; }
+        public int NumCol { get => numCol; set => numCol = value; }
         #endregion
 
         #region Constructor
@@ -40,7 +41,22 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
         /// </summary>
         public void ActivateTray()
         {
-            for(int i = 0; )
+            for(int i = 0; i < numRow; i++)
+            {
+                for(int j = 0; j < numCol; j++)
+                {
+                    plateArray[numRow, numCol].ActivatePlate(); //activates the plate
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if tray is active or not
+        /// </summary>
+        /// <returns>Returns 1 is success and 0 if not</returns>
+        public int isActive()
+        {
+            //TODO
         }
         #endregion
     }
