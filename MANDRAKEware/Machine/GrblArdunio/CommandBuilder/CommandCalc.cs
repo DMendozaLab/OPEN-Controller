@@ -28,7 +28,7 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         /// <returns>Returns the sum of the two numbers</returns>
         public int Add(int num1, int num2)
         {
-            return (num1 + num2)
+            return (num1 + num2);
         }
 
         /// <summary>
