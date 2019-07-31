@@ -15,5 +15,8 @@
         <Button x:Name="ExperimentBuilder_Btn" Grid.Row ="0" Margin ="10 10 10 10" Click="ExperimentBuilder_Btn_Click">
             Experiment Builder
         </Button>
+        <Button x:Name="MachineWindow" Grid.Row="1" Margin="10 10 10 10" Click="MachineWindow_Click">
+            Open Machine Connect
+        </Button>
     </Grid>
 </Window>

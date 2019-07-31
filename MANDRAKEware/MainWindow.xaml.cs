@@ -30,5 +30,11 @@ namespace MANDRAKEware
             ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
             experimentBuilderWindow.Show();
         }
+
+        private void MachineWindow_Click(object sender, RoutedEventArgs e)
+        {
+            MachineConnectionWindow machineConnectionWindow = new MachineConnectionWindow();
+            machineConnectionWindow.Show();
+        }
     }
 }

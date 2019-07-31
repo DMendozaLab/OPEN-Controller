@@ -8,5 +8,6 @@ namespace MANDRAKEware.Machine.GrblArdunio.CycleControl.SingleCycle
 {
     class WellCycle
     {
+
     }
 }

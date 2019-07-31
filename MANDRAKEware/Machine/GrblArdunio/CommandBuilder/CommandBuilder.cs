@@ -13,8 +13,10 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
     {
         #region Properties
         private string command; //completed command
-        private const char Macro = 'M'; //const char of M for marco commands
-        private const char gcommand = 'G'; //const char for G commands
+        private const char macro = 'M'; //const char of M for marco commands
+        private const char gCommand = 'G'; //const char for G commands
+        private const string gAbsolute = "90"; //for absolute motion
+        private const string gIncremental = "91";
        
         private const char xAxis = 'X';
         private const char yAxis = 'Y';
