@@ -8,6 +8,9 @@
 *.userosscache
 *.sln.docstates
 
+#Visual Studio cache/option directory
+.vs/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
