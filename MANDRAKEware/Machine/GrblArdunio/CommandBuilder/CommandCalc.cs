@@ -26,7 +26,7 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         /// <param name="num1">First number to be added</param>
         /// <param name="num2">Second number to be added</param>
         /// <returns>Returns the sum of the two numbers</returns>
-        public int Add(int num1, int num2)
+        private int Add(int num1, int num2)
         {
             return (num1 + num2);
         }
@@ -37,9 +37,31 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         /// <param name="num1">Number that will be subtracted from</param>
         /// <param name="num2">Number that will subtracted from num1</param>
         /// <returns>Returns the difference between num1 and num2</returns>
-        public int Subtract(int num1, int num2)
+        private int Subtract(int num1, int num2)
         {
             return (num1 - num2);
+        }
+
+        /// <summary>
+        /// Function for finding distance for grbl commands
+        /// </summary>
+        /// <param name="startPt">Starting point of command</param>
+        /// <param name="endPt">Ending point of command</param>
+        /// <returns>returns the distance betwen start pt and end pt</returns>
+        public int DistanceCalc(int startPt, int endPt)
+        {
+            return Subtract(startPt, endPt);
+        }
+
+        /// <summary>
+        /// Calcs new position from offset
+        /// </summary>
+        /// <param name="offset">Distance to offset</param>
+        /// <param name="startingPt">Starting point before offset</param>
+        /// <returns>The new distance with offset added</returns>
+        public int OffsetCalc(int offset, int startingPt)
+        {
+            return Add(offset, startingPt);
         }
         #endregion
     }

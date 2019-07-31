@@ -31,11 +31,28 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         #endregion
 
         #region Methods
-        public string CommandBuild(int distance, char axis)
+        /// <summary>
+        /// Command Builder function for getting to next position in cycle
+        /// </summary>
+        /// <param name="startingPt">Starting Point of command</param>
+        /// <param name="endPt">Hopeful end point of command</param>
+        /// <param name="axis">the Axis that is being moved on</param>
+        /// <returns></returns>
+        public string CycleCommand(int startingPt, int endPt, char axis)
         {
             StringBuilder sb = new StringBuilder();
+            int distance = calculator.DistanceCalc(startingPt, endPt);
 
             //TODO: rest of function where appends stuff
+
+            return null; //will remove later
+        }
+
+        public string OffsetCommand(int offset, int startingPt)
+        {
+            StringBuilder sb = new StringBuilder();
+            int offsetPt = calculator.OffsetCalc(offset, startingPt);
+            //TODO
 
             return null;
         }
