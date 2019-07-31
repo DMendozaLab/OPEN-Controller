@@ -63,7 +63,7 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
             {
                 for(int j = 0; j <numCol; j++)
                 {
-                    WellArray[NumRows, NumCol].Active = true;
+                    WellArray[i, j].Active = true;
                 }
             }
         }
@@ -72,9 +72,22 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
         /// Sees if Plate is active
         /// </summary>
         /// <returns>Returns 1 for success and 0 for failure</returns>
-        public int isActive()
+        public int IsActive()
         {
-            //TODO
+            int truthValue = 1;
+
+            for (int i = 0; i < NumRows; i++)
+            {
+                for (int j = 0; j < numCol; j++)
+                {
+                    truthValue = WellArray[i, j].IsActive();
+
+                    if (truthValue == 0) //if fails check then returns failure condition
+                        return 0;
+                }
+            }
+
+            return 1; //success
         }
 
         #endregion

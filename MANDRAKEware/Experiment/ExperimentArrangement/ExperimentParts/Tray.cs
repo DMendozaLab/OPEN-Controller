@@ -45,7 +45,7 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
             {
                 for(int j = 0; j < numCol; j++)
                 {
-                    plateArray[numRow, numCol].ActivatePlate(); //activates the plate
+                    plateArray[i, j].ActivatePlate(); //activates the plate
                 }
             }
         }
@@ -54,9 +54,15 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
         /// Checks to see if tray is active or not
         /// </summary>
         /// <returns>Returns 1 is success and 0 if not</returns>
-        public int isActive()
+        public int IsActive()
         {
-            //TODO
+            for (int i = 0; i < numRow; i++)
+            {
+                for (int j = 0; j < numCol; j++)
+                {
+                    plateArray[i, j].IsActive(); //activates the plate
+                }
+            }
         }
         #endregion
     }

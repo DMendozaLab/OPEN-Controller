@@ -55,6 +55,18 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
         {
             this.active = true;
         }
+
+        /// <summary>
+        /// Function to test is well is active
+        /// </summary>
+        /// <returns>1 is active property is true, 0 otherwise</returns>
+        public int IsActive()
+        {
+            if (this.active == true)
+                return 1;
+            else
+                return 0;
+        }
         #endregion 
     }
 }
