@@ -79,6 +79,11 @@
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\Tray.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\Well.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\WellPlate.cs" />
+    <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
+    <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandCalc.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\SingleCycle\TrayCycle.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\SingleCycle\PlateCycle.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\SingleCycle\WellCycle.cs" />
     <Compile Include="Machine\GrblArdunio\CycleControl\TimelapseControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -114,8 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Machine\Camera\" />
-    <Folder Include="Machine\GrblArdunio\CommandBuilder\" />
-    <Folder Include="Machine\GrblArdunio\CycleControl\SingleCycle\" />
     <Folder Include="Machine\PerpherialArdunio\" />
     <Folder Include="Resources\Icons\" />
     <Folder Include="Resources\Images\" />
