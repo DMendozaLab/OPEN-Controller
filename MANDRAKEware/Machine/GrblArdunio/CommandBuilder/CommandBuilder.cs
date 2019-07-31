@@ -18,6 +18,7 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
        
         private const char xAxis = 'X';
         private const char yAxis = 'Y';
+
         private CommandCalc calculator; //command calculator
 
         public string Command { get => command; set => command = value; }
