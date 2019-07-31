@@ -58,6 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ExperimentBuilderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,12 +70,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExperimentBuilderWindow.xaml.cs">
+      <DependentUpon>ExperimentBuilderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Experiment\Experiment.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentArrangement.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\Plate.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\Tray.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\Well.cs" />
     <Compile Include="Experiment\ExperimentArrangement\ExperimentParts\WellPlate.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\TimelapseControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -106,7 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Machine\Camera\" />
-    <Folder Include="Machine\GrblArdunio\" />
+    <Folder Include="Machine\GrblArdunio\CommandBuilder\" />
+    <Folder Include="Machine\GrblArdunio\CycleControl\SingleCycle\" />
     <Folder Include="Machine\PerpherialArdunio\" />
     <Folder Include="Resources\Icons\" />
     <Folder Include="Resources\Images\" />

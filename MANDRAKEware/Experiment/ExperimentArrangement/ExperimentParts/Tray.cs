@@ -60,9 +60,13 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
             {
                 for (int j = 0; j < numCol; j++)
                 {
-                    plateArray[i, j].IsActive(); //activates the plate
+                    int truthValue = plateArray[i, j].IsActive(); //checks to see if plate is active
+                    if (truthValue == 0)
+                        return 0; //failure
                 }
             }
+
+            return 1; //success
         }
         #endregion
     }

@@ -10,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace MANDRAKEware
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ExperimentBuilderWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ExperimentBuilderWindow : Window
     {
-        public MainWindow()
+        public ExperimentBuilderWindow()
         {
             InitializeComponent();
-        }
-
-        private void ExperimentBuilder_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
-            experimentBuilderWindow.Show();
         }
     }
 }

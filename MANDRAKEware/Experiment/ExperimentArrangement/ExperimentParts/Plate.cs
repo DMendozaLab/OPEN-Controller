@@ -74,13 +74,11 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
         /// <returns>Returns 1 for success and 0 for failure</returns>
         public int IsActive()
         {
-            int truthValue = 1;
-
             for (int i = 0; i < NumRows; i++)
             {
                 for (int j = 0; j < numCol; j++)
                 {
-                    truthValue = WellArray[i, j].IsActive();
+                    int truthValue = WellArray[i, j].IsActive();
 
                     if (truthValue == 0) //if fails check then returns failure condition
                         return 0;
