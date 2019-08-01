@@ -29,7 +29,7 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         #region Constructors
         public CommandBuilder()
         {
-
+            
         }
         #endregion
 
