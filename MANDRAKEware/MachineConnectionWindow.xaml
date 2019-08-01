@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MANDRAKEware"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MachineConnectionWindow" Height="450" Width="800">
-    <Grid>
+    <StackPanel Margin="10">
+        <!--Header-->
+        <Border BorderThickness="10">
+            <TextBlock FontWeight="Bold" TextAlignment="Center" TextDecorations="underline">Machine Connection</TextBlock>
+        </Border>
+        <!--Number of Machines-->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>How many machines?</TextBlock>
+            <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0"/>
+        </StackPanel>
         
-    </Grid>
+    </StackPanel>
 </Window>
