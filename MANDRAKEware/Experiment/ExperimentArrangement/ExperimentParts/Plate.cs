@@ -11,6 +11,7 @@ namespace MANDRAKEware.Experiment.ExperimentArrangement.ExperimentParts
     /// </summary>
     class Plate
     {
+
         #region Properties
         /// <summary>
         /// x and y pos of plate

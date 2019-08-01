@@ -63,6 +63,17 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         {
             return Add(offset, startingPt);
         }
+
+        /// <summary>
+        /// Finds an endpoint of motion from starting point and distance
+        /// </summary>
+        /// <param name="startPt">Starting point of command</param>
+        /// <param name="distance">Distance to be travelled over command</param>
+        /// <returns>End point position in absolute distance</returns>
+        public int EndPtCalc(int startPt, int distance)
+        {
+            return Add(startPt, distance);
+        }
         #endregion
     }
 }
