@@ -17,6 +17,12 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         private const char gCommand = 'G'; //const char for G commands
         private const string gAbsolute = "90"; //for absolute motion
         private const string gIncremental = "91";
+
+        private IDictionary<string, string> grblCodes = new Dictionary<string, string>()
+        {
+            {"absolute", "90"},
+            {"incremental", "91"},
+        };
        
         private const char xAxis = 'X';
         private const char yAxis = 'Y';
