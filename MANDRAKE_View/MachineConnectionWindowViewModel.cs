@@ -2,7 +2,8 @@
 
 namespace MANDRAKE_View
 {
-    public class Class1
+    public class MachineConnectionWindowViewModel
     {
+
     }
 }

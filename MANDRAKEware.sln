@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKEware_View", "MANDRA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKE_ViewModel", "MANDRAKE_View\MANDRAKE_ViewModel.csproj", "{109A974E-199A-47A6-B364-3377D8D660D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "View\View.csproj", "{FFD63B41-C57E-4EC7-BC00-3DD6287E4453}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKE_Model", "View\MANDRAKE_Model.csproj", "{FFD63B41-C57E-4EC7-BC00-3DD6287E4453}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
