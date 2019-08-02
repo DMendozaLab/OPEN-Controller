@@ -11,12 +11,40 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
-        <Button x:Name="ExperimentBuilder_Btn" Grid.Row ="0" Margin ="10 10 10 10" Click="ExperimentBuilder_Btn_Click">
+        
+        <!--Experiment Builder and Machine Connection Window Buttons-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <!--Experiment Builder Window Button-->
+            <Button x:Name="ExperimentBuilder_Btn" Grid.Column ="0" Margin ="10 10 10 10" Click="ExperimentBuilder_Btn_Click">
             Experiment Builder
-        </Button>
-        <Button x:Name="MachineWindow" Grid.Row="1" Margin="10 10 10 10" Click="MachineWindow_Click">
-            Open Machine Connect
-        </Button>
+            </Button>
+            
+            <!--Machine Connection Window Button-->
+            <Button x:Name="MachineWindow" Grid.Column="1" Margin="10 10 10 10" Click="MachineWindow_Click">
+                Open Machine Connect
+            </Button>
+        </Grid>
+        
+        <!--Load Experiment, Start, Stop Buttons-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <!--Load Experiment Button-->
+            <Button Grid.Column="0" Margin="10" Name="LoadExperimentBtn" Click="LoadExperimentBtn_Click">Load Experiment</Button>
+            <!--Start Machine Button-->
+            <Button Grid.Column="1" Margin="10" Name="StartMachineBtn" Click="StartMachineBtn_Click">Start</Button>
+            <!--Stop Machine Button-->
+            <Button Grid.Column="2" Margin="10" Name="StopMachineBtn" Click="StopMachineBtn_Click">Stop</Button>
+        </Grid>
+        
     </Grid>
 </Window>

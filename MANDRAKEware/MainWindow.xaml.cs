@@ -36,5 +36,20 @@ namespace MANDRAKEware
             MachineConnectionWindow machineConnectionWindow = new MachineConnectionWindow();
             machineConnectionWindow.Show();
         }
+
+        private void LoadExperimentBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StartMachineBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StopMachineBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
