@@ -23,5 +23,10 @@ namespace MANDRAKEware
         {
             InitializeComponent();
         }
+
+        private void Connect_Btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
