@@ -5,9 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Icons\" />
-    <Folder Include="Resources\Images\" />
-    <Folder Include="Resources\Logos\" />
     <Folder Include="Util\" />
   </ItemGroup>
 

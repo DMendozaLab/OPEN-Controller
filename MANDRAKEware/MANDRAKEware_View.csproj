@@ -136,7 +136,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\Icons\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Logos\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MANDRAKE_View\MANDRAKE_ViewModel.csproj">
       <Project>{109a974e-199a-47a6-b364-3377d8d660d6}</Project>
