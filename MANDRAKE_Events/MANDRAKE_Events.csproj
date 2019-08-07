@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MANDRAKEware\MANDRAKEware_View.csproj" />
-    <ProjectReference Include="..\View\MANDRAKE_Model.csproj" />
   </ItemGroup>
 
 </Project>
