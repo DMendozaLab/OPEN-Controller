@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MANDRAKEware\MANDRAKEware_View.csproj" />
+    <PackageReference Include="GeometRi" Version="1.3.5.12" />
+    <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
 
 </Project>

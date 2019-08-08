@@ -4,12 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKEware_View", "MANDRAKEware\MANDRAKEware_View.csproj", "{D4F673C7-3B70-4287-854E-2D77895E238C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92DC1E89-17FE-44AE-B732-3DE11B33D402} = {92DC1E89-17FE-44AE-B732-3DE11B33D402}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MANDRAKE_ViewModel", "MANDRAKE_View\MANDRAKE_ViewModel.csproj", "{109A974E-199A-47A6-B364-3377D8D660D6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MANDRAKE_Model", "View\MANDRAKE_Model.csproj", "{FFD63B41-C57E-4EC7-BC00-3DD6287E4453}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKE_Events", "MANDRAKE_Events\MANDRAKE_Events.csproj", "{92DC1E89-17FE-44AE-B732-3DE11B33D402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MANDRAKE_Events", "MANDRAKE_Events\MANDRAKE_Events.csproj", "{92DC1E89-17FE-44AE-B732-3DE11B33D402}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

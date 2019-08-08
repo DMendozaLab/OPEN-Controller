@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeometRi;
+using log4net;
 
 namespace MANDRAKEware.Machine.GrblArdunio
 {
@@ -12,6 +13,9 @@ namespace MANDRAKEware.Machine.GrblArdunio
     /// </summary>
     class GRBLArdunio
     {
+        //testing logger
+        private static readonly ILog log = LogManager.GetLogger(typeof(GRBLArdunio));
+
         #region Properties
         private Vector3d machinePosition = new Vector3d(); //where machine thinks it is
         private Vector3d workPosition = new Vector3d(); //works position of machine (offsets and such)
