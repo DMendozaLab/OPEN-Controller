@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GodSharp.SerialPort;
+using log4net;
 
 namespace MANDRAKEware
 {
@@ -20,11 +22,15 @@ namespace MANDRAKEware
     /// </summary>
     public partial class MachineConnectionWindow : Window
     {
+        //logger
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public MachineConnectionWindow()
         {
             InitializeComponent();
+
+            log.Info("Machine Connection Window Entered");
         }
 
         /// <summary>
@@ -53,6 +59,8 @@ namespace MANDRAKEware
         /// <param name="e"></param>
         private void GrblSerialComboBox_DropDownOpened(object sender, EventArgs e)
         {
+            log.Info("Grbl Serial Port Combo Box Opened");
+
             updateSerialPortComboBox(GrblSerialComboBox);
         }
         /// <summary>
@@ -60,6 +68,8 @@ namespace MANDRAKEware
         /// </summary>
         private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
         {
+            log.Info("Lights Ardunio Serial Port Combo Box Opened");
+
             updateSerialPortComboBox(LightsSerialComboBox);
         }
 
@@ -69,8 +79,6 @@ namespace MANDRAKEware
         /// <param name="cb">The combobox that is being updated is being passed to the function to get serial ports</param>
         private void updateSerialPortComboBox(ComboBox cb)
         {
-            // string sp = Properties.Settings.Default.P;
-            // string psp = Properties.Settings.Default.PeripheralSP;
             cb.Items.Clear();
             String[] ports = System.IO.Ports.SerialPort.GetPortNames();
             int i = 0;
@@ -91,6 +99,8 @@ namespace MANDRAKEware
                 i++;
             }
             cb.SelectedIndex = selectedIndex;
+
+            log.Debug("Serial Ports Updated for Combo Box");
         }
 
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
