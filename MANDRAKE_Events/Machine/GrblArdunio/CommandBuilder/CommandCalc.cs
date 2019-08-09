@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
+using GeometRi;
 
 namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
 {
@@ -20,6 +22,39 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
 
         //May add float versions of calc functions
         #region Calc Functions
+        /// <summary>
+        /// Returns the distance between two points
+        /// </summary>
+        /// <param name="point1">The "starting" point of the distance measurement</param>
+        /// <param name="point2">The "ending" point of hte distance measurement</param>
+        /// <returns>A double of the calculated distance</returns>
+        private double DistanceBtnPts(Point3d point1, Point3d point2)
+        {
+            return point1.DistanceTo(point2);
+        }
+
+        /// <summary>
+        /// Adds two GeometRi 3D points in a method
+        /// </summary>
+        /// <param name="startPt">Starting 3D point</param>
+        /// <param name="endPt">Ending 3D point</param>
+        /// <returns></returns>
+        private Point3d PointsAdd(Point3d startPt, Point3d endPt)
+        {
+            return (startPt.Add(endPt));
+        }
+
+        /// <summary>
+        /// Subtracts two 3D Geomtri points
+        /// </summary>
+        /// <param name="startPt">Starting 3D point</param>
+        /// <param name="endPt">Ending 3D point</param>
+        /// <returns></returns>
+        private Point3d PointsSub(Point3d startPt, Point3d endPt)
+        {
+            return (startPt.Subtract(endPt));
+        }
+
         /// <summary>
         /// This functions takes in two numbers and returns the sum of the two
         /// </summary>
