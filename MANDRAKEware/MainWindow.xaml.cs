@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
 
+
 namespace MANDRAKEware
 {
     /// <summary>
@@ -24,6 +25,13 @@ namespace MANDRAKEware
     {
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        //windows
+        ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
+        MachineConnectionWindow machineConnectionWindow = new MachineConnectionWindow();
+
+        //testing
+       
 
         public MainWindow()
         {
@@ -35,13 +43,13 @@ namespace MANDRAKEware
 
         private void ExperimentBuilder_Btn_Click(object sender, RoutedEventArgs e)
         {
-            ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
+           // ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
             experimentBuilderWindow.Show();
         }
 
+        //ADD THE UPDATED SERIAL BOX FUNCTION TO THIS
         private void MachineWindow_Click(object sender, RoutedEventArgs e)
         {
-            MachineConnectionWindow machineConnectionWindow = new MachineConnectionWindow();
             machineConnectionWindow.Show();
 
             log.Info("Opened Machine Connection Window");
@@ -60,6 +68,14 @@ namespace MANDRAKEware
         private void StopMachineBtn_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            machineConnectionWindow.Close();
+            experimentBuilderWindow.Close();
+                       
+            Application.Current.Shutdown();
         }
     }
 }

@@ -43,9 +43,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GodSharp.SerialPort, Version=1.2.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GodSharp.SerialPort.1.2.0.6\lib\net47\GodSharp.SerialPort.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -145,6 +142,10 @@
     <Folder Include="Resources\Logos\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mandrakeEvents\MANDRAKEware_Events.csproj">
+      <Project>{2bd5260e-08b4-46cc-bcdb-7acc64060365}</Project>
+      <Name>MANDRAKEware_Events</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MANDRAKE_View\MANDRAKE_ViewModel.csproj">
       <Project>{109a974e-199a-47a6-b364-3377d8d660d6}</Project>
       <Name>MANDRAKE_ViewModel</Name>

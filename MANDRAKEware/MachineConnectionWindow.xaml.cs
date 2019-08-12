@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GodSharp.SerialPort;
 using log4net;
 
 namespace MANDRAKEware
@@ -31,6 +30,8 @@ namespace MANDRAKEware
             InitializeComponent();
 
             log.Info("Machine Connection Window Entered");
+
+            GrblArdunio grblArdunio = new GrblArdunio();
         }
 
         /// <summary>
@@ -40,9 +41,7 @@ namespace MANDRAKEware
         {
             try
             {
-                //will need to update after this
-            //    machine.Connect();
-             //   peripheral.Connect();
+               // GRBLArdunio.Connect();
             }
             catch (Exception ex)
             {
