@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MANDRAKE_ViewModel", "MANDR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MANDRAKE_Model", "View\MANDRAKE_Model.csproj", "{FFD63B41-C57E-4EC7-BC00-3DD6287E4453}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKEware_Events", "mandrakeEvents\MANDRAKEware_Events.csproj", "{2BD5260E-08B4-46CC-BCDB-7ACC64060365}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MANDRAKEevents", "mandrakeEvents\MANDRAKEevents.csproj", "{2BD5260E-08B4-46CC-BCDB-7ACC64060365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

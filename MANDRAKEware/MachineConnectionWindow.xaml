@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:MANDRAKEware"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="450" Width="800">
+        Title="MachineConnectionWindow" Height="450" Width="800"
+        Closing="Window_Closing">
     
     <StackPanel Margin="10">
         <!--Border of Stackpanel-->
@@ -16,9 +17,9 @@
         
         
         <!--Number of Machines (Not visible at moment, can be later)-->
-        <StackPanel Visibility="Hidden" Orientation="Horizontal">
+        <StackPanel Visibility ="Hidden"  Orientation="Horizontal">
             <TextBlock>How many machines?</TextBlock>
-            <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0"/>
+            <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0" Watermark="Enter Here" ValueChanged="NumberOfMachines_ValueChanged"/>
         </StackPanel>
         
         <!--Connecting Grid-->

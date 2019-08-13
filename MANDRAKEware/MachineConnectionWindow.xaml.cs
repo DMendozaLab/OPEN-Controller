@@ -13,6 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using log4net;
+using MANDRAKEware_Events.Machine.GrblArdunio;
+using MANDRAKEware_Events.Machine;
+using MandrakeEvents;
+using MandrakeEvents.Machine.LightsArdunio;
 
 namespace MANDRAKEware
 {
@@ -23,7 +27,9 @@ namespace MANDRAKEware
     {
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
+        // private int NumMachines; //testing for machines
+        private GRBLArdunio gArdunio = GRBLArdunio.Instance;
+        private LightsArdunio litArdunio = LightsArdunio.Instance;
 
         public MachineConnectionWindow()
         {
@@ -31,7 +37,7 @@ namespace MANDRAKEware
 
             log.Info("Machine Connection Window Entered");
 
-            GrblArdunio grblArdunio = new GrblArdunio();
+            //for now will initalize one machien in start  
         }
 
         /// <summary>
@@ -41,7 +47,8 @@ namespace MANDRAKEware
         {
             try
             {
-               // GRBLArdunio.Connect();
+                gArdunio.Connect();
+                litArdunio.Connect();
             }
             catch (Exception ex)
             {
@@ -105,6 +112,20 @@ namespace MANDRAKEware
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Method for event of number of machine ticker changing
+        /// </summary>
+        private void NumberOfMachines_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            //Will add when adding multi machines
+        }
+
+        //closing window method
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //TODO
         }
     }
 }

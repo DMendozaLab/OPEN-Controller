@@ -15,21 +15,16 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 //using Microsoft.SPOT.Hardware.SerialPort.dll;
 using System.IO.Ports;
+using MandrakeEvents.Machine;
+using Mandrake_Events;
+//using Mandrake_Events.Machine.Util;
 
-namespace MANDRAKEware.Machine.GrblArdunio
+namespace MANDRAKEware_Events.Machine.GrblArdunio
 {
-    /// <summary>
-    /// Connection type is serial for grbl ardunio
-    /// </summary>
-    enum ConnectionType
-    {
-        Serial
-    }
-
     /// <summary>
     /// For connecting and disconnecting from grbl ardunio and other needed things, like sending lines
     /// </summary>
-    class GRBLArdunio
+    public sealed class GRBLArdunio
     {
         #region Logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -48,11 +43,22 @@ namespace MANDRAKEware.Machine.GrblArdunio
             SendMacro//4
         }
 
-        //const for not having setttings
-        private const int controllerBufSizeConst = 120;
-        private const int statusPollIntvalConst = 100;
-        private const int baudRateConst = 115200;
-        private const string defaultComPort = "COM3";
+        #region Constructors
+        static GRBLArdunio()
+        {
+
+        }
+
+        private static readonly GRBLArdunio instance = new GRBLArdunio();
+
+        public static GRBLArdunio Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        #endregion
 
         //for later in program
         public Vector3 LastProbePosMachine { get; private set; }
@@ -79,6 +85,7 @@ namespace MANDRAKEware.Machine.GrblArdunio
         public event Action OverrideChanged;
 
         ConnectionType connectType; //for connect and disconnect methods
+     //   SerialConsts serialConsts;
 
         //limit switches booleans
         public bool PinStateProbe { get; private set; } = false;
@@ -89,7 +96,6 @@ namespace MANDRAKEware.Machine.GrblArdunio
         private Vector3 machinePosition = new Vector3(); //where machine thinks it is
         private Vector3 workPosition = new Vector3(); //works position of machine (offsets and such)
       //  private string status; //status of machine
-        private bool connected;
 
         public Vector3 WorkPosition { get => workPosition; set => workPosition = value; }
         public Vector3 MachinePosition { get => machinePosition; set => machinePosition = value; }
@@ -111,22 +117,9 @@ namespace MANDRAKEware.Machine.GrblArdunio
         public double CurrentTLO { get; private set; } = 0; //need to find what means
         #endregion
 
-        #region Constructors
-        static GRBLArdunio()
-        {
-
-        }
-        
-        public static GRBLArdunio Instance
-        {
-            get
-            {
-                return Instance;
-            }
-        }
-        #endregion Status and other events 
-       // private Calculator _calculator;
-       // private Calculator Calculator { get { return _calculator; } }
+        #region Status and other events 
+        // private Calculator _calculator;
+        // private Calculator Calculator { get { return _calculator; } }
 
         private ReadOnlyCollection<bool> _pauselines = new ReadOnlyCollection<bool>(new bool[0]);
         public ReadOnlyCollection<bool> PauseLines
@@ -171,6 +164,8 @@ namespace MANDRAKEware.Machine.GrblArdunio
                 RaiseEvent(OperatingModeChanged);
             }
         }
+        #endregion
+
         #region Status Event Updaters
         private string _status = "Disconnected";
         public string Status
@@ -275,9 +270,9 @@ namespace MANDRAKEware.Machine.GrblArdunio
                 StreamReader reader = new StreamReader(Connection);
                 StreamWriter writer = new StreamWriter(Connection);
 
-                int StatusPollInterval = statusPollIntvalConst; //hardcoded from original SPIPware
+                int StatusPollInterval = SerialConsts.statusPollIntvalConst; //hardcoded from original SPIPware
 
-                int ControllerBufferSize = controllerBufSizeConst; //hardcoded from original SPIPware
+                int ControllerBufferSize = SerialConsts.controllerBufSizeConst; //hardcoded from original SPIPware
                 BufferState = 0;
 
                 TimeSpan WaitTime = TimeSpan.FromMilliseconds(0.5);
@@ -521,7 +516,7 @@ namespace MANDRAKEware.Machine.GrblArdunio
             switch (connectType)
             {
                 case ConnectionType.Serial:
-                    SerialPort port = new SerialPort(defaultComPort, baudRateConst);
+                    SerialPort port = new SerialPort(SerialConsts.defaultComPortGrbl, SerialConsts.baudRateConst);
                     port.Open();
                     Connection = port.BaseStream;
                     break;
@@ -785,7 +780,7 @@ namespace MANDRAKEware.Machine.GrblArdunio
                     try
                     {
                         int availableBytes = int.Parse(m.Groups[2].Value.Split(',')[1]);
-                        int used = controllerBufSizeConst - availableBytes;
+                        int used = SerialConsts.controllerBufSizeConst - availableBytes;
 
                         if (used < 0)
                             used = 0;

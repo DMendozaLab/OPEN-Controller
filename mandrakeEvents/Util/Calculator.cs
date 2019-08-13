@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using log4net;
 using MANDRAKEware.Machine.GrblArdunio;
+using MANDRAKEware_Events.Machine.GrblArdunio;
 
 namespace MANDRAKE_Events.Util
 {
