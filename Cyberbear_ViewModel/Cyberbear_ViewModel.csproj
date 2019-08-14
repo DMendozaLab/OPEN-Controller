@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\View\Cyberbear_Model.csproj" />
+    <ProjectReference Include="..\Cyberbear_Model\Cyberbear_Model.csproj" />
   </ItemGroup>
 
 </Project>

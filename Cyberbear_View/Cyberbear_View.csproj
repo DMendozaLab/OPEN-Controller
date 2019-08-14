@@ -147,12 +147,12 @@
     <Folder Include="Resources\Logos\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mandrakeEvents\Cyberbear_Events.csproj">
+    <ProjectReference Include="..\Cyberbear_Events\Cyberbear_Events.csproj">
       <Project>{2bd5260e-08b4-46cc-bcdb-7acc64060365}</Project>
       <Name>Cyberbear_Events</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MANDRAKE_View\Cyberbear_ViewModel.csproj">
-      <Project>{109a974e-199a-47a6-b364-3377d8d660d6}</Project>
+    <ProjectReference Include="..\Cyberbear_ViewModel\Cyberbear_ViewModel.csproj">
+      <Project>{2e374f2f-4da4-463d-ba11-aab644ad3078}</Project>
       <Name>Cyberbear_ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
