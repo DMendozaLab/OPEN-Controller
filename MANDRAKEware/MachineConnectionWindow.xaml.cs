@@ -17,6 +17,8 @@ using MANDRAKEware_Events.Machine.GrblArdunio;
 using MANDRAKEware_Events.Machine;
 using MandrakeEvents;
 using MandrakeEvents.Machine.LightsArdunio;
+using System.IO;
+using MandrakeEvents.Machine.CameraControl;
 
 namespace MANDRAKEware
 {
@@ -30,6 +32,7 @@ namespace MANDRAKEware
         // private int NumMachines; //testing for machines
         private GRBLArdunio gArdunio = GRBLArdunio.Instance;
         private LightsArdunio litArdunio = LightsArdunio.Instance;
+        private CameraControl cameraControl = new CameraControl();
 
         public MachineConnectionWindow()
         {
@@ -48,11 +51,14 @@ namespace MANDRAKEware
             try
             {
                 gArdunio.Connect();
+                log.Info("GRBL Ardunio Connected");
                 litArdunio.Connect();
+                log.Info("Lights Ardunio Connected");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                log.Debug("Failure to connect to serial ports");
             }
         }
 
@@ -111,7 +117,10 @@ namespace MANDRAKEware
 
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
+            ((ComboBox)sender).Items.Clear();
 
+            foreach (string port in System.IO.Ports.SerialPort.GetPortNames())
+                ((ComboBox)sender).Items.Add(port);
         }
 
         /// <summary>
@@ -126,6 +135,19 @@ namespace MANDRAKEware
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //TODO
+        }
+        //TODO: finish
+        private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GBRLCommands.txt";
+
+            List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
+
+            foreach (string line in lines)
+            {
+                gArdunio.SendLine(line); //sending line to ardunio
+                log.Info("G Command Sent: " + line);
+            }
         }
     }
 }

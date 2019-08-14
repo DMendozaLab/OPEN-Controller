@@ -629,23 +629,6 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                 catch { throw; }
             }
         }
-        public void SendLine(string line)
-        {
-            if (!Connected)
-            {
-                RaiseEvent(Info, "Not Connected");
-                return;
-            }
-
-            if (Mode != OperatingMode.Manual && Mode != OperatingMode.Probe)
-            {
-                RaiseEvent(Info, "Not in Manual Mode");
-                return;
-            }
-            log.Debug("Sending Line: " + line);
-            ToSend.Enqueue(line);
-        }
-
         #endregion
 
         #region Update Status info functions
@@ -948,6 +931,63 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                 ReportError($"Please upgrade to at least grbl v{Constants.MinimumGrblVersion.Major}.{Constants.MinimumGrblVersion.Minor}{(char)Constants.MinimumGrblVersion.Build}");
             }
 
+        }
+        #endregion
+
+        #region GRBL related functions
+
+        /// <summary>
+        /// Sends inputed message to the grbl ardunio to execute, most 
+        /// likely a GRBL command
+        /// </summary>
+        /// <param name="line">Inputed string that will be sent to the ardunio</param>
+        public void SendLine(string line)
+        {
+            if (!Connected)
+            {
+                RaiseEvent(Info, "Not Connected");
+                return;
+            }
+
+            if (Mode != OperatingMode.Manual && Mode != OperatingMode.Probe)
+            {
+                RaiseEvent(Info, "Not in Manual Mode");
+                return;
+            }
+            log.Debug("Sending Line: " + line);
+            ToSend.Enqueue(line);
+        }
+
+        /// <summary>
+        /// Soft resets the Grbl Ardunio, usually when in an alarm state
+        /// </summary>
+        public void SoftReset()
+        {
+            if (!Connected)
+            {
+                RaiseEvent(Info, "Not Connected");
+                return;
+            }
+
+            Mode = OperatingMode.Manual;
+
+            ToSend.Clear();
+            ToSendPriority.Clear();
+            Sent.Clear();
+            ToSendMacro.Clear();
+            ToSendPriority.Enqueue((char)0x18);
+
+            BufferState = 0;
+
+        //    FeedOverride = 100;
+          //  RapidOverride = 100;
+          //  SpindleOverride = 100;
+
+            if (OverrideChanged != null)
+                OverrideChanged.Invoke();
+
+            SendLine("$G");
+            SendLine("$#");
         }
         #endregion
 

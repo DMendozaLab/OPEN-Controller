@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
-
+using MANDRAKEware_Events.Machine.GrblArdunio;
 
 namespace MANDRAKEware
 {
@@ -60,9 +61,22 @@ namespace MANDRAKEware
 
         }
 
+
+        /// <summary>
+        /// Starts Machine cycle from text file (For now)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartMachineBtn_Click(object sender, RoutedEventArgs e)
         {
+        //    string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GBRLCommands.txt";
 
+        //    List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
+
+        //    foreach(string line in lines)
+        //    {
+        //     //   GRBLArdunio.SendLine(line);
+        //    }
         }
 
         private void StopMachineBtn_Click(object sender, RoutedEventArgs e)

@@ -49,9 +49,12 @@
             
             <!--Connection Button (second Column)-->
             <Button x:Name="Connect_Btn" Click="Connect_Btn_Click" Margin="10" Content="Connect"
-                    Grid.Column="1"/>
+                    Grid.Column="1"></Button>
         </Grid>
         
-        
+        <!--Start Button for machine-->
+        <Border BorderThickness="10">
+            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click">Start</Button>
+        </Border>
     </StackPanel>
 </Window>

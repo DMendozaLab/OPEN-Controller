@@ -41,14 +41,26 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="VimbaNET, Version=1.8.0.27270, Culture=neutral, PublicKeyToken=96b729f24f119b9a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\BugbearDev\SPIPware\SPIPware\bin\Debug\VimbaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Machine\CameraControl\CameraControl.cs" />
+    <Compile Include="Machine\CameraControl\CameraConst.cs" />
+    <Compile Include="Machine\CameraControl\VimbaHelper.cs" />
+    <Compile Include="Util\EventExtension.cs" />
     <Compile Include="Util\ConnectionType.cs" />
     <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
     <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandCalc.cs" />
@@ -78,9 +90,7 @@
     <Compile Include="Util\Vector3\Vector2.cs" />
     <Compile Include="Util\Vector3\Vector3.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Machine\CameraControl\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
