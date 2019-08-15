@@ -8,27 +8,27 @@
         mc:Ignorable="d"
         Title="MachineConnectionWindow" Height="450" Width="800"
         Closing="Window_Closing">
-    
+
     <StackPanel Margin="10">
         <!--Border of Stackpanel-->
         <Border BorderThickness="10">
             <TextBlock FontWeight="Bold" TextAlignment="Center" TextDecorations="underline">Machine Connection</TextBlock>
         </Border>
-        
-        
+
+
         <!--Number of Machines (Not visible at moment, can be later)-->
         <StackPanel Visibility ="Hidden"  Orientation="Horizontal">
             <TextBlock>How many machines?</TextBlock>
             <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0" Watermark="Enter Here" ValueChanged="NumberOfMachines_ValueChanged"/>
         </StackPanel>
-        
+
         <!--Connecting Grid-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
+
             <!--Connection List (First column)-->
             <StackPanel Orientation="Vertical" Grid.Column="0">
                 <!--Grbl Ardunio connection-->
@@ -36,7 +36,8 @@
                     <TextBlock Margin="10">Serial port for grbl ardunio:</TextBlock>
                     <ComboBox Margin="10" Name="GrblSerialComboBox" DropDownOpened="GrblSerialComboBox_DropDownOpened"></ComboBox>
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
-                    <ComboBox Margin="10"></ComboBox> <!--Baud Rate-->
+                    <ComboBox Margin="10"></ComboBox>
+                    <!--Baud Rate-->
                 </StackPanel>
                 <!--Lights Ardunio Connection-->
                 <StackPanel Orientation="Horizontal">
@@ -46,15 +47,19 @@
                     <ComboBox Margin="10"></ComboBox>
                 </StackPanel>
             </StackPanel>
-            
+
             <!--Connection Button (second Column)-->
             <Button x:Name="Connect_Btn" Click="Connect_Btn_Click" Margin="10" Content="Connect"
                     Grid.Column="1"></Button>
         </Grid>
-        
+
         <!--Start Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click">Start</Button>
+            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False" IsEnabledChanged="StartManualCycleBtn_IsEnabledChanged">Start</Button>
+        </Border>
+        <!--Stop Button for machine-->
+        <Border BorderThickness="10">
+            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
         </Border>
     </StackPanel>
 </Window>

@@ -149,5 +149,30 @@ namespace MANDRAKEware
                 log.Info("G Command Sent: " + line);
             }
         }
+
+        /// <summary>
+        /// Stops manual cycle when started
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        /// <summary>
+        /// After connecting machines, the start button is made able to click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartManualCycleBtn_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //if both ardunio connect then allow the button to be clicked
+            if(gArdunio.Connected == true && litArdunio.Connected == true)
+            {
+                this.IsEnabled = true;
+            }
+            
+        }
     }
 }
