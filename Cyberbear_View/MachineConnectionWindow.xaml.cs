@@ -168,11 +168,10 @@ namespace MANDRAKEware
         private void StartManualCycleBtn_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             //if both ardunio connect then allow the button to be clicked
-            if(gArdunio.Connected == true && litArdunio.Connected == true)
-            {
-                this.IsEnabled = true;
-            }
-            
+            //if(gArdunio.Connected == true && litArdunio.Connected == true)
+            //{
+            //    this.IsEnabled = true;
+            //}
         }
     }
 }
