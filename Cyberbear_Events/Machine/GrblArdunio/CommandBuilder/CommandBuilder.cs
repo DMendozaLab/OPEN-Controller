@@ -1,4 +1,5 @@
 ﻿using log4net;
+using MandrakeEvents.Machine.GrblArdunio.CommandBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,21 +20,6 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         //Need to think of everything needed in this class more thoroughly
         #region Properties
         private string command; //completed command
-        private const char macro = 'M'; //const char of M for marco commands
-        private const char gCommand = 'G'; //const char for G commands
-        private const string gAbsolute = "90"; //for absolute motion
-        private const string gIncremental = "91";
-        private const char feedRate = 'F';
-        private const int feedRateSpeed = 10000; //hardcoded will change later
-
-        private IDictionary<string, string> grblCodes = new Dictionary<string, string>()
-        {
-            {"absolute", "90"},
-            {"incremental", "91"},
-        };
-       
-        private const char xAxis = 'X';
-        private const char yAxis = 'Y';
 
         private CommandCalc calculator; //command calculator
 
@@ -59,10 +45,10 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
         {
             StringBuilder sb = new StringBuilder();
             int distance = calculator.DistanceCalc(startingPt, endPt);
-            sb.Append(gAbsolute); //hardcoded for now, will change in future
+            sb.Append(CommandConst.gAbsolute); //hardcoded for now, will change in future
             sb.Append(axis);
             sb.Append(distance + "");
-            sb.Append(feedRate + feedRateSpeed);
+            sb.Append(CommandConst.feedRate + CommandConst.feedRateSpeed);
 
             log.Info("Generated Cycle Command: " + sb.ToString());
 
@@ -82,10 +68,10 @@ namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
             StringBuilder sb = new StringBuilder();
             int offsetPt = calculator.OffsetCalc(offset, startingPt);
             int distance = calculator.DistanceCalc(startingPt, offsetPt);
-            sb.Append(gAbsolute);
+            sb.Append(CommandConst.gAbsolute);
             sb.Append(axis);
             sb.Append(distance + "");
-            sb.Append(feedRate + feedRateSpeed);
+            sb.Append(CommandConst.feedRate + CommandConst.feedRateSpeed);
 
             log.Info("Generated Offset Command: " + sb.ToString());
 

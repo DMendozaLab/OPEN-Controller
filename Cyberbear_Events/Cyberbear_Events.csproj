@@ -60,6 +60,7 @@
     <Compile Include="Machine\CameraControl\CameraControl.cs" />
     <Compile Include="Machine\CameraControl\CameraConst.cs" />
     <Compile Include="Machine\CameraControl\VimbaHelper.cs" />
+    <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandConst.cs" />
     <Compile Include="Util\EventExtension.cs" />
     <Compile Include="Util\ConnectionType.cs" />
     <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Machine\GrblArdunio\CycleControl\TimelapseControl.cs" />
     <Compile Include="Machine\GrblArdunio\GRBLArdunio.cs" />
     <Compile Include="Machine\LightsArdunio\PeripheralEventArgs.cs" />
-    <Compile Include="Machine\LightsArdunio\LightsControl.cs" />
+    <Compile Include="Machine\LightsArdunio\LightsArdunio.cs" />
     <Compile Include="Machine\Machine.cs" />
     <Compile Include="Util\SerialConsts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
