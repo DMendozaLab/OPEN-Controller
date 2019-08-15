@@ -9,6 +9,9 @@ using MANDRAKEware_Events.Machine.GrblArdunio;
 
 namespace MANDRAKE_Events.Util
 {
+    /// <summary>
+    /// Grbl calculator, taken from old SPIPware, don't know total use but works for now
+    /// </summary>
     class Calculator
 	{
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

@@ -2,9 +2,10 @@
 using System.ComponentModel;
 
 namespace MandrakeEvents.Util
-{
+{   
+    //taken from old SPIPware
     public static class EventExtensions
-    {
+    {   
         /// <summary>Raises the event (on the UI thread if available).</summary>
         /// <param name="multicastDelegate">The event to raise.</param>
         /// <param name="sender">The source of the event.</param>

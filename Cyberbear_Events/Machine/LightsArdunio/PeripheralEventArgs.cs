@@ -3,6 +3,9 @@ using static MandrakeEvents.Machine.LightsArdunio.LightsArdunio;
 
 namespace MandrakeEvents.Machine.LightsArdunio
 {
+    /// <summary>
+    /// Event Args for lights event raisers
+    /// </summary>
     public class PeripheralEventArgs : EventArgs
     {
         private Peripheral periperal;

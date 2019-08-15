@@ -10,6 +10,5 @@
         public static int baudRateConst = 115200;
         public static string defaultComPortGrbl = "COM3";
         public static string defaultComPortLights = "COM5";
-    }
-    
+    } 
 }
