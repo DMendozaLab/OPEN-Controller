@@ -140,12 +140,13 @@ namespace MandrakeEvents.Machine.CameraControl
             if (cameraReady)
             {
                 CameraConst.CameraState = "Ready";
-
             }
             else
             {
                 CameraConst.CameraState = "Not Ready";
             }
+
+            _log.Debug("Camera State is " + CameraConst.CameraState);
         }
         public void UpdateCameraList()
         {

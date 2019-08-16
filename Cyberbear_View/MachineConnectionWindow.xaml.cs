@@ -32,13 +32,24 @@ namespace MANDRAKEware
 
         private GRBLArdunio gArdunio = GRBLArdunio.Instance;
         private LightsArdunio litArdunio = LightsArdunio.Instance;
-        private CameraControl cameraControl = new CameraControl();
+        private CameraControl cameraControl = CameraControl.Instance;
+
+        public BitmapImage bi; //image going to be captured
+
+
 
         public MachineConnectionWindow()
         {
             InitializeComponent();
 
             log.Info("Machine Connection Window Entered");
+
+            //CAMERA UPDATE FUNCTIONS   
+         //   updateCameraSettingsOptions();
+
+            Task task = new Task(() => cameraControl.StartVimba());
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
 
             //for now will initalize one machien in start  
         }
@@ -143,8 +154,8 @@ namespace MANDRAKEware
             log.Info("Grbl Ardunio Disconnected");
             litArdunio.Disconnect();
             log.Info("Lights Ardunio Disconnected");
-
-            //TODO
+            cameraControl.ShutdownVimba();
+            log.Info("Camera Control shutdown");
         }
         /// <summary>
         /// Event for start button of MachineConnectionWindow, takes in a hard coded file
@@ -155,7 +166,7 @@ namespace MANDRAKEware
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
             log.Info("Starting a Manual Cycle");
-            BitmapImage bi; //image going to be captured
+            //BitmapImage bi; //image going to be captured
             string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GRBLCommands.txt";
 
             log.Debug("Using the file: " + filePath);
@@ -195,6 +206,17 @@ namespace MANDRAKEware
             //{
             //    this.IsEnabled = true;
             //}
+        }
+
+        /// <summary>
+        /// Exception Handler when expections happens
+        /// </summary>
+        /// <param name="task">The task were the expection occurred is passed to the method
+        /// to log the error</param>
+        static void ExceptionHandler(Task task)
+        {
+            var exception = task.Exception;
+            log.Error(exception);
         }
     }
 }

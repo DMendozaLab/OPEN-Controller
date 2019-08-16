@@ -91,5 +91,16 @@ namespace MANDRAKEware
                        
             Application.Current.Shutdown();
         }
+
+        /// <summary>
+        /// Exception Handler when expections happens
+        /// </summary>
+        /// <param name="task">The task were the expection occurred is passed to the method
+        /// to log the error</param>
+        static void ExceptionHandler(Task task)
+        {
+            var exception = task.Exception;
+            log.Error(exception);
+        }
     }
 }
