@@ -29,7 +29,7 @@ namespace MANDRAKEware
     {
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        // private int NumMachines; //testing for machines
+
         private GRBLArdunio gArdunio = GRBLArdunio.Instance;
         private LightsArdunio litArdunio = LightsArdunio.Instance;
         private CameraControl cameraControl = new CameraControl();
@@ -58,7 +58,7 @@ namespace MANDRAKEware
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                log.Debug("Failure to connect to serial ports");
+                log.Debug("Failure to connect to serial ports because: " + ex.Message);
             }
         }
 
@@ -115,6 +115,11 @@ namespace MANDRAKEware
             log.Debug("Serial Ports Updated for Combo Box");
         }
 
+        /// <summary>
+        /// If drop down opened
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
             ((ComboBox)sender).Items.Clear();
@@ -134,12 +139,26 @@ namespace MANDRAKEware
         //closing window method
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            gArdunio.Disconnect();
+            log.Info("Grbl Ardunio Disconnected");
+            litArdunio.Disconnect();
+            log.Info("Lights Ardunio Disconnected");
+
             //TODO
         }
-        //TODO: finish
+        /// <summary>
+        /// Event for start button of MachineConnectionWindow, takes in a hard coded file
+        /// and reads the commands line by line and sends to gArdunio property
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GBRLCommands.txt";
+            log.Info("Starting a Manual Cycle");
+            BitmapImage bi; //image going to be captured
+            string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GRBLCommands.txt";
+
+            log.Debug("Using the file: " + filePath);
 
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
 
@@ -147,6 +166,10 @@ namespace MANDRAKEware
             {
                 gArdunio.SendLine(line); //sending line to ardunio
                 log.Info("G Command Sent: " + line);
+
+                bi = cameraControl.CapSaveImage().Clone(); //capture image
+                bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
+                //may need to raise event to work but idk
             }
         }
 
@@ -157,7 +180,7 @@ namespace MANDRAKEware
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+           //TODO
         }
 
         /// <summary>

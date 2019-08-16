@@ -55,11 +55,11 @@
 
         <!--Start Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False" IsEnabledChanged="StartManualCycleBtn_IsEnabledChanged">Start</Button>
+            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click">Start</Button>
         </Border>
         <!--Stop Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
+            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click">Stop</Button>
         </Border>
     </StackPanel>
 </Window>

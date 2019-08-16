@@ -326,7 +326,7 @@ namespace MandrakeEvents.Machine.CameraControl
 
 
                 //Acquire an image synchronously (snap) from selected camera
-                System.Drawing.Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
+                Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
                 System.Drawing.Image imageCopy = (System.Drawing.Image)image.Clone();
                 BitmapImage img = UpdateImageBox(image);
 
