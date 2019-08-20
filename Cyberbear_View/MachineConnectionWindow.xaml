@@ -54,7 +54,10 @@
         </Grid>
         
         <!--Camera List-->
-        <ComboBox Name="CameraList_cb" DataContext=""></ComboBox>
+        <Border BorderThickness="20">
+            <ComboBox Name="CameraList_cb" DropDownOpened="CameraList_cb_DropDownOpened" SelectionChanged="CameraList_cb_SelectionChanged"></ComboBox>
+        </Border>
+        
 
         <!--Start Button for machine-->
         <Border BorderThickness="10">

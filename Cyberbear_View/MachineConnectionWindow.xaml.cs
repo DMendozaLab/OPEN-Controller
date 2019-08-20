@@ -218,5 +218,62 @@ namespace MANDRAKEware
             var exception = task.Exception;
             log.Error(exception);
         }
+
+        private void CameraList_cb_DropDownOpened(object sender, EventArgs e)
+        {
+            updateCameraSettingsOptions();
+        }
+
+        /// <summary>
+        /// Updates Camera Settings Options for combo box, may change in future
+        /// </summary>
+        private void updateCameraSettingsOptions()
+        {
+            string csPath = CameraConst.CameraSettingsPath;
+            CameraList_cb.Items.Clear();
+
+            DirectoryInfo d = new DirectoryInfo("./Resources/CameraSettings/");//Assuming Test is your Folder
+            FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
+                                                    //string str = "";
+
+            int i = 0;
+            int selectedIndex = i;
+            foreach (FileInfo file in Files)
+            {
+                if (string.Equals(file.Name, csPath))
+                {
+                    selectedIndex = i;
+                }
+                CameraList_cb.Items.Add(file);
+                i++;
+            }
+            //int index = Files.FindIndxx var match = Files.FirstOrDefault(file => file.Name.Contains(Properties.Settings.Default.CameraSettingsPath));
+            Dispatcher.Invoke(() =>
+            {//this refer to form in WPF application 
+                CameraList_cb.SelectedIndex = selectedIndex;
+                //if (match == null)
+                //{
+                //    //cameraSettingsCB.SelectedItem = 0;
+
+                //}
+                //else
+                //{
+                //    cameraSettingsCB.SelectedItem = Properties.Settings.Default.CameraSettingsPath;
+                //}
+            });
+
+        }
+
+        /// <summary>
+        /// Updates Camera instance of new settings chosen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CameraList_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Task task = new Task(() => cameraControl.loadCameraSettings());
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
     }
 }
