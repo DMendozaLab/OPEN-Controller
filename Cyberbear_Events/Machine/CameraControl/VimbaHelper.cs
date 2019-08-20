@@ -34,6 +34,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using AVT.VmbAPINET;
 using MandrakeEvents.Util;
+using log4net;
+using System.Reflection;
 //using Cyberbear_Events;
 
 namespace SynchronousGrab
@@ -93,6 +95,9 @@ namespace SynchronousGrab
     {
         private Vimba m_Vimba = null;                     //Main Vimba API entry object
         private CameraListChangedHandler m_CameraListChangedHandler = null;  //Camera list changed handler
+
+        //logger
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public VimbaHelper()
         {
@@ -336,6 +341,7 @@ namespace SynchronousGrab
 
             //Start up Vimba API
             vimba.Startup();
+            log.Debug("Vimba Started Up");
             m_Vimba = vimba;
 
             bool bError = true;
@@ -372,6 +378,8 @@ namespace SynchronousGrab
             }
 
             ReleaseVimba();
+
+            log.Debug("Vimba Released/Shutdown");
 
 
 
@@ -469,6 +477,9 @@ namespace SynchronousGrab
 
             //Open camera
             Camera camera = m_Vimba.OpenCameraByID(id, VmbAccessModeType.VmbAccessModeFull);
+
+            log.Debug("Vimba Camera Opened. ID: " + camera.Id + "Make: " + camera.Model);
+
             if (null == camera)
             {
                 throw new NullReferenceException("No camera retrieved.");

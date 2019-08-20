@@ -34,7 +34,7 @@ namespace MANDRAKEware
         private LightsArdunio litArdunio = LightsArdunio.Instance;
         private CameraControl cameraControl = CameraControl.Instance;
 
-        public BitmapImage bi; //image going to be captured
+        public BitmapImage bi = new BitmapImage(); //image going to be captured
 
 
 
@@ -155,7 +155,7 @@ namespace MANDRAKEware
             litArdunio.Disconnect();
             log.Info("Lights Ardunio Disconnected");
             cameraControl.ShutdownVimba();
-            log.Info("Camera Control shutdown");
+            log.Info("Camera Control Shutdown");
         }
         /// <summary>
         /// Event for start button of MachineConnectionWindow, takes in a hard coded file
@@ -165,9 +165,12 @@ namespace MANDRAKEware
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
+            cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
+
             log.Info("Starting a Manual Cycle");
-            //BitmapImage bi; //image going to be captured
-            string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GRBLCommands.txt";
+
+            // string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GRBLCommands.txt"; //for first workstation testing
+            string filePath = @"C:\Users\sam998\Desktop\GRBLCommands.txt"; //for second workstation testing
 
             log.Debug("Using the file: " + filePath);
 
@@ -182,6 +185,11 @@ namespace MANDRAKEware
                 bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
                 //may need to raise event to work but idk
             }
+        }
+
+        private void CameraControl_ImageAcquiredEvent(object sender, EventArgs e)
+        {
+            log.Debug("Photo taken by program");
         }
 
         /// <summary>
@@ -227,40 +235,31 @@ namespace MANDRAKEware
         /// <summary>
         /// Updates Camera Settings Options for combo box, may change in future
         /// </summary>
+        /// Commenting out for now because not problem
         private void updateCameraSettingsOptions()
         {
-            string csPath = CameraConst.CameraSettingsPath;
-            CameraList_cb.Items.Clear();
+            //string csPath = CameraConst.CameraSettingsPath;
+            //CameraList_cb.Items.Clear();
 
-            DirectoryInfo d = new DirectoryInfo("./Resources/CameraSettings/");//Assuming Test is your Folder
-            FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
-                                                    //string str = "";
+            //DirectoryInfo d = new DirectoryInfo("./Resources/CameraSettings/");//Assuming Test is your Folder
+            //FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
+            //                                        //string str = "";
 
-            int i = 0;
-            int selectedIndex = i;
-            foreach (FileInfo file in Files)
-            {
-                if (string.Equals(file.Name, csPath))
-                {
-                    selectedIndex = i;
-                }
-                CameraList_cb.Items.Add(file);
-                i++;
-            }
-            //int index = Files.FindIndxx var match = Files.FirstOrDefault(file => file.Name.Contains(Properties.Settings.Default.CameraSettingsPath));
-            Dispatcher.Invoke(() =>
-            {//this refer to form in WPF application 
-                CameraList_cb.SelectedIndex = selectedIndex;
-                //if (match == null)
-                //{
-                //    //cameraSettingsCB.SelectedItem = 0;
-
-                //}
-                //else
-                //{
-                //    cameraSettingsCB.SelectedItem = Properties.Settings.Default.CameraSettingsPath;
-                //}
-            });
+            //int i = 0;
+            //int selectedIndex = i;
+            //foreach (FileInfo file in Files)
+            //{
+            //    if (string.Equals(file.Name, csPath))
+            //    {
+            //        selectedIndex = i;
+            //    }
+            //    CameraList_cb.Items.Add(file);
+            //    i++;
+            //}
+            //Dispatcher.Invoke(() =>
+            //{//this refer to form in WPF application 
+            //    CameraList_cb.SelectedIndex = selectedIndex;
+            //});
 
         }
 

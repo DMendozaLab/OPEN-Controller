@@ -88,10 +88,12 @@ namespace MandrakeEvents.Machine.CameraControl
                 LogError("Could not startup Vimba API. Reason: " + exception.Message);
             }
         }
+
         public void OnImageAcquired(object sender, EventArgs e)
         {
             ImageAcquiredEvent.Raise(this, new EventArgs());
         }
+
         /// <summary>
         /// Shuts down Vimba camera
         /// </summary>
@@ -112,6 +114,11 @@ namespace MandrakeEvents.Machine.CameraControl
                 }
             }
         }
+
+        /// <summary>
+        /// Logs message from camera in logger program
+        /// </summary>
+        /// <param name="message">The message (in string) passed to the method</param>
         public void LogMessage(string message)
         {
             if (null == message)
@@ -122,7 +129,10 @@ namespace MandrakeEvents.Machine.CameraControl
             _log.Info(message);
         }
 
-        //Add an error log message and show an error message box
+        /// <summary>
+        /// Logs error in logger program from camera
+        /// </summary>
+        /// <param name="message">The error passed into the method as a string</param>
         public void LogError(string message)
         {
             if (null == message)
@@ -185,7 +195,7 @@ namespace MandrakeEvents.Machine.CameraControl
         }
         public void loadCameraSettings()
         {
-            string cameraSettingsFileName = Directory.GetCurrentDirectory() + @"\Resources\CameraSettings\" + CameraConst.CameraSettingsPath;
+            string cameraSettingsFileName = Directory.GetCurrentDirectory() + @".\Machine\CameraControl\CameraSettings\" + CameraConst.CameraSettingsPath;
             if (!String.Equals(cameraSettingsFileName, previousSettingsDir))
             {
                 previousSettingsDir = cameraSettingsFileName;

@@ -14,7 +14,7 @@ namespace MandrakeEvents.Machine.CameraControl
     {
         public static string CameraState = "Not Ready"; //state of camera 
         public static string CameraSettingsPath = @"C:\"; //where are camera settings saved
-        public static string SaveFolderPath = @":\Users\lsceedlings\Desktop"; //save folder for photo capturing, hardcoded to desktop
+        public static string SaveFolderPath = @":\Users\sam998\Desktop"; //save folder for photo capturing, hardcoded to desktop, remember to change when needed
         public static string FileName; //name of saved images
 
     }
