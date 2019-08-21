@@ -281,22 +281,16 @@ namespace MandrakeEvents.Machine.CameraControl
         public String createFilePath()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("C");
-           // sb.Append(Properties.Settings.Default.CycleCount.ToString());
-            sb.Append("_");
-            //if (Properties.Settings.Default.CurrentPlateSave == true)
-            //{
-            //    sb.Append("P");
-            //    string currentPlateStr = (Properties.Settings.Default.CurrentPlate).ToString();
-            //    sb.Append(currentPlateStr + "_");
-            //}
+            
+            
+            
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd--H-mm-ss");
 
             sb.Append(currentDate + "_");
             sb.Append(CameraConst.FileName);
-            sb.Append("." + fileType.ToString().ToLower());
+            sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
 
-            String filePath = Path.Combine(CameraConst.FileName, sb.ToString());
+            String filePath = Path.Combine(CameraConst.SaveFolderPath, sb.ToString());
             return filePath;
         }
 
