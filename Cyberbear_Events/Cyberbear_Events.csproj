@@ -61,6 +61,7 @@
     <Compile Include="Machine\CameraControl\CameraConst.cs" />
     <Compile Include="Machine\CameraControl\VimbaHelper.cs" />
     <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandConst.cs" />
+    <Compile Include="Machine\GrblArdunio\GRBLArdunio_Constants.cs" />
     <Compile Include="Util\EventExtension.cs" />
     <Compile Include="Util\ConnectionType.cs" />
     <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
@@ -102,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Machine\CycleControl\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

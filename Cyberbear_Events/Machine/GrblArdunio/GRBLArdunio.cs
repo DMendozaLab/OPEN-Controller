@@ -114,6 +114,8 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
 
         private StreamWriter Log;
 
+        public bool logTraffic = false;
+
         public double CurrentTLO { get; private set; } = 0; //need to find what means
         #endregion
 
@@ -316,7 +318,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
 
                                 RecordLog("> " + send_line);
 
-                               // RaiseEvent(UpdateStatus, send_line);
+                                RaiseEvent(UpdateStatus, send_line);
                                 RaiseEvent(LineSent, send_line);
 
                                 BufferState += send_line.Length + 1;
@@ -396,10 +398,11 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                             writer.Write(send_line);
                             writer.Write('\n');
                             writer.Flush();
+                            //machine should move after this execution of movement
 
                             RecordLog("> " + send_line);
 
-                        //    RaiseEvent(UpdateStatus, send_line);
+                            RaiseEvent(UpdateStatus, send_line);
                             RaiseEvent(LineSent, send_line);
 
                             BufferState += send_line.Length + 1;
@@ -519,13 +522,14 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                     SerialPort port = new SerialPort(SerialConsts.defaultComPortGrbl, SerialConsts.baudRateConst);
                     port.Open();
                     Connection = port.BaseStream;
+                    log.Info("GRBL Ardunio Connected");
                     break;
                 default:
                     throw new Exception("Invalid Connection Type");
             }
 
             //Testing
-           /* if (Properties.Settings.Default.LogTraffic)
+            if (logTraffic)
             {
                 try
                 {
@@ -535,7 +539,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                 {
                     NonFatalException("could not open logfile: " + e.Message);
                 }
-            }*/
+            }
 
             Connected = true;
 
@@ -553,7 +557,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
             WorkerThread.Priority = ThreadPriority.AboveNormal;
             WorkerThread.Start();
 
-            SendLine("$H"); //sending homing command when connected
+          //  SendLine("$H"); //sending homing command when connected
         }
 
         /// <summary>

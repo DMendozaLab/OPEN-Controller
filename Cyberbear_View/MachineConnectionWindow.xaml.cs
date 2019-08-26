@@ -274,5 +274,10 @@ namespace MANDRAKEware
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
         }
+
+        private void ListBoxHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

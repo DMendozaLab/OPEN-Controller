@@ -90,7 +90,7 @@ namespace MandrakeEvents.Machine.LightsArdunio
         }
 
         public void SetLight(Peripheral peripheral, bool value)
-        { //WILL PUT BACK IN WHEN NEEDED
+        { 
            // PeripheralUpdate.Raise(this, new PeripheralEventArgs(peripheral, value));
             string cmdStr = "";
             if (peripheral == Peripheral.Backlight)

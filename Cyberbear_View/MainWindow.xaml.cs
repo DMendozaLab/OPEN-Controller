@@ -37,7 +37,7 @@ namespace MANDRAKEware
         public MainWindow()
         {
             log4net.Config.XmlConfigurator.Configure();
-            log.Info("Entering Program");
+            log.Info("==============Entering Program===============");
 
             InitializeComponent();
         }

@@ -68,5 +68,19 @@
         <Border BorderThickness="10">
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click">Stop</Button>
         </Border>
+
+        <Border BorderThickness="10">
+            <Expander VerticalContentAlignment="Stretch" ExpandDirection="Down" Header="GRBL Log" IsExpanded="True">
+                <ListBox Name="ListBoxHistory" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionChanged="ListBoxHistory_SelectionChanged">
+                    <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel VerticalAlignment ="Top" HorizontalAlignment="Left"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                </ListBox>
+                
+            </Expander>
+        </Border>
+        
     </StackPanel>
 </Window>
