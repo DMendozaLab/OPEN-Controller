@@ -8,7 +8,7 @@
         public static int controllerBufSizeConst = 120;
         public static int statusPollIntvalConst = 100;
         public static int baudRateConst = 115200;
-        public static string defaultComPortGrbl = "COM3";
-        public static string defaultComPortLights = "COM5";
+        public static string defaultComPortGrbl = "COM8";
+        public static string defaultComPortLights = "COM10";
     } 
 }
