@@ -19,6 +19,7 @@ using MandrakeEvents;
 using MandrakeEvents.Machine.LightsArdunio;
 using System.IO;
 using MandrakeEvents.Machine.CameraControl;
+using Mandrake_Events;
 
 namespace MANDRAKEware
 {
@@ -121,9 +122,32 @@ namespace MANDRAKEware
                 cb.Items.Add(port);
                 i++;
             }
+
+            string selectPort = ports[i-1];
+            UpdateSerialConst(selectPort, cb);
+
             cb.SelectedIndex = selectedIndex;
 
             log.Debug("Serial Ports Updated for Combo Box");
+        }
+
+        /// <summary>
+        /// Updates the Serial const class when port value is changed for connections
+        /// </summary>
+        /// <param name="comPort"></param>
+        /// <param name="cb"></param>
+        private void UpdateSerialConst(string comPort, ComboBox cb)
+        {
+            if (string.Equals(cb.Name, "PeripheralSerialPortSelect"))
+            {
+                SerialConsts.defaultComPortLights = comPort;
+                log.Debug("Serial Port for lights is: " + comPort);
+            }
+            if (string.Equals(cb.Name, "SerialPortSelect"))
+            {
+                SerialConsts.defaultComPortGrbl = comPort;
+                log.Debug("Serial Port for Grbl is: " + comPort);
+            }
         }
 
         /// <summary>
@@ -279,5 +303,6 @@ namespace MANDRAKEware
         {
 
         }
+
     }
 }
