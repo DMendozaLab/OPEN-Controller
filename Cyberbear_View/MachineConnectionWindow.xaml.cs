@@ -133,6 +133,9 @@ namespace MANDRAKEware
             cb.SelectedIndex = selectedIndex;
 
             log.Debug("Serial Ports Updated for Combo Box");
+
+            //sees if connection button can be enabled
+            Connect_Btn_CanEnable();
         }
 
         /// <summary>
@@ -298,6 +301,21 @@ namespace MANDRAKEware
         private void ListBoxHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Connection button is enabled after both combo boxes filled with serial ports. Method
+        /// is raised after closing drop down box in combo box 
+        /// </summary>
+        private void Connect_Btn_CanEnable()
+        {
+            //if selected index greater than -1 then something was selected in the combo box
+            if(GrblSerialComboBox.SelectedIndex > -1 && LightsSerialComboBox.SelectedIndex > -1)
+            {
+                Connect_Btn.IsEnabled = true;
+
+                log.Debug("Connection button is enabled");
+            }
         }
     }
 }

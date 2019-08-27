@@ -50,7 +50,7 @@
 
             <!--Connection Button (second Column)-->
             <Button x:Name="Connect_Btn" Click="Connect_Btn_Click" Margin="10" Content="Connect"
-                    Grid.Column="1"></Button>
+                    Grid.Column="1" IsEnabled="False"></Button>
         </Grid>
         
         <!--Camera List-->
