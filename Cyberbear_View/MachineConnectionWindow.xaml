@@ -61,12 +61,12 @@
 
         <!--Start Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click">Start</Button>
+            <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
         
         <!--Stop Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click">Stop</Button>
+            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
         </Border>
 
         <Border BorderThickness="10">

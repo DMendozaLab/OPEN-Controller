@@ -66,6 +66,10 @@ namespace MANDRAKEware
                 log.Info("GRBL Ardunio Connected");
                 litArdunio.Connect();
                 log.Info("Lights Ardunio Connected");
+
+                //start and stop buttons enabling to be pressed
+                StartManualCycleBtn.IsEnabled = true;
+                StopManualCycleBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -134,8 +138,8 @@ namespace MANDRAKEware
         /// <summary>
         /// Updates the Serial const class when port value is changed for connections
         /// </summary>
-        /// <param name="comPort"></param>
-        /// <param name="cb"></param>
+        /// <param name="comPort">The string name of the comPort selected in the combo box</param>
+        /// <param name="cb">The name of the combo box that will have the const updated</param>
         private void UpdateSerialConst(string comPort, ComboBox cb)
         {
             if (string.Equals(cb.Name, "PeripheralSerialPortSelect"))
@@ -181,6 +185,7 @@ namespace MANDRAKEware
             cameraControl.ShutdownVimba();
             log.Info("Camera Control Shutdown");
         }
+
         /// <summary>
         /// Event for start button of MachineConnectionWindow, takes in a hard coded file
         /// and reads the commands line by line and sends to gArdunio property
@@ -211,6 +216,11 @@ namespace MANDRAKEware
             }
         }
 
+        /// <summary>
+        /// Camera Control registers when the Image Acquired Event is raised
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CameraControl_ImageAcquiredEvent(object sender, EventArgs e)
         {
             log.Debug("Photo taken by program");
@@ -224,20 +234,6 @@ namespace MANDRAKEware
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
            //TODO
-        }
-
-        /// <summary>
-        /// After connecting machines, the start button is made able to click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StartManualCycleBtn_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            //if both ardunio connect then allow the button to be clicked
-            //if(gArdunio.Connected == true && litArdunio.Connected == true)
-            //{
-            //    this.IsEnabled = true;
-            //}
         }
 
         /// <summary>
@@ -303,6 +299,5 @@ namespace MANDRAKEware
         {
 
         }
-
     }
 }
