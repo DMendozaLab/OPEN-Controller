@@ -261,28 +261,28 @@ namespace MANDRAKEware
         /// Commenting out for now because not problem
         private void updateCameraSettingsOptions()
         {
-            //string csPath = CameraConst.CameraSettingsPath;
-            //CameraList_cb.Items.Clear();
+            string csPath = CameraConst.CameraSettingsPath;
+            CameraList_cb.Items.Clear();
 
-            //DirectoryInfo d = new DirectoryInfo("./Resources/CameraSettings/");//Assuming Test is your Folder
-            //FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
-            //                                        //string str = "";
+            DirectoryInfo d = new DirectoryInfo(@"C:\Users\sam998\Desktop\Cyberbear\Cyberbear\Cyberbear_Events\Machine\CameraControl\CameraSettings");//Assuming Test is your Folder
+            FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
+                                                    //string str = "";
 
-            //int i = 0;
-            //int selectedIndex = i;
-            //foreach (FileInfo file in Files)
-            //{
-            //    if (string.Equals(file.Name, csPath))
-            //    {
-            //        selectedIndex = i;
-            //    }
-            //    CameraList_cb.Items.Add(file);
-            //    i++;
-            //}
-            //Dispatcher.Invoke(() =>
-            //{//this refer to form in WPF application 
-            //    CameraList_cb.SelectedIndex = selectedIndex;
-            //});
+            int i = 0;
+            int selectedIndex = i;
+            foreach (FileInfo file in Files)
+            {
+                if (string.Equals(file.Name, csPath))
+                {
+                    selectedIndex = i;
+                }
+                CameraList_cb.Items.Add(file);
+                i++;
+            }
+            Dispatcher.Invoke(() =>
+            {//this refer to form in WPF application 
+                CameraList_cb.SelectedIndex = selectedIndex;
+            });
 
         }
 
