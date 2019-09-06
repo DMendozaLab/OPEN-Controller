@@ -221,7 +221,7 @@ namespace MANDRAKEware
                     //may need to raise event to work but idk
                 }
 
-                System.Threading.Thread.Sleep(1500); //sleep for five seconds
+                System.Threading.Thread.Sleep(1500); //sleep for 1.5 seconds
             }
         }
 
@@ -242,7 +242,7 @@ namespace MANDRAKEware
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-           //TODO
+           // gArdunio.SoftReset();
         }
 
         /// <summary>
