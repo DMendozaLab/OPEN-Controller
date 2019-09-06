@@ -213,9 +213,15 @@ namespace MANDRAKEware
                 gArdunio.SendLine(line); //sending line to ardunio
                 log.Info("G Command Sent: " + line);
 
-                bi = cameraControl.CapSaveImage().Clone(); //capture image
-                bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
-                //may need to raise event to work but idk
+                //if line not homing command then take pics
+                if(!line.Contains('H'))
+                {
+                    bi = cameraControl.CapSaveImage().Clone(); //capture image
+                    bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
+                    //may need to raise event to work but idk
+                }
+
+                System.Threading.Thread.Sleep(1500); //sleep for five seconds
             }
         }
 

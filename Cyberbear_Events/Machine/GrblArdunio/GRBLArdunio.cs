@@ -398,6 +398,8 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                             writer.Write(send_line);
                             writer.Write('\n');
                             writer.Flush();
+
+                        //    Thread.Sleep(5000); //sleep for two seconds for photo capture to catch up
                             //machine should move after this execution of movement
 
                             RecordLog("> " + send_line);
@@ -406,8 +408,10 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                             RaiseEvent(LineSent, send_line);
 
                             BufferState += send_line.Length + 1;
-
+                                
                             Sent.Enqueue(send_line);
+
+                            
                         }
 
 
