@@ -9,6 +9,6 @@
         public static int statusPollIntvalConst = 100;
         public static int baudRateConst = 115200;
         public static string defaultComPortGrbl = "COM8";
-        public static string defaultComPortLights = "COM10";
+        public static string defaultComPortLights = "COM11";
     } 
 }

@@ -195,7 +195,8 @@ namespace MandrakeEvents.Machine.CameraControl
         }
         public void loadCameraSettings()
         {
-            string cameraSettingsFileName = Directory.GetCurrentDirectory() + @".\Machine\CameraControl\CameraSettings\" + CameraConst.CameraSettingsPath;
+            //     string cameraSettingsFileName = Directory.GetCurrentDirectory() + @".\Machine\CameraControl\CameraSettings\" + CameraConst.CameraSettingsPath;
+            string cameraSettingsFileName = CameraConst.CameraSettingsPath;
             if (!String.Equals(cameraSettingsFileName, previousSettingsDir))
             {
                 previousSettingsDir = cameraSettingsFileName;
@@ -207,7 +208,7 @@ namespace MandrakeEvents.Machine.CameraControl
         }
         public void forceSettingsReload()
         {
-            string cameraSettingsFileName = Directory.GetCurrentDirectory() + @"\Resources\CameraSettings\" + CameraConst.CameraSettingsPath;
+            string cameraSettingsFileName = CameraConst.CameraSettingsPath;
             if (File.Exists(cameraSettingsFileName))
             {
                 LogMessage("Loading camera settings");

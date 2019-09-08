@@ -11,7 +11,7 @@
     <FeatureGroup Count="57">
         <Feature Name="AcquisitionFrameCount" Type="Integer" Access="R/W">1</Feature>
         <Feature Name="AcquisitionMode" Type="Enumeration" Access="R/W">Continuous</Feature>
-        <Feature Name="BalanceWhiteAuto" Type="Enumeration" Access="R/W">Off</Feature>
+        <Feature Name="BalanceWhiteAuto" Type="Enumeration" Access="R/W">Continuous</Feature>
         <Feature Name="BalanceWhiteAutoAdjustTol" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="BalanceWhiteAutoRate" Type="Integer" Access="R/W">100</Feature>
         <Feature Name="BandwidthControlMode" Type="Enumeration" Access="R/W">StreamBytesPerSecond</Feature>
@@ -25,7 +25,7 @@
         <Feature Name="DSPSubregionRight" Type="Integer" Access="R/W">2592</Feature>
         <Feature Name="DSPSubregionTop" Type="Integer" Access="R/W">0</Feature>
         <Feature Name="DefectMaskEnable" Type="Boolean" Access="R/W">True</Feature>
-        <Feature Name="ExposureAuto" Type="Enumeration" Access="R/W">Off</Feature>
+        <Feature Name="ExposureAuto" Type="Enumeration" Access="R/W">Continuous</Feature>
         <Feature Name="ExposureAutoAdjustTol" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="ExposureAutoAlg" Type="Enumeration" Access="R/W">Mean</Feature>
         <Feature Name="ExposureAutoOutliers" Type="Integer" Access="R/W">0</Feature>
@@ -43,7 +43,7 @@
         <Feature Name="GVSPTiltingSize" Type="Integer" Access="R/W">100</Feature>
         <Feature Name="GVSPTimeout" Type="Integer" Access="R/W">70</Feature>
         <Feature Name="Gain" Type="Float" Access="R/W">0.000000</Feature>
-        <Feature Name="GainAuto" Type="Enumeration" Access="R/W">Off</Feature>
+        <Feature Name="GainAuto" Type="Enumeration" Access="R/W">Continuous</Feature>
         <Feature Name="GainAutoAdjustTol" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="GainAutoMax" Type="Float" Access="R/W">24.000000</Feature>
         <Feature Name="GainAutoMin" Type="Float" Access="R/W">0.000000</Feature>
@@ -53,12 +53,12 @@
         <Feature Name="Gamma" Type="Float" Access="R/W">1.000000</Feature>
         <Feature Name="GevHeartbeatInterval" Type="Integer" Access="R/W">1450</Feature>
         <Feature Name="GevHeartbeatTimeout" Type="Integer" Access="R/W">3000</Feature>
-        <Feature Name="Hue" Type="Float" Access="R/W">1.000000</Feature>
+        <Feature Name="Hue" Type="Float" Access="R/W">5.000000</Feature>
         <Feature Name="PixelFormat" Type="Enumeration" Access="R/W">BGR8Packed</Feature>
         <Feature Name="RecorderPreEventCount" Type="Integer" Access="R/W">0</Feature>
         <Feature Name="Saturation" Type="Float" Access="R/W">1.000000</Feature>
         <Feature Name="StreamBufferHandlingMode" Type="Enumeration" Access="R/W">Default</Feature>
-        <Feature Name="StreamBytesPerSecond" Type="Integer" Access="R/W">12400000</Feature>
+        <Feature Name="StreamBytesPerSecond" Type="Integer" Access="R/W">115000000</Feature>
         <Feature Name="StreamFrameRateConstrain" Type="Boolean" Access="R/W">True</Feature>
         <Feature Name="StreamHoldEnable" Type="Enumeration" Access="R/W">Off</Feature>
         <Feature Name="StrobeDelay" Type="Integer" Access="R/W">0</Feature>
@@ -69,8 +69,8 @@
     </FeatureGroup>
     <SelectorGroup Count="6" SelectedFeatures="18">
         <Selector Name="BalanceRatioSelector" Type="Enumeration" SelectedFeatures="1">
-            <SelectorCombination Entry="Red" Feature="BalanceRatioAbs" Type="Float">1.760000</SelectorCombination>
-            <SelectorCombination Entry="Blue" Feature="BalanceRatioAbs" Type="Float">1.280000</SelectorCombination>
+            <SelectorCombination Entry="Red" Feature="BalanceRatioAbs" Type="Float">1.780000</SelectorCombination>
+            <SelectorCombination Entry="Blue" Feature="BalanceRatioAbs" Type="Float">0.960000</SelectorCombination>
         </Selector>
         <Selector Name="ColorTransformationValueSelector" Type="Enumeration" SelectedFeatures="1">
             <SelectorCombination Entry="Gain00" Feature="ColorTransformationValue" Type="Float">1.000000</SelectorCombination>
@@ -136,8 +136,8 @@
         <Selector Name="TriggerSelector" Type="Enumeration" SelectedFeatures="11">
             <SelectorCombination Entry="FrameStart" Feature="TriggerMode" Type="Enumeration">On</SelectorCombination>
             <SelectorCombination Entry="FrameStart" Feature="TriggerSource" Type="Enumeration">Freerun</SelectorCombination>
-            <SelectorCombination Entry="FrameStart" Feature="ExposureTimeAbs" Type="Float">11227.000000</SelectorCombination>
-            <SelectorCombination Entry="FrameStart" Feature="AcquisitionFrameRateAbs" Type="Float">0.755000</SelectorCombination>
+            <SelectorCombination Entry="FrameStart" Feature="ExposureTimeAbs" Type="Float">12043.000000</SelectorCombination>
+            <SelectorCombination Entry="FrameStart" Feature="AcquisitionFrameRateAbs" Type="Float">6.999027</SelectorCombination>
             <SelectorCombination Entry="FrameStart" Feature="ExposureAutoMin" Type="Integer">31</SelectorCombination>
             <SelectorCombination Entry="FrameStart" Feature="ExposureAutoMax" Type="Integer">500000</SelectorCombination>
             <SelectorCombination Entry="FrameStart" Feature="TriggerActivation" Type="Enumeration">RisingEdge</SelectorCombination>
@@ -145,22 +145,22 @@
             <SelectorCombination Entry="FrameStart" Feature="TriggerDelayAbs" Type="Float">0.000000</SelectorCombination>
             <SelectorCombination Entry="AcquisitionStart" Feature="TriggerMode" Type="Enumeration">Off</SelectorCombination>
             <SelectorCombination Entry="AcquisitionStart" Feature="TriggerSource" Type="Enumeration">Line1</SelectorCombination>
-            <SelectorCombination Entry="AcquisitionStart" Feature="ExposureTimeAbs" Type="Float">11227.000000</SelectorCombination>
-            <SelectorCombination Entry="AcquisitionStart" Feature="AcquisitionFrameRateAbs" Type="Float">0.755000</SelectorCombination>
+            <SelectorCombination Entry="AcquisitionStart" Feature="ExposureTimeAbs" Type="Float">12043.000000</SelectorCombination>
+            <SelectorCombination Entry="AcquisitionStart" Feature="AcquisitionFrameRateAbs" Type="Float">6.999027</SelectorCombination>
             <SelectorCombination Entry="AcquisitionStart" Feature="ExposureAutoMin" Type="Integer">31</SelectorCombination>
             <SelectorCombination Entry="AcquisitionStart" Feature="ExposureAutoMax" Type="Integer">500000</SelectorCombination>
             <SelectorCombination Entry="AcquisitionStart" Feature="TriggerActivation" Type="Enumeration">RisingEdge</SelectorCombination>
             <SelectorCombination Entry="AcquisitionEnd" Feature="TriggerMode" Type="Enumeration">Off</SelectorCombination>
             <SelectorCombination Entry="AcquisitionEnd" Feature="TriggerSource" Type="Enumeration">Line1</SelectorCombination>
-            <SelectorCombination Entry="AcquisitionEnd" Feature="ExposureTimeAbs" Type="Float">11227.000000</SelectorCombination>
-            <SelectorCombination Entry="AcquisitionEnd" Feature="AcquisitionFrameRateAbs" Type="Float">0.755000</SelectorCombination>
+            <SelectorCombination Entry="AcquisitionEnd" Feature="ExposureTimeAbs" Type="Float">12043.000000</SelectorCombination>
+            <SelectorCombination Entry="AcquisitionEnd" Feature="AcquisitionFrameRateAbs" Type="Float">6.999027</SelectorCombination>
             <SelectorCombination Entry="AcquisitionEnd" Feature="ExposureAutoMin" Type="Integer">31</SelectorCombination>
             <SelectorCombination Entry="AcquisitionEnd" Feature="ExposureAutoMax" Type="Integer">500000</SelectorCombination>
             <SelectorCombination Entry="AcquisitionEnd" Feature="TriggerActivation" Type="Enumeration">RisingEdge</SelectorCombination>
             <SelectorCombination Entry="AcquisitionRecord" Feature="TriggerMode" Type="Enumeration">On</SelectorCombination>
             <SelectorCombination Entry="AcquisitionRecord" Feature="TriggerSource" Type="Enumeration">Line1</SelectorCombination>
-            <SelectorCombination Entry="AcquisitionRecord" Feature="ExposureTimeAbs" Type="Float">11227.000000</SelectorCombination>
-            <SelectorCombination Entry="AcquisitionRecord" Feature="AcquisitionFrameRateAbs" Type="Float">0.755000</SelectorCombination>
+            <SelectorCombination Entry="AcquisitionRecord" Feature="ExposureTimeAbs" Type="Float">12043.000000</SelectorCombination>
+            <SelectorCombination Entry="AcquisitionRecord" Feature="AcquisitionFrameRateAbs" Type="Float">6.999027</SelectorCombination>
             <SelectorCombination Entry="AcquisitionRecord" Feature="ExposureAutoMin" Type="Integer">31</SelectorCombination>
             <SelectorCombination Entry="AcquisitionRecord" Feature="ExposureAutoMax" Type="Integer">500000</SelectorCombination>
             <SelectorCombination Entry="AcquisitionRecord" Feature="TriggerActivation" Type="Enumeration">RisingEdge</SelectorCombination>

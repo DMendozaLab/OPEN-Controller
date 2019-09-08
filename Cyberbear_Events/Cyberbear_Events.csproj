@@ -93,19 +93,14 @@
     <Compile Include="Util\Vector3\Vector3.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Machine\CameraControl\CameraSettings\cnz_yeast_plate_setting.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\samsNewWhite.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\SunBearSettings.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\testSettings.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\vimbaVersion2_settings.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\white_background_for-plants.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\yeast_plate_camera_settings_v1.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Machine\CycleControl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Machine\CameraControl\CameraSettings\standard_white.xml" />
+    <Content Include="Machine\CameraControl\CameraSettings\white_201900301_continous_adj.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
