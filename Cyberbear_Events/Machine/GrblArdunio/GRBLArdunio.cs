@@ -399,9 +399,11 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                             writer.Write(send_line);
                             writer.Write('\n');
                             writer.Flush();
-
-                        //    Thread.Sleep(5000); //sleep for two seconds for photo capture to catch up
                             //machine should move after this execution of movement
+
+                            /* For Testing:
+                            /Thread.Sleep(5000); //sleep for two seconds for photo capture to catch up
+                            */
 
                             RecordLog("> " + send_line);
 
@@ -512,7 +514,6 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
         #endregion 
 
         #region Connection and Disconnect
-        //TODO: for both of theses 
         /// <summary>
         /// Connect() is called when the machine object is connecting to the relate ardunios
         /// </summary>
@@ -520,7 +521,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
         {
             if (Connected)
                 throw new Exception("Can't Connect: Already Connected");
-            //will change later in devolopment
+
             switch (connectType)
             {
                 case ConnectionType.Serial:
@@ -561,8 +562,6 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
             WorkerThread = new Thread(Work);
             WorkerThread.Priority = ThreadPriority.AboveNormal;
             WorkerThread.Start();
-
-          //  SendLine("$H"); //sending homing command when connected
         }
 
         /// <summary>
@@ -1018,7 +1017,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
         {
             if (action == null)
                 return;
-            //NEED TO FIGURE HWY DOESN'T WORK BELOW
+
            // Application.Current.Dispatcher.BeginInvoke(action, param);
         }
 
