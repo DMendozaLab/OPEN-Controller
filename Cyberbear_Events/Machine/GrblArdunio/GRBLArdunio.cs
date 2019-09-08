@@ -261,9 +261,10 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
 
         #region Work() Function
         /// <summary>
-        /// Work does the main work for the machine object and helps translate to the 
-        /// different operating modes and writing G-code.Ripped from CNC mill, could be 
-        /// downgraded to be more efficent for our purposes.
+        /// Work does the main work for the GRBLArundio object. It is an infinite loop that 
+        /// starts when the GRBLArdunio is initalized. When a command is ready, it is sent to the work
+        /// loop to be evaluated (such as macro command or manual commands) and then sent through 
+        /// a usb streamwriter to the ardunio to be executed.
         /// </summary>
         private void Work()
         {
