@@ -53,9 +53,39 @@
                     Grid.Column="1" IsEnabled="False"></Button>
         </Grid>
         
-        <!--Camera List-->
-        <Border BorderThickness="20">
-            <ComboBox Name="CameraList_cb" DropDownOpened="CameraList_cb_DropDownOpened" SelectionChanged="CameraList_cb_SelectionChanged"></ComboBox>
+        <!--Camera Settings Combo Box-->
+                <Border BorderThickness="3" Grid.Column="0">
+                    <ComboBox  Name="CameraList_cb" DropDownOpened="CameraList_cb_DropDownOpened" SelectionChanged="CameraList_cb_SelectionChanged"></ComboBox>
+                </Border>
+        
+        <!--Save Folder Location-->
+        <Border BorderThickness="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "3*"/>
+                    <ColumnDefinition Width = "*"/>
+                </Grid.ColumnDefinitions>
+
+                
+
+                <!--Save Folder Location Button-->
+                <Border BorderThickness="3" Grid.Column ="1">
+                    <DockPanel>
+
+                            <Button DockPanel.Dock="Left">
+                                Click for Folder
+                            </Button>
+
+                            <TextBox Name="SaveFolderPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                                     IsReadOnly="True">
+                                
+                            </TextBox>
+
+                        </DockPanel>
+                </Border>
+                
+            </Grid>
+            
         </Border>
         
 
