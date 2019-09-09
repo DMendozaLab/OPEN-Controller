@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MANDRAKEware.Experiment.ExperimentArrangement
+namespace Cyberbear_Events.Experiment.ExperimentArrangement
 {
     /// <summary>
     /// The arrangment of the entire experiment file

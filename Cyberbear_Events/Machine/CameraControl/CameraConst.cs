@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MandrakeEvents.Machine.CameraControl
+namespace Cyberbear_Events.Machine.CameraControl
 {
     /// <summary>
     /// Consts for Camera Control Class

@@ -1,13 +1,13 @@
-﻿using MANDRAKE_Events.GCode.GCodeCommands;
+﻿using Cyberbear_Events.GCode.GCodeCommands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
 using System.IO;
-using MANDRAKE_Events.Util;
+using Cyberbear_Events.Util;
 using System.Collections.ObjectModel;
 using System;
 
-namespace MANDRAKE_Events.GCode
+namespace Cyberbear_Events.GCode
 {
     class GCodeFile
 	{

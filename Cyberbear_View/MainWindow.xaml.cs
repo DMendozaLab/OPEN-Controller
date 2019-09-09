@@ -15,9 +15,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
-using MANDRAKEware_Events.Machine.GrblArdunio;
+using Cyberbear_Events.Machine.GrblArdunio;
 
-namespace MANDRAKEware
+namespace Cyberbear_View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

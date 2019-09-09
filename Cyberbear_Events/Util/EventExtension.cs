@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace MandrakeEvents.Util
+namespace Cyberbear_Events.Util
 {   
     //taken from old SPIPware
     public static class EventExtensions

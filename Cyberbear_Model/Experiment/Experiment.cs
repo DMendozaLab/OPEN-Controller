@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MANDRAKEware.Experiment
+namespace Cyberbear_Events.Experiment
 {
     /// <summary>
     /// This class will be filled out in the experiment builder window. This 

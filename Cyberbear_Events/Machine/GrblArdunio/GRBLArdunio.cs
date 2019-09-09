@@ -1,8 +1,8 @@
 ﻿using GeometRi;
 using log4net;
-using MANDRAKE_Events.GCode;
-using MANDRAKE_Events.GCode.GCodeCommands;
-using MANDRAKE_Events.Util; //FOR GCODE TRANSLATOR 
+using Cyberbear_Events.GCode;
+using Cyberbear_Events.GCode.GCodeCommands;
+using Cyberbear_Events.Util; //FOR GCODE TRANSLATOR 
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 //using Microsoft.SPOT.Hardware.SerialPort.dll;
 using System.IO.Ports;
-using MandrakeEvents.Machine;
-using Mandrake_Events;
-//using Mandrake_Events.Machine.Util;
+using Cyberbear_Events.Machine;
+using Cyberbear_Events;
+//using Cyberbear_Events.Machine.Util;
 
-namespace MANDRAKEware_Events.Machine.GrblArdunio
+namespace Cyberbear_Events.Machine.GrblArdunio
 {
     /// <summary>
     /// For connecting and disconnecting from grbl ardunio and other needed things, like sending lines

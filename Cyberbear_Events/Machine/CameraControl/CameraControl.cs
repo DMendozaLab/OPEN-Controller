@@ -1,5 +1,5 @@
 ﻿using log4net;
-using MandrakeEvents.Util;
+using Cyberbear_Events.Util;
 using SynchronousGrab;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace MandrakeEvents.Machine.CameraControl
+namespace Cyberbear_Events.Machine.CameraControl
 {
     /// <summary>
     /// Class for controlling the camera module of the machine

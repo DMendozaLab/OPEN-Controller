@@ -3,9 +3,9 @@ using System;
 using System.IO.Ports;
 using System.Reflection;
 using System.Windows.Media;
-using Mandrake_Events;
+using Cyberbear_Events;
 
-namespace MandrakeEvents.Machine.LightsArdunio
+namespace Cyberbear_Events.Machine.LightsArdunio
 {
     /// <summary>
     /// Controls the lights of the machine, ripped from old SPIPware, should work the same

@@ -24,7 +24,7 @@ using System.Xml.Serialization;         // for various Xml attributes
 /// TAKEN FROM OLD SPIPWARE
 /// WILL NEED TO SEE IF STILL NEEDED LATER
 
-namespace MANDRAKE_Events.Util
+namespace Cyberbear_Events.Util
 {
     [Serializable]
     public struct Vector3 : IComparable, IComparable<Vector3>, IEquatable<Vector3>, IFormattable

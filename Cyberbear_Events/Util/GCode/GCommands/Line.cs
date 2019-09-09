@@ -1,11 +1,11 @@
-﻿using MANDRAKE_Events.Util;
+﻿using Cyberbear_Events.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MANDRAKE_Events.GCode.GCodeCommands
+namespace Cyberbear_Events.GCode.GCodeCommands
 {
 	class Line : Motion
 	{

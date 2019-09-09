@@ -1,4 +1,4 @@
-﻿namespace Mandrake_Events
+﻿namespace Cyberbear_Events
 {
     /// <summary>
     /// Consts for Serial Settings, for now until later in devlopment

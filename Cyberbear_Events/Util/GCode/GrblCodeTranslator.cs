@@ -6,7 +6,7 @@ using System.Reflection;
 using log4net;
 
 
-namespace MANDRAKE_Events.Util
+namespace Cyberbear_Events.Util
 {
     /// <summary>
     /// Pulled from original SPIPware. Helps Translate Gcode error messages and loading settings

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using log4net;
 using GeometRi;
 
-namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
+namespace Cyberbear_Events.Machine.GrblArdunio.CommandBuilder
 {
     /// <summary>
     /// This class is a calculator basically for figuring out distances and what not

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MANDRAKEware.Machine.GrblArdunio.CycleControl.SingleCycle
+namespace Cyberbear_Events.Machine.GrblArdunio.CycleControl.SingleCycle
 {
     class PlateCycle
     {
