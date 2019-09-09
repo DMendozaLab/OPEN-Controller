@@ -1,7 +1,7 @@
 ﻿using System;
-using static MandrakeEvents.Machine.LightsArdunio.LightsArdunio;
+using static Cyberbear_Events.Machine.LightsArdunio.LightsArdunio;
 
-namespace MandrakeEvents.Machine.LightsArdunio
+namespace Cyberbear_Events.Machine.LightsArdunio
 {
     /// <summary>
     /// Event Args for lights event raisers

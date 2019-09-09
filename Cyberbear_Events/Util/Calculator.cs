@@ -4,10 +4,10 @@ using System.Text;
 using System.Collections.Generic;
 using System.Reflection;
 using log4net;
-using MANDRAKEware.Machine.GrblArdunio;
-using MANDRAKEware_Events.Machine.GrblArdunio;
+using Cyberbear_Events.Machine.GrblArdunio;
+using Cyberbear_Events.Machine.GrblArdunio;
 
-namespace MANDRAKE_Events.Util
+namespace Cyberbear_Events.Util
 {
     /// <summary>
     /// Grbl calculator, taken from old SPIPware, don't know total use but works for now

@@ -1,5 +1,5 @@
 ﻿using log4net;
-using MandrakeEvents.Machine.GrblArdunio.CommandBuilder;
+using Cyberbear_Events.Machine.GrblArdunio.CommandBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MANDRAKEware.Machine.GrblArdunio.CommandBuilder
+namespace Cyberbear_Events.Machine.GrblArdunio.CommandBuilder
 {
     /// <summary>
     /// This class builds, figures out distance, and executes the commands for grbl

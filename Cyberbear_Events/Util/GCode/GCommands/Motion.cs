@@ -1,7 +1,7 @@
-﻿using MANDRAKE_Events.Util;
+﻿using Cyberbear_Events.Util;
 using System.Collections.Generic;
 
-namespace MANDRAKE_Events.GCode.GCodeCommands
+namespace Cyberbear_Events.GCode.GCodeCommands
 {
 	abstract class Motion : Command
 	{ 

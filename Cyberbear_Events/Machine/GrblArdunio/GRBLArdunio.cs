@@ -1,8 +1,8 @@
 ﻿using GeometRi;
 using log4net;
-using MANDRAKE_Events.GCode;
-using MANDRAKE_Events.GCode.GCodeCommands;
-using MANDRAKE_Events.Util; //FOR GCODE TRANSLATOR 
+using Cyberbear_Events.GCode;
+using Cyberbear_Events.GCode.GCodeCommands;
+using Cyberbear_Events.Util; //FOR GCODE TRANSLATOR 
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 //using Microsoft.SPOT.Hardware.SerialPort.dll;
 using System.IO.Ports;
-using MandrakeEvents.Machine;
-using Mandrake_Events;
-//using Mandrake_Events.Machine.Util;
+using Cyberbear_Events.Machine;
+using Cyberbear_Events;
+//using Cyberbear_Events.Machine.Util;
 
-namespace MANDRAKEware_Events.Machine.GrblArdunio
+namespace Cyberbear_Events.Machine.GrblArdunio
 {
     /// <summary>
     /// For connecting and disconnecting from grbl ardunio and other needed things, like sending lines
@@ -261,9 +261,10 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
 
         #region Work() Function
         /// <summary>
-        /// Work does the main work for the machine object and helps translate to the 
-        /// different operating modes and writing G-code.Ripped from CNC mill, could be 
-        /// downgraded to be more efficent for our purposes.
+        /// Work does the main work for the GRBLArundio object. It is an infinite loop that 
+        /// starts when the GRBLArdunio is initalized. When a command is ready, it is sent to the work
+        /// loop to be evaluated (such as macro command or manual commands) and then sent through 
+        /// a usb streamwriter to the ardunio to be executed.
         /// </summary>
         private void Work()
         {
@@ -398,9 +399,11 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
                             writer.Write(send_line);
                             writer.Write('\n');
                             writer.Flush();
-
-                        //    Thread.Sleep(5000); //sleep for two seconds for photo capture to catch up
                             //machine should move after this execution of movement
+
+                            /* For Testing:
+                            /Thread.Sleep(5000); //sleep for two seconds for photo capture to catch up
+                            */
 
                             RecordLog("> " + send_line);
 
@@ -511,7 +514,6 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
         #endregion 
 
         #region Connection and Disconnect
-        //TODO: for both of theses 
         /// <summary>
         /// Connect() is called when the machine object is connecting to the relate ardunios
         /// </summary>
@@ -519,7 +521,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
         {
             if (Connected)
                 throw new Exception("Can't Connect: Already Connected");
-            //will change later in devolopment
+
             switch (connectType)
             {
                 case ConnectionType.Serial:
@@ -560,8 +562,6 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
             WorkerThread = new Thread(Work);
             WorkerThread.Priority = ThreadPriority.AboveNormal;
             WorkerThread.Start();
-
-          //  SendLine("$H"); //sending homing command when connected
         }
 
         /// <summary>
@@ -1017,7 +1017,7 @@ namespace MANDRAKEware_Events.Machine.GrblArdunio
         {
             if (action == null)
                 return;
-            //NEED TO FIGURE HWY DOESN'T WORK BELOW
+
            // Application.Current.Dispatcher.BeginInvoke(action, param);
         }
 

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MANDRAKE_Events.GCode.GCodeCommands;
+using Cyberbear_Events.GCode.GCodeCommands;
 using System.IO;
 using System.Text.RegularExpressions;
-using MANDRAKE_Events.Util;
+using Cyberbear_Events.Util;
 using System.Reflection;
 using log4net;
 
-namespace MANDRAKE_Events.GCode
+namespace Cyberbear_Events.GCode
 {
 	public enum ParseDistanceMode
 	{

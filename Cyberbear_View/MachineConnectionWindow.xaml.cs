@@ -13,15 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using log4net;
-using MANDRAKEware_Events.Machine.GrblArdunio;
-using MANDRAKEware_Events.Machine;
-using MandrakeEvents;
-using MandrakeEvents.Machine.LightsArdunio;
 using System.IO;
-using MandrakeEvents.Machine.CameraControl;
-using Mandrake_Events;
+using Cyberbear_Events.Machine;
+using Cyberbear_Events.Machine.GrblArdunio;
+using Cyberbear_Events.Machine.LightsArdunio;
+using Cyberbear_Events.Machine.CameraControl;
+using Cyberbear_Events;
 
-namespace MANDRAKEware
+namespace Cyberbear_View
 {
     /// <summary>
     /// Interaction logic for MachineConnectionWindow.xaml

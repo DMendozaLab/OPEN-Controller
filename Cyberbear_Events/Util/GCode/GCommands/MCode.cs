@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MANDRAKE_Events.GCode.GCodeCommands
+namespace Cyberbear_Events.GCode.GCodeCommands
 {
 	class MCode : Command
 	{

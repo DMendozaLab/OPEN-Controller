@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace MANDRAKE_Events.Util
+namespace Cyberbear_Events.Util
 {
     /// <summary>
     /// Used in Vector3 struct, ripped from old SPIPware

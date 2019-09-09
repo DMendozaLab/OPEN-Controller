@@ -33,7 +33,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using AVT.VmbAPINET;
-using MandrakeEvents.Util;
+using Cyberbear_Events.Util;
 using log4net;
 using System.Reflection;
 //using Cyberbear_Events;
