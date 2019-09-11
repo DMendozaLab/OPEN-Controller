@@ -19,7 +19,7 @@
         <!--Number of Machines (Not visible at moment, can be later)-->
         <StackPanel Visibility ="Hidden"  Orientation="Horizontal">
             <TextBlock>How many machines?</TextBlock>
-            <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0" Watermark="Enter Here" ValueChanged="NumberOfMachines_ValueChanged"/>
+            <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0" Watermark="Enter Here"/>
         </StackPanel>
 
         <!--Connecting Grid-->
@@ -49,9 +49,19 @@
                 </StackPanel>
             </StackPanel>
 
-            <!--Connection Button (second Column)-->
-            <Button x:Name="Connect_Btn" Click="Connect_Btn_Click" Margin="10" Content="Connect"
-                    Grid.Column="1" IsEnabled="False"></Button>
+            <!--Connection and Disconnection Buttons (second Column)-->
+            <Grid Grid.Column="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" x:Name="Connect_Btn" Click="Connect_Btn_Click" Margin="10" Content="Connect"
+                    IsEnabled="False"></Button>
+                <Button Grid.Column="1" Name="Disconnect_Btn" Click="Disconnect_Btn_Click" Margin="10" Content="Disconnect"
+                        IsEnabled="False"></Button>
+            </Grid>
+            
         </Grid>
         
         <!--Camera Settings Combo Box-->
@@ -88,7 +98,7 @@
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
         </Border>
 
-        <Border BorderThickness="10">
+       <!-- <Border BorderThickness="10">
             <Expander VerticalContentAlignment="Stretch" ExpandDirection="Down" Header="GRBL Log" IsExpanded="True">
                 <ListBox Name="ListBoxHistory" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionChanged="ListBoxHistory_SelectionChanged">
                     <ListBox.ItemsPanel>
@@ -99,7 +109,7 @@
                 </ListBox>
                 
             </Expander>
-        </Border>
+        </Border> -->
         
     </StackPanel>
 </Window>

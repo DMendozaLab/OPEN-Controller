@@ -534,7 +534,6 @@ namespace Cyberbear_Events.Machine.GrblArdunio
                     throw new Exception("Invalid Connection Type");
             }
 
-            //Testing
             if (logTraffic)
             {
                 try

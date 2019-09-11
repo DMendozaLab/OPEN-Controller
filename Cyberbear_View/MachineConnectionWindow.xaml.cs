@@ -61,10 +61,7 @@ namespace Cyberbear_View
         {
             try
             {
-                gArdunio.Connect();
-                log.Info("GRBL Ardunio Connected");
-                litArdunio.Connect();
-                log.Info("Lights Ardunio Connected");
+                Connect_Machine();
 
                 //start and stop buttons enabling to be pressed
                 StartManualCycleBtn.IsEnabled = true;
@@ -75,6 +72,23 @@ namespace Cyberbear_View
                 MessageBox.Show(ex.Message);
                 log.Debug("Failure to connect to serial ports because: " + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Connects Grbl and Lights Ardunio and logs the connections
+        /// </summary>
+        private void Connect_Machine()
+        {
+            if(gArdunio.Connected == false)
+            {
+                gArdunio.Connect();
+                log.Info("GRBL Ardunio Connected");
+            }
+            else if (litArdunio.Connected ==false)
+            {
+                litArdunio.Connect();
+                log.Info("Lights Ardunio Connected");
+            } 
         }
 
 
@@ -170,22 +184,15 @@ namespace Cyberbear_View
         }
 
         /// <summary>
-        /// Method for event of number of machine ticker changing
+        /// For when Machine Window Closing
         /// </summary>
-        private void NumberOfMachines_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            //Will add when adding multi machines
-        }
-
-        //closing window method
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            gArdunio.Disconnect();
-            log.Info("Grbl Ardunio Disconnected");
-            litArdunio.Disconnect();
-            log.Info("Lights Ardunio Disconnected");
-            cameraControl.ShutdownVimba();
-            log.Info("Camera Control Shutdown");
+            Disconnect_Machine();
+
+            log.Info("Machine Connection Window Closed");
         }
 
         /// <summary>
@@ -307,11 +314,6 @@ namespace Cyberbear_View
             task.Start();
         }
 
-        private void ListBoxHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         /// <summary>
         /// Connection button is enabled after both combo boxes filled with serial ports. Method
         /// is raised after closing drop down box in combo box 
@@ -322,6 +324,7 @@ namespace Cyberbear_View
             if(GrblSerialComboBox.SelectedIndex > -1 && LightsSerialComboBox.SelectedIndex > -1)
             {
                 Connect_Btn.IsEnabled = true;
+                Disconnect_Btn.IsEnabled = true;
 
                 log.Debug("Connection button is enabled");
             }
@@ -357,6 +360,45 @@ namespace Cyberbear_View
                         return null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Disconnects Machines
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Disconnect_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Disconnect_Machine();
+
+            Connect_Btn.IsEnabled = false;
+            Disconnect_Btn.IsEnabled = false;
+
+            log.Info("Disconnect Button Pressed");
+        }
+
+        /// <summary>
+        /// When called, will disconnect gardunio and lit ardunio
+        /// </summary>
+        private void Disconnect_Machine()
+        {
+            if (gArdunio.Connected == true)
+            {
+                gArdunio.Disconnect();
+                log.Info("Grbl Ardunio Disconnected");
+            }
+            else if (litArdunio.Connected == true)
+            {
+                litArdunio.Disconnect();
+                log.Info("Lights Ardunio Disconnected");
+            }
+            else
+            {
+                cameraControl.ShutdownVimba();
+                log.Info("Camera Control Shutdown");
+            }
+
+            log.Info("Machine Disconnected");
         }
     }
 }
