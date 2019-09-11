@@ -35,9 +35,10 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="10">Serial port for grbl ardunio:</TextBlock>
                     <ComboBox Margin="10" Name="GrblSerialComboBox" DropDownOpened="GrblSerialComboBox_DropDownOpened"></ComboBox>
+                    <!--Baud Rate-->
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10"></ComboBox>
-                    <!--Baud Rate-->
+                    
                 </StackPanel>
                 <!--Lights Ardunio Connection-->
                 <StackPanel Orientation="Horizontal">
@@ -60,32 +61,20 @@
         
         <!--Save Folder Location-->
         <Border BorderThickness="15">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width = "3*"/>
-                    <ColumnDefinition Width = "*"/>
-                </Grid.ColumnDefinitions>
-
-                
-
+            <DockPanel>
                 <!--Save Folder Location Button-->
-                <Border BorderThickness="3" Grid.Column ="1">
-                    <DockPanel>
+                <Button Name="SaveFolderBtn" DockPanel.Dock="Left" Click="SaveFolderBtn_Click">
+                    Click for Folder
+                </Button>
 
-                            <Button DockPanel.Dock="Left">
-                                Click for Folder
-                            </Button>
-
-                            <TextBox Name="SaveFolderPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                <!--Save Folder Path Textbox-->
+                <TextBox Name="SaveFolderPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
                                      IsReadOnly="True">
-                                
-                            </TextBox>
 
-                        </DockPanel>
-                </Border>
-                
-            </Grid>
-            
+                </TextBox>
+
+            </DockPanel>
+
         </Border>
         
 

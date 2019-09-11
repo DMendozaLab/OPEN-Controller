@@ -215,9 +215,13 @@ namespace Cyberbear_View
                 //if line not homing command then take pics
                 if(!line.Contains('H'))
                 {
-                    bi = cameraControl.CapSaveImage().Clone(); //capture image
-                    bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
-                    //may need to raise event to work but idk
+                    if(!line.Contains('Y')) //if not moving y axis then take pics
+                    {
+                        bi = cameraControl.CapSaveImage().Clone(); //capture image
+                        bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
+                        //may need to raise event to work but idk
+                    }
+                    
                 }
 
                 System.Threading.Thread.Sleep(1500); //sleep for 1.5 seconds
@@ -320,6 +324,38 @@ namespace Cyberbear_View
                 Connect_Btn.IsEnabled = true;
 
                 log.Debug("Connection button is enabled");
+            }
+        }
+
+        private void SaveFolderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string folderResult = GetFolderResult();
+
+            if(folderResult != null) //if user chose something
+            {
+                CameraConst.SaveFolderPath = folderResult;
+
+                SaveFolderPath.Text = folderResult; //set text to folder path
+            }
+        }
+
+        /// <summary>
+        /// Opens dialog window to search for window to save photos t0
+        /// </summary>
+        /// <returns>String name of Folder path for saving</returns>
+        private string GetFolderResult()
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                switch (result)
+                {
+                    case System.Windows.Forms.DialogResult.OK:
+                        return dialog.SelectedPath;
+                    case System.Windows.Forms.DialogResult.Cancel:
+                    default:
+                        return null;
+                }
             }
         }
     }
