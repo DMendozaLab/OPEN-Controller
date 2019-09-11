@@ -44,14 +44,11 @@ namespace Cyberbear_View
 
             log.Info("Machine Connection Window Entered");
 
-            //CAMERA UPDATE FUNCTIONS   
-         //   updateCameraSettingsOptions();
-
             Task task = new Task(() => cameraControl.StartVimba());
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
 
-            //for now will initalize one machien in start  
+            //for now will initalize one machine in start  
         }
 
         /// <summary>
@@ -252,7 +249,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-           // gArdunio.SoftReset();
+            //gArdunio.SoftReset();
         }
 
         /// <summary>
