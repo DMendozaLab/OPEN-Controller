@@ -15,14 +15,8 @@
             <TextBlock FontWeight="Bold" TextAlignment="Center" TextDecorations="underline">Machine Connection</TextBlock>
         </Border>
 
-
-        <!--Number of Machines (Not visible at moment, can be later)-->
-        <StackPanel Visibility ="Hidden"  Orientation="Horizontal">
-            <TextBlock>How many machines?</TextBlock>
-            <xctk:IntegerUpDown x:Name="NumberOfMachines" Minimum="0" Watermark="Enter Here"/>
-        </StackPanel>
-
-        <!--Connecting Grid-->
+        <!--Serial Ports and Connect/Disconnect Buttons-->
+        <Label FontWeight="Bold">Serial Port Selection:</Label>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -65,12 +59,14 @@
         </Grid>
         
         <!--Camera Settings Combo Box-->
+        <Label FontWeight="Bold">Camera Settings:</Label>
                 <Border BorderThickness="3" Grid.Column="0">
                     <ComboBox  Name="CameraList_cb" DropDownOpened="CameraList_cb_DropDownOpened" SelectionChanged="CameraList_cb_SelectionChanged"></ComboBox>
                 </Border>
         
         <!--Save Folder Location-->
-        <Border BorderThickness="15">
+        <Label FontWeight="Bold">Save Folder Location:</Label>
+        <Border BorderThickness="6">
             <DockPanel>
                 <!--Save Folder Location Button-->
                 <Button Name="SaveFolderBtn" DockPanel.Dock="Left" Click="SaveFolderBtn_Click">
@@ -86,7 +82,25 @@
             </DockPanel>
 
         </Border>
-        
+
+        <!--GRBL Command File Location TextFile-->
+        <Label FontWeight="Bold">GRBL Command File Location:</Label>
+        <Border BorderThickness="6">
+            <DockPanel>
+                <!--Save Folder Location Button-->
+                <Button Name="GRBLCommandFileBtn" DockPanel.Dock="Left" Click="GRBLCommandFileBtn_Click">
+                    Click for Folder
+                </Button>
+
+                <!--Save Folder Path Textbox-->
+                <TextBox Name="GRBLCommandFilePath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                                     IsReadOnly="True">
+
+                </TextBox>
+
+            </DockPanel>
+            
+         </Border>
 
         <!--Start Button for machine-->
         <Border BorderThickness="10">

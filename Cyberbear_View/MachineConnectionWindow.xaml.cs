@@ -205,7 +205,7 @@ namespace Cyberbear_View
             log.Info("Starting a Manual Cycle");
 
             // string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GRBLCommands.txt"; //for first workstation testing
-            string filePath = @"C:\Users\sam998\Desktop\GRBLCommands.txt"; //for second workstation testing
+            string filePath = GRBLArdunio_Constants.GRBLFilePath; //for second workstation testing
 
             log.Debug("Using the file: " + filePath);
 
@@ -396,6 +396,45 @@ namespace Cyberbear_View
             }
 
             log.Info("Machine Disconnected");
+        }
+
+        /// <summary>
+        /// Finds GRBL txt command doc
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GRBLCommandFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string fileResult = GetFileResult();
+
+            if (fileResult != null) //if user chose something
+            {
+                GRBLArdunio_Constants.GRBLFilePath = fileResult;
+
+                GRBLCommandFilePath.Text = fileResult; //set text to folder path
+            }
+        }
+
+        /// <summary>
+        /// Finds file in file explorer browser and returns the filepath
+        /// </summary>
+        /// <returns>The filepath of selected .txt file</returns>
+        private string GetFileResult()
+        {
+
+
+            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                switch (result)
+                {
+                    case System.Windows.Forms.DialogResult.OK:
+                        return dialog.FileName;
+                    case System.Windows.Forms.DialogResult.Cancel:
+                    default:
+                        return null;
+                }
+            }
         }
     }
 }
