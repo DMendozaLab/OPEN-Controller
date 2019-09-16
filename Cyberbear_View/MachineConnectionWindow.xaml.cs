@@ -19,6 +19,7 @@ using Cyberbear_Events.Machine.GrblArdunio;
 using Cyberbear_Events.Machine.LightsArdunio;
 using Cyberbear_Events.Machine.CameraControl;
 using Cyberbear_Events;
+using Cyberbear_View.Consts;
 
 namespace Cyberbear_View
 {
@@ -199,6 +200,14 @@ namespace Cyberbear_View
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SingleCycle();
+        }
+
+        /// <summary>
+        /// Single Cycle of machine
+        /// </summary>
+        public void SingleCycle()
         {
             cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
 
@@ -443,5 +452,108 @@ namespace Cyberbear_View
                 }
             }
         }
+
+        /// <summary>
+        /// Starts timelapse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            log.Info("Starting Timelapse");
+
+            View_Consts.runningTL = true;
+
+            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval); //may muitlple by time interval type for if different type of interval
+
+            log.Debug(timeLapseInterval.Seconds);
+
+
+        }
+
+        /// <summary>
+        /// Stops timelapse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Value for combo box of timelapse things
+        /// </summary>
+        private static readonly KeyValuePair<long, string>[] intervalList = {
+            //new KeyValuePair<long, string>(1000, "seconds(s)"),
+            new KeyValuePair<long, string>(60000, "minute(s)"),
+            new KeyValuePair<long, string>(3600000, "hour(s)"),
+            new KeyValuePair<long, string>(86400000, "day(s)"),
+            new KeyValuePair<long, string>(604800000, "week(s)")
+        };
+
+        /// <summary>
+        /// Accessor for interval list
+        /// </summary>
+        public KeyValuePair<long, string>[] IntervalList
+        {
+            get
+            {
+                return intervalList;
+            }
+        }
+
+        public int TlEndIntervalType
+        {
+            get
+            {
+                return View_Consts.tlEndIntervalType;
+            }
+            set
+            {
+                View_Consts.tlEndIntervalType = value;
+            }
+        }
+
+        /// <summary>
+        /// accesor for tl interval of view consts
+        /// </summary>
+        public int TlInterval
+        {
+            get
+            {
+                return View_Consts.tlInterval;
+            }
+            set
+            {
+                View_Consts.tlInterval = value;
+            }
+        }
+
+        public int TlEndInterval
+        {
+            get
+            {
+                return View_Consts.tlEndInterval;
+            }
+            set
+            {
+                View_Consts.tlEndInterval = value;
+            }
+        }
+
+        public int TlIntervalType
+        {
+            get
+            {
+                return View_Consts.tlIntervalType;
+            }
+            set
+            {
+                View_Consts.tlIntervalType = value;
+            }
+        }
     }
+
+    
 }

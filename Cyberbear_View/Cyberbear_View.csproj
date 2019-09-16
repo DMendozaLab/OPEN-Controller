@@ -88,6 +88,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cycle.cs" />
+    <Compile Include="TimelapseControl.cs" />
     <Page Include="ExperimentBuilderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -104,6 +106,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Consts\View_Consts.cs" />
     <Compile Include="ExperimentBuilderWindow.xaml.cs">
       <DependentUpon>ExperimentBuilderWindow.xaml</DependentUpon>
     </Compile>

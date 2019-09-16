@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="450" Width="800"
+        Title="MachineConnectionWindow" Height="800" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
     <StackPanel Margin="10">
@@ -102,6 +103,8 @@
             
          </Border>
 
+        <!--Single Cycle Buttons-->
+        <Label FontWeight="Bold">Single Cycle</Label>
         <!--Start Button for machine-->
         <Border BorderThickness="10">
             <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False">Start</Button>
@@ -110,6 +113,45 @@
         <!--Stop Button for machine-->
         <Border BorderThickness="10">
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
+        </Border>
+
+        <!--Timelapse-->
+        <Label FontWeight="Bold">Timelapse</Label>
+
+        <Border BorderThickness="10">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="5">Run Every:</TextBlock>
+                    <xctk:IntegerUpDown Margin="5" Value="{Binding TlInterval}" Minimum="0"></xctk:IntegerUpDown>
+                    <ComboBox
+                        SelectedValue="{Binding TlIntervalType, Mode=OneWay}"
+                        ItemsSource="{Binding IntervalList, Mode=OneWay}"
+                        SelectedValuePath="Key"
+                        DisplayMemberPath="Value"></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>
+                    <xctk:IntegerUpDown Margin="5" Value="{Binding TlEndInterval}" Minimum="0"></xctk:IntegerUpDown>
+                    <ComboBox
+                        SelectedValue="{Binding TlEndIntervalType, Mode=OneWay}"
+                        ItemsSource="{Binding IntervalList, Mode=OneWay}"
+                        SelectedValuePath="Key"
+                        DisplayMemberPath="Value"
+                        ></ComboBox>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        
+        
+        
+        <!--Start Timelapse button-->
+        <Border BorderThickness="10">
+            <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click">Start</Button>
+        </Border>
+        
+        <!--Stop Timelapse Button-->
+        <Border BorderThickness="10">
+            <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click">Stop</Button>
         </Border>
 
        <!-- <Border BorderThickness="10">
