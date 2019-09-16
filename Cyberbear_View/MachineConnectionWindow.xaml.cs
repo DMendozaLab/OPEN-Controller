@@ -216,6 +216,16 @@ namespace Cyberbear_View
                 gArdunio.SendLine(line); //sending line to ardunio
                 log.Info("G Command Sent: " + line);
 
+                if(line == "$H")
+                {
+                    System.Threading.Thread.Sleep(10000);
+                }
+
+                if(line.Contains('Y'))
+                {
+                    System.Threading.Thread.Sleep(4000);
+                }
+
                 //if line not homing command then take pics
                 if(!line.Contains('H'))
                 {
@@ -225,7 +235,6 @@ namespace Cyberbear_View
                         bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
                         //may need to raise event to work but idk
                     }
-                    
                 }
 
                 System.Threading.Thread.Sleep(1500); //sleep for 1.5 seconds
@@ -421,8 +430,6 @@ namespace Cyberbear_View
         /// <returns>The filepath of selected .txt file</returns>
         private string GetFileResult()
         {
-
-
             using (var dialog = new System.Windows.Forms.OpenFileDialog())
             {
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();

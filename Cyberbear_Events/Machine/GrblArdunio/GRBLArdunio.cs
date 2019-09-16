@@ -401,9 +401,9 @@ namespace Cyberbear_Events.Machine.GrblArdunio
                             writer.Flush();
                             //machine should move after this execution of movement
 
-                            /* For Testing:
-                            /Thread.Sleep(5000); //sleep for two seconds for photo capture to catch up
-                            */
+                            
+                            System.Threading.Thread.Sleep(1500); //sleep for two seconds for photo capture to catch up
+                            
 
                             RecordLog("> " + send_line);
 
