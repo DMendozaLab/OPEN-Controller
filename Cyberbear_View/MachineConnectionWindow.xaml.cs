@@ -20,6 +20,8 @@ using Cyberbear_Events.Machine.LightsArdunio;
 using Cyberbear_Events.Machine.CameraControl;
 using Cyberbear_Events;
 using Cyberbear_View.Consts;
+using System.Threading;
+using Cyberbear_Events.Util;
 
 namespace Cyberbear_View
 {
@@ -64,6 +66,9 @@ namespace Cyberbear_View
                 //start and stop buttons enabling to be pressed
                 StartManualCycleBtn.IsEnabled = true;
                 StopManualCycleBtn.IsEnabled = true;
+
+                StartTimelapseCycleBtn.IsEnabled = true;
+                StopTimelapseCycleBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -230,21 +235,32 @@ namespace Cyberbear_View
                     System.Threading.Thread.Sleep(10000);
                 }
 
-                if(line.Contains('Y'))
+                if(line.Contains('X'))
                 {
-                    System.Threading.Thread.Sleep(4000);
+                    System.Threading.Thread.Sleep(6000);
                 }
 
                 //if line not homing command then take pics
                 if(!line.Contains('H'))
                 {
-                    if(!line.Contains('Y')) //if not moving y axis then take pics
+                    if(!line.Contains('X')) //if not moving y axis then take pics
                     {
                         bi = cameraControl.CapSaveImage().Clone(); //capture image
                         bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
                         //may need to raise event to work but idk
                     }
                 }
+
+                //if machine enters alarm state, then reset, maybe return home?
+              /*  if(gArdunio.Status == "Alarm")
+                {
+                    log.Info("Machine is in Alarm state");
+
+                    gArdunio.SoftReset();
+                   // gArdunio.SendLine("$H");
+
+                    break; //exit foreach statement
+                }*/
 
                 System.Threading.Thread.Sleep(1500); //sleep for 1.5 seconds
             }
@@ -267,7 +283,9 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //gArdunio.SoftReset();
+
+
+            gArdunio.SoftReset();
         }
 
         /// <summary>
@@ -464,11 +482,9 @@ namespace Cyberbear_View
 
             View_Consts.runningTL = true;
 
-            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval); //may muitlple by time interval type for if different type of interval
+            Start(); //starting of timelapse
 
-            log.Debug(timeLapseInterval.Seconds);
-
-
+            log.Debug("Completed Timelapse");
         }
 
         /// <summary>
@@ -552,6 +568,171 @@ namespace Cyberbear_View
             {
                 View_Consts.tlIntervalType = value;
             }
+        }
+
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private CancellationTokenSource tokenSource;
+
+        public bool runningTimeLapse = false;
+        public bool runningSingleCycle = false;
+        //bool growLightsOn = false;
+
+        public string tlEnd;
+        public string tlCount;
+        public double totalMinutes;
+        //   private Experiment tempExperiment;
+        private bool growLightsOn = false;
+
+        public delegate void TimeLapseUpdate();
+        public event EventHandler TimeLapseStatus;
+
+        public delegate void ExperimentUpdate();
+      //  public event EventHandler ExperimentStatus;
+
+        public void Start()
+        {
+            growLightsOn = false;
+            _log.Info("Timelapse Starting");
+
+            runningTimeLapse = true;
+            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
+            _log.Debug(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
+            _log.Debug(timeLapseInterval.Seconds);
+
+            View_Consts.tlStartDate = DateTime.Now;
+
+            double endTime = View_Consts.tlEndInterval * View_Consts.tlEndIntervalType;
+
+            DateTime endDate = View_Consts.tlStartDate.AddMilliseconds(endTime);
+            tlEnd = endDate.ToString();
+
+            tlCount = View_Consts.tlStartDate.ToString();
+          //  TimeLapseStatus.Raise(this, new EventArgs());
+            HandleTimelapseCalculations(timeLapseInterval, endTime);
+            //timeLapseCount.Text = "Not Running";
+
+
+        }
+        //private void Machine_StatusChanged()
+        //{
+
+        //    if (machine.Status == "Alarm")
+        //    {
+        //        //("Timelapse canclled because hard limit encountered");
+        //        _log.Error("Machine in Alarm State. Cancelling Timelapse");
+        //        Stop();
+        //    }
+
+        //}
+        async Task WaitForStartNow()
+        {
+            await Task.Delay(5000);
+        }
+        async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
+        {
+            _log.Debug("Awaiting timelapse");
+            while (duration.TotalSeconds > 0)
+            {
+                totalMinutes = duration.TotalMinutes;
+                tlCount = duration.TotalMinutes.ToString() + " minute(s)";
+                TimeLapseStatus.Raise(this, new EventArgs());
+                /*if (!cycle.runningCycle)
+                 {
+                     if (!litArdunio.IsNightTime() && !growLightsOn)
+                     {
+                         litArdunio.SetLight(litArdunio.GrowLight, true, true);
+                         growLightsOn = true;
+                     }
+                     else if (litArdunio.IsNightTime() && growLightsOn)
+                     {
+                         litArdunio.SetLight(litArdunio.GrowLight, false, false);
+                         growLightsOn = false;
+                     }
+                 }*/
+                await Task.Delay(60 * 1000, token);
+                duration = duration.Subtract(TimeSpan.FromMinutes(1));
+            }
+
+        }
+        //public void CycleStatusUpdated(object sender, EventArgs e)
+        //{
+        //    if (!cycle.runningCycle && runningSingleCycle)
+        //    {
+        //        runningSingleCycle = false;
+        //        tempExperiment.SaveExperimentToSettings();
+        //        ExperimentStatus.Raise(this, new EventArgs());
+        //    }
+        //}
+
+        public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
+        {
+
+            if (((View_Consts.startNow || View_Consts.tlStartDate <= DateTime.Now))
+             && endDuration > 0)
+            {
+                _log.Info("Running single timelapse cycle");
+                tokenSource = new CancellationTokenSource();
+
+                //   tempExperiment = new Experiment();
+                //   tempExperiment.LoadExperiment();
+
+
+                //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
+                //experiment.SaveExperimentToSettings();
+                //   ExperimentStatus.Raise(this, new EventArgs());
+               // litArdunio.SetLight(litArdunio.Backlight, true);
+                //Thread.Sleep(300);
+                runningSingleCycle = true;
+                _log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
+                //single cycle here
+                SingleCycle();
+
+                try
+                {
+                    await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
+                }
+                catch (TaskCanceledException e)
+                {
+                    _log.Error("TimeLapse Cancelled: " + e);
+                    //runningTimeLapse = false;
+                    Stop();
+                    //TimeLapseStatus.Raise(this, new EventArgs());
+                    return;
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Unknown timelapse error: " + e);
+                }
+
+                HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
+            }
+            else if (View_Consts.tlStartDate > DateTime.Now)
+            {
+                await WaitForStartNow();
+                HandleTimelapseCalculations(timeLapseInterval, endDuration);
+            }
+            else
+            {
+                _log.Info("TimeLapse Finished");
+                runningTimeLapse = false;
+              //  TimeLapseStatus.Raise(this, new EventArgs());
+                return;
+            }
+
+        }
+        public void Stop()
+        {
+
+            // cycle.Stop();
+            if (tokenSource != null)
+            {
+                tokenSource.Cancel();
+            }
+            growLightsOn = true;
+            runningTimeLapse = false;
+            TimeLapseStatus.Raise(this, new EventArgs());
+
         }
     }
 

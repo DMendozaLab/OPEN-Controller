@@ -146,12 +146,12 @@
         
         <!--Start Timelapse button-->
         <Border BorderThickness="10">
-            <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click">Start</Button>
+            <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
         
         <!--Stop Timelapse Button-->
         <Border BorderThickness="10">
-            <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click">Stop</Button>
+            <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click" IsEnabled="False">Stop</Button>
         </Border>
 
        <!-- <Border BorderThickness="10">

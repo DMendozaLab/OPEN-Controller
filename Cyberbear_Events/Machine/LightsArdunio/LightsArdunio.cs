@@ -62,8 +62,8 @@ namespace Cyberbear_Events.Machine.LightsArdunio
         }
 
         //Is this needed?
-        /*
-        public bool IsNightTime()
+        
+        /*public bool IsNightTime()
         {
             TimeSpan startOfNight = Properties.Settings.Default.StartOfNight;
             TimeSpan endOfNight = Properties.Settings.Default.EndOfNight;
