@@ -67,8 +67,8 @@ namespace Cyberbear_View
                 StartManualCycleBtn.IsEnabled = true;
                 StopManualCycleBtn.IsEnabled = true;
 
-                StartTimelapseCycleBtn.IsEnabled = true;
-                StopTimelapseCycleBtn.IsEnabled = true;
+              //  StartTimelapseCycleBtn.IsEnabled = true;
+               // StopTimelapseCycleBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -476,7 +476,7 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+      /*  private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
         {
             log.Info("Starting Timelapse");
 
@@ -570,7 +570,7 @@ namespace Cyberbear_View
             }
         }
 
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+      /*  private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private CancellationTokenSource tokenSource;
 
@@ -649,7 +649,7 @@ namespace Cyberbear_View
                          litArdunio.SetLight(litArdunio.GrowLight, false, false);
                          growLightsOn = false;
                      }
-                 }*/
+                 }
                 await Task.Delay(60 * 1000, token);
                 duration = duration.Subtract(TimeSpan.FromMinutes(1));
             }
@@ -733,7 +733,7 @@ namespace Cyberbear_View
             runningTimeLapse = false;
             TimeLapseStatus.Raise(this, new EventArgs());
 
-        }
+        }*/
     }
 
     

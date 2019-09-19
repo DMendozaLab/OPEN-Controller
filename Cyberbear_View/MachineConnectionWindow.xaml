@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="800" Width="800"
+        Title="MachineConnectionWindow" Height="500" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -116,7 +116,7 @@
         </Border>
 
         <!--Timelapse-->
-        <Label FontWeight="Bold">Timelapse</Label>
+       <!--<Label FontWeight="Bold">Timelapse</Label>
 
         <Border BorderThickness="10">
             <StackPanel>
@@ -144,15 +144,15 @@
         
         
         
-        <!--Start Timelapse button-->
+        --><!--Start Timelapse button--><!--
         <Border BorderThickness="10">
             <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
         
-        <!--Stop Timelapse Button-->
+        --><!--Stop Timelapse Button--><!--
         <Border BorderThickness="10">
             <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click" IsEnabled="False">Stop</Button>
-        </Border>
+        </Border>-->
 
        <!-- <Border BorderThickness="10">
             <Expander VerticalContentAlignment="Stretch" ExpandDirection="Down" Header="GRBL Log" IsExpanded="True">
