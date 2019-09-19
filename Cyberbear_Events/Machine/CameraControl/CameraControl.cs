@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Threading;
 
 namespace Cyberbear_Events.Machine.CameraControl
 {
@@ -244,7 +245,7 @@ namespace Cyberbear_Events.Machine.CameraControl
             {
                 bi = new BitmapImage();
                 image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-
+                Thread.Sleep(500);
                 ms.Position = 0;
 
 
@@ -252,8 +253,6 @@ namespace Cyberbear_Events.Machine.CameraControl
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.StreamSource = ms;
                 bi.EndInit();
-
-
             }
 
 
@@ -301,21 +300,12 @@ namespace Cyberbear_Events.Machine.CameraControl
 
                 String filePath = createFilePath();
                 _log.Info("Image written to: " + filePath);
-                //_log.Debug(("File Name: " + sb.ToString());
-
-                //may need to add second axis and what not below
-
+                
                 image.Save(filePath, fileType);
 
                 LogMessage("Image acquired synchonously."); //TODO: fix current plate setting when taking pictures
                                                             // if (Properties.Settings.Default.CurrentPlate[0] < Properties.Settings.Default.TotalRows)
-                {
-                    //Properties.Settings.Default.CurrentPlate[0]++;
-                }
-                //   else
-                {
-                    //Properties.Settings.Default.CurrentPlate[0] = 1;
-                }
+                image.Dispose(); //to dispose of pic after saving
             });
 
             return task;
@@ -334,12 +324,14 @@ namespace Cyberbear_Events.Machine.CameraControl
                 //Acquire an image synchronously (snap) from selected camera
                 Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
                 System.Drawing.Image imageCopy = (System.Drawing.Image)image.Clone();
-                BitmapImage img = UpdateImageBox(image);
+                BitmapImage img = UpdateImageBox(imageCopy);
+                BitmapImage imgCopy = img;
 
 
                 String filePath = createFilePath();
                 if (Directory.Exists(CameraConst.SaveFolderPath))
                 {
+
 
                     Task witf = WriteImageToFile(imageCopy);
                     witf.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
@@ -350,7 +342,8 @@ namespace Cyberbear_Events.Machine.CameraControl
                 {
                     LogError("Invalid directory selected");
                 }
-                return img;
+
+                return imgCopy;
 
             }
             catch (Exception exception)

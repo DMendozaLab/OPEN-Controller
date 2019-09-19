@@ -209,6 +209,9 @@ namespace Cyberbear_View
             SingleCycle();
         }
 
+        public enum Columns { A, B, C, D, E, F} //columns of machine
+        public int counter = 3;
+
         /// <summary>
         /// Single Cycle of machine
         /// </summary>
@@ -224,20 +227,23 @@ namespace Cyberbear_View
             log.Debug("Using the file: " + filePath);
 
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
+            bool firstHome = true; //first time homing in cycle
 
+            
             foreach (string line in lines)
             {
                 gArdunio.SendLine(line); //sending line to ardunio
                 log.Info("G Command Sent: " + line);
 
-                if(line == "$H")
+                if(line == "$H" && firstHome)
                 {
-                    System.Threading.Thread.Sleep(10000);
+                    System.Threading.Thread.Sleep(40000); //40 secs t0 home and not miss positions
+                    firstHome = false; 
                 }
 
                 if(line.Contains('X'))
                 {
-                    System.Threading.Thread.Sleep(6000);
+                    System.Threading.Thread.Sleep(7000); //testing 7 secs, was 6 and worked well?
                 }
 
                 //if line not homing command then take pics
@@ -246,21 +252,23 @@ namespace Cyberbear_View
                     if(!line.Contains('X')) //if not moving y axis then take pics
                     {
                         bi = cameraControl.CapSaveImage().Clone(); //capture image
+                       
                         bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
                         //may need to raise event to work but idk
                     }
                 }
 
                 //if machine enters alarm state, then reset, maybe return home?
-              /*  if(gArdunio.Status == "Alarm")
-                {
-                    log.Info("Machine is in Alarm state");
+                /*  if(gArdunio.Status == "Alarm")
+                  {
+                      log.Info("Machine is in Alarm state");
 
-                    gArdunio.SoftReset();
-                   // gArdunio.SendLine("$H");
+                      gArdunio.SoftReset();
+                     // gArdunio.SendLine("$H");
 
-                    break; //exit foreach statement
-                }*/
+                      break; //exit foreach statement
+                  }*/
+                counter++; //counter increases
 
                 System.Threading.Thread.Sleep(1500); //sleep for 1.5 seconds
             }
