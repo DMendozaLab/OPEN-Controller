@@ -250,9 +250,6 @@ namespace Cyberbear_View
             SingleCycle();
         }
 
-        public enum Columns { A, B, C, D, E, F} //columns of machine
-        public int counter = 3;
-
         /// <summary>
         /// Single Cycle of machine
         /// </summary>
@@ -275,6 +272,13 @@ namespace Cyberbear_View
 
             log.Debug("Backlights set to white");
 
+            //if wrong grbl file choosen
+            if(lines[0] != "$H")
+            {
+                MessageBox.Show("Please check that correct GRBLCommand file is selected.");
+                return; // exit function
+            }
+
             foreach (string line in lines)
             {
                 gArdunio.SendLine(line); //sending line to ardunio
@@ -288,7 +292,11 @@ namespace Cyberbear_View
 
                 if(line.Contains('X'))
                 {
-                    System.Threading.Thread.Sleep(7000); //testing 7 secs, was 6 and worked well?
+                    System.Threading.Thread.Sleep(3000); 
+                }
+                if(line == "$HY")
+                {
+                    Thread.Sleep(6500);
                 }
 
                 //if line not homing command then take pics
@@ -303,19 +311,7 @@ namespace Cyberbear_View
                    }
                 }
 
-                //if machine enters alarm state, then reset, maybe return home?
-                /*  if(gArdunio.Status == "Alarm")
-                  {
-                      log.Info("Machine is in Alarm state");
-
-                      gArdunio.SoftReset();
-                     // gArdunio.SendLine("$H");
-
-                      break; //exit foreach statement
-                  }*/
-                counter++; //counter increases
-
-                System.Threading.Thread.Sleep(1500); //sleep for 1.5 seconds
+                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
             }
         }
 
@@ -336,8 +332,6 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-
-
             gArdunio.SoftReset();
         }
 
@@ -475,6 +469,8 @@ namespace Cyberbear_View
             }
             else if (litArdunio.Connected == true)
             {
+                ButtonBackLightOff(); //turn lights off before disconnecting
+
                 litArdunio.Disconnect();
                 log.Info("Lights Ardunio Disconnected");
             }

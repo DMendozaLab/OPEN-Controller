@@ -99,9 +99,7 @@
     <Folder Include="Machine\CycleControl\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Machine\CameraControl\CameraSettings\standard_white.xml" />
     <Content Include="Machine\CameraControl\CameraSettings\wednesday_night_special.xml" />
-    <Content Include="Machine\CameraControl\CameraSettings\white_201900301_continous_adj.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

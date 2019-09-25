@@ -112,7 +112,7 @@
         
         <!--Stop Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
+            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
         </Border>
         
         <!--Lighting Control-->
