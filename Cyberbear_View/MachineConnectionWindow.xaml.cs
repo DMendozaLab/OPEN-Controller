@@ -313,6 +313,9 @@ namespace Cyberbear_View
 
                 System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
             }
+
+            //turn lights off
+            ButtonBackLightOff();
         }
 
         /// <summary>
