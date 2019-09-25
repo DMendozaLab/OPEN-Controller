@@ -109,6 +109,13 @@ namespace Cyberbear_Events.Machine.LightsArdunio
             string cmdStr = "S3P0R" + color.R.ToString() + "G" + color.G.ToString() + "B" + color.B.ToString();
             SendCommand(cmdStr);
         }
+
+        public void SetBacklightColorWhite()
+        {
+            string cmdStr = "S3P0R" + "255" + "G" + "255" + "B" + "255";
+            SendCommand(cmdStr);
+        }
+
         private int BtoI(bool value)
         {
             return (value == true) ? 1 : 0;

@@ -310,7 +310,8 @@ namespace Cyberbear_Events.Machine.CameraControl
 
             return task;
         }
-        public BitmapImage CapSaveImage()
+        //changed return value from BitmapImage to void because of memory leak issues
+        public void CapSaveImage()
         {
             try
             {
@@ -324,8 +325,8 @@ namespace Cyberbear_Events.Machine.CameraControl
                 //Acquire an image synchronously (snap) from selected camera
                 Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
                 System.Drawing.Image imageCopy = (System.Drawing.Image)image.Clone();
-                BitmapImage img = UpdateImageBox(imageCopy);
-                BitmapImage imgCopy = img;
+              //  BitmapImage img = UpdateImageBox(imageCopy);
+              //  BitmapImage imgCopy = img;
 
 
                 String filePath = createFilePath();
@@ -343,13 +344,13 @@ namespace Cyberbear_Events.Machine.CameraControl
                     LogError("Invalid directory selected");
                 }
 
-                return imgCopy;
+              //  return imgCopy;
 
             }
             catch (Exception exception)
             {
                 LogError("Could not acquire image. Reason: " + exception.Message);
-                return null;
+                //return null;
             }
         }
         static void ExceptionHandler(Task task)

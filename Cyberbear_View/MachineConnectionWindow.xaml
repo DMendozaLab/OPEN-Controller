@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="500" Width="800"
+        Title="MachineConnectionWindow" Height="600" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -114,6 +114,20 @@
         <Border BorderThickness="10">
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
         </Border>
+        
+        <!--Lighting Control-->
+        <Label FontWeight="Bold">Lighting Control</Label>
+        
+        <!--Lights On-->
+        <Border BorderThickness="10">
+            <Button Name="LightsOnBtn" Click="LightsOnBtn_Click">Lights On</Button>
+        </Border>
+        
+        <!--Lights Off-->
+        <Border BorderThickness="10">
+            <Button Name="LightsOffBtn" Click="LightsOffBtn_Click">Lights Off</Button>
+        </Border>
+        
 
         <!--Timelapse-->
        <!--<Label FontWeight="Bold">Timelapse</Label>
