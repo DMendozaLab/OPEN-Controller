@@ -40,7 +40,6 @@ namespace Cyberbear_View
         private CameraControl cameraControl = CameraControl.Instance;
 
 
-
         public MachineConnectionWindow()
         {
             InitializeComponent();
@@ -267,13 +266,13 @@ namespace Cyberbear_View
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
             bool firstHome = true; //first time homing in cycle
 
+            
             ButtonBackLightOn();
             setLightWhite();
 
             log.Debug("Backlights set to white");
 
-            //if wrong grbl file choosen
-            if(lines[0] != "$H")
+            if(lines.Count == 0 || lines[0] != "$H")
             {
                 MessageBox.Show("Please check that correct GRBLCommand file is selected.");
                 return; // exit function
