@@ -39,7 +39,9 @@ namespace Cyberbear_View
         private LightsArdunio litArdunio = LightsArdunio.Instance;
         private CameraControl cameraControl = CameraControl.Instance;
 
-
+        /// <summary>
+        /// Constructor for Machine Connection Window Class
+        /// </summary>
         public MachineConnectionWindow()
         {
             InitializeComponent();
@@ -52,30 +54,21 @@ namespace Cyberbear_View
 
             //for now will initalize one machine in start  
         }
-
+        #region Window Closing
         /// <summary>
-        /// Turns on lighting for machine
+        /// For when Machine Window Closing
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonBackLightOn()
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, true));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-        }
-        /// <summary>
-        /// Turns off lighting for machine
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonBackLightOff()
-        {
-            Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-        }
+            Disconnect_Machine();
 
+            log.Info("Machine Connection Window Closed");
+        }
+        #endregion
+
+        #region Connection and Disconnection
         /// <summary>
         /// Connects ardunios to form machine
         /// </summary>
@@ -128,13 +121,64 @@ namespace Cyberbear_View
         }
 
         /// <summary>
-        /// Sets lights to white
+        /// Connection button is enabled after both combo boxes filled with serial ports. Method
+        /// is raised after closing drop down box in combo box 
         /// </summary>
-        private void setLightWhite()
+        private void Connect_Btn_CanEnable()
         {
-            litArdunio.SetBacklightColorWhite();
+            //if selected index greater than -1 then something was selected in the combo box
+            if(GrblSerialComboBox.SelectedIndex > -1 && LightsSerialComboBox.SelectedIndex > -1)
+            {
+                Connect_Btn.IsEnabled = true;
+                Disconnect_Btn.IsEnabled = true;
+
+                log.Debug("Connection button is enabled");
+            }
         }
 
+        /// <summary>
+        /// Disconnects Machines
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Disconnect_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Disconnect_Machine();
+
+            Connect_Btn.IsEnabled = false;
+            Disconnect_Btn.IsEnabled = false;
+
+            log.Info("Disconnect Button Pressed");
+        }
+
+        /// <summary>
+        /// When called, will disconnect gardunio and lit ardunio
+        /// </summary>
+        private void Disconnect_Machine()
+        {
+            if (gArdunio.Connected == true)
+            {
+                gArdunio.Disconnect();
+                log.Info("Grbl Ardunio Disconnected");
+            }
+            else if (litArdunio.Connected == true)
+            {
+                ButtonBackLightOff(); //turn lights off before disconnecting
+
+                litArdunio.Disconnect();
+                log.Info("Lights Ardunio Disconnected");
+            }
+            else
+            {
+                cameraControl.ShutdownVimba();
+                log.Info("Camera Control Shutdown");
+            }
+
+            log.Info("Machine Disconnected");
+        }
+        #endregion
+ 
+        #region Serial Port Communication
         //Couldn't figure out how to make more modular so will try in future, works for now
         /// <summary>
         /// Opens all available serial ports for grbl serial port combo box
@@ -225,19 +269,9 @@ namespace Cyberbear_View
             foreach (string port in System.IO.Ports.SerialPort.GetPortNames())
                 ((ComboBox)sender).Items.Add(port);
         }
-
-        /// <summary>
-        /// For when Machine Window Closing
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Disconnect_Machine();
-
-            log.Info("Machine Connection Window Closed");
-        }
-
+        #endregion
+    
+        #region Cycle Control
         /// <summary>
         /// Event for start button of MachineConnectionWindow, takes in a hard coded file
         /// and reads the commands line by line and sends to gArdunio property
@@ -336,7 +370,9 @@ namespace Cyberbear_View
         {
             gArdunio.SoftReset();
         }
+        #endregion
 
+        #region Exception Handler
         /// <summary>
         /// Exception Handler when expections happens
         /// </summary>
@@ -347,7 +383,9 @@ namespace Cyberbear_View
             var exception = task.Exception;
             log.Error(exception);
         }
-
+        #endregion
+        
+        #region Camera Settings 
         private void CameraList_cb_DropDownOpened(object sender, EventArgs e)
         {
             updateCameraSettingsOptions();
@@ -395,23 +433,14 @@ namespace Cyberbear_View
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
         }
-
+        #endregion
+         
+        #region Save Folder Location 
         /// <summary>
-        /// Connection button is enabled after both combo boxes filled with serial ports. Method
-        /// is raised after closing drop down box in combo box 
+        /// Raises event that save folder button is clicked and will set the save path for photos to the folder selected by user
         /// </summary>
-        private void Connect_Btn_CanEnable()
-        {
-            //if selected index greater than -1 then something was selected in the combo box
-            if(GrblSerialComboBox.SelectedIndex > -1 && LightsSerialComboBox.SelectedIndex > -1)
-            {
-                Connect_Btn.IsEnabled = true;
-                Disconnect_Btn.IsEnabled = true;
-
-                log.Debug("Connection button is enabled");
-            }
-        }
-
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveFolderBtn_Click(object sender, RoutedEventArgs e)
         {
             string folderResult = GetFolderResult();
@@ -443,48 +472,9 @@ namespace Cyberbear_View
                 }
             }
         }
-
-        /// <summary>
-        /// Disconnects Machines
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Disconnect_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            Disconnect_Machine();
-
-            Connect_Btn.IsEnabled = false;
-            Disconnect_Btn.IsEnabled = false;
-
-            log.Info("Disconnect Button Pressed");
-        }
-
-        /// <summary>
-        /// When called, will disconnect gardunio and lit ardunio
-        /// </summary>
-        private void Disconnect_Machine()
-        {
-            if (gArdunio.Connected == true)
-            {
-                gArdunio.Disconnect();
-                log.Info("Grbl Ardunio Disconnected");
-            }
-            else if (litArdunio.Connected == true)
-            {
-                ButtonBackLightOff(); //turn lights off before disconnecting
-
-                litArdunio.Disconnect();
-                log.Info("Lights Ardunio Disconnected");
-            }
-            else
-            {
-                cameraControl.ShutdownVimba();
-                log.Info("Camera Control Shutdown");
-            }
-
-            log.Info("Machine Disconnected");
-        }
-
+        #endregion
+        
+        #region GRBL command file
         /// <summary>
         /// Finds GRBL txt command doc
         /// </summary>
@@ -521,283 +511,330 @@ namespace Cyberbear_View
                 }
             }
         }
+        #endregion
 
+        #region Light Control
+        /// <summary>
+        /// Sets lights to white
+        /// </summary>
+        private void setLightWhite()
+        {
+            litArdunio.SetBacklightColorWhite();
+        }
+
+        /// <summary>
+        /// Raising event for when lights on button clicked. Should turn on lights
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LightsOnBtn_Click(object sender, RoutedEventArgs e)
         {
             ButtonBackLightOn();
             log.Info("Lights Turned On");
         }
-
+        /// <summary>
+        /// Raising event that lights off button clicked. Turns lights off
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LightsOffBtn_Click(object sender, RoutedEventArgs e)
         {
             ButtonBackLightOff();
             log.Info("Lights Turned Off");
-        }
-
+        } 
+        
         /// <summary>
-        /// Starts timelapse
+        /// Turns on lighting for machine
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /*  private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
-          {
-              log.Info("Starting Timelapse");
+        private void ButtonBackLightOn()
+        {
+            Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, true));
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
 
-              View_Consts.runningTL = true;
+        /// <summary>
+        /// Turns off lighting for machine
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonBackLightOff()
+        {
+            Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, false));
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
+        #endregion
 
-              Start(); //starting of timelapse
+        #region Timelapse
 
-              log.Debug("Completed Timelapse");
-          }
+        ///// <summary>
+        ///// Starts timelapse
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //  private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+        //  {
+        //      log.Info("Starting Timelapse");
 
-          /// <summary>
-          /// Stops timelapse
-          /// </summary>
-          /// <param name="sender"></param>
-          /// <param name="e"></param>
-          private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
-          {
+        //      View_Consts.runningTL = true;
 
-          }
+        //      Start(); //starting of timelapse
 
-          /// <summary>
-          /// Value for combo box of timelapse things
-          /// </summary>
-          private static readonly KeyValuePair<long, string>[] intervalList = {
-              //new KeyValuePair<long, string>(1000, "seconds(s)"),
-              new KeyValuePair<long, string>(60000, "minute(s)"),
-              new KeyValuePair<long, string>(3600000, "hour(s)"),
-              new KeyValuePair<long, string>(86400000, "day(s)"),
-              new KeyValuePair<long, string>(604800000, "week(s)")
-          };
+        //      log.Debug("Completed Timelapse");
+        //  }
 
-          /// <summary>
-          /// Accessor for interval list
-          /// </summary>
-          public KeyValuePair<long, string>[] IntervalList
-          {
-              get
-              {
-                  return intervalList;
-              }
-          }
+        //  /// <summary>
+        //  /// Stops timelapse
+        //  /// </summary>
+        //  /// <param name="sender"></param>
+        //  /// <param name="e"></param>
+        //  private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+        //  {
 
-          public int TlEndIntervalType
-          {
-              get
-              {
-                  return View_Consts.tlEndIntervalType;
-              }
-              set
-              {
-                  View_Consts.tlEndIntervalType = value;
-              }
-          }
+        //  }
 
-          /// <summary>
-          /// accesor for tl interval of view consts
-          /// </summary>
-          public int TlInterval
-          {
-              get
-              {
-                  return View_Consts.tlInterval;
-              }
-              set
-              {
-                  View_Consts.tlInterval = value;
-              }
-          }
+        //  /// <summary>
+        //  /// Value for combo box of timelapse things
+        //  /// </summary>
+        //  private static readonly KeyValuePair<long, string>[] intervalList = {
+        //      //new KeyValuePair<long, string>(1000, "seconds(s)"),
+        //      new KeyValuePair<long, string>(60000, "minute(s)"),
+        //      new KeyValuePair<long, string>(3600000, "hour(s)"),
+        //      new KeyValuePair<long, string>(86400000, "day(s)"),
+        //      new KeyValuePair<long, string>(604800000, "week(s)")
+        //  };
 
-          public int TlEndInterval
-          {
-              get
-              {
-                  return View_Consts.tlEndInterval;
-              }
-              set
-              {
-                  View_Consts.tlEndInterval = value;
-              }
-          }
+        //  /// <summary>
+        //  /// Accessor for interval list
+        //  /// </summary>
+        //  public KeyValuePair<long, string>[] IntervalList
+        //  {
+        //      get
+        //      {
+        //          return intervalList;
+        //      }
+        //  }
 
-          public int TlIntervalType
-          {
-              get
-              {
-                  return View_Consts.tlIntervalType;
-              }
-              set
-              {
-                  View_Consts.tlIntervalType = value;
-              }
-          }
+        //  public int TlEndIntervalType
+        //  {
+        //      get
+        //      {
+        //          return View_Consts.tlEndIntervalType;
+        //      }
+        //      set
+        //      {
+        //          View_Consts.tlEndIntervalType = value;
+        //      }
+        //  }
 
-        /*  private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        //  /// <summary>
+        //  /// accesor for tl interval of view consts
+        //  /// </summary>
+        //  public int TlInterval
+        //  {
+        //      get
+        //      {
+        //          return View_Consts.tlInterval;
+        //      }
+        //      set
+        //      {
+        //          View_Consts.tlInterval = value;
+        //      }
+        //  }
 
-          private CancellationTokenSource tokenSource;
+        //  public int TlEndInterval
+        //  {
+        //      get
+        //      {
+        //          return View_Consts.tlEndInterval;
+        //      }
+        //      set
+        //      {
+        //          View_Consts.tlEndInterval = value;
+        //      }
+        //  }
 
-          public bool runningTimeLapse = false;
-          public bool runningSingleCycle = false;
-          //bool growLightsOn = false;
+        //  public int TlIntervalType
+        //  {
+        //      get
+        //      {
+        //          return View_Consts.tlIntervalType;
+        //      }
+        //      set
+        //      {
+        //          View_Consts.tlIntervalType = value;
+        //      }
+        //  }
 
-          public string tlEnd;
-          public string tlCount;
-          public double totalMinutes;
-          //   private Experiment tempExperiment;
-          private bool growLightsOn = false;
+        // private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-          public delegate void TimeLapseUpdate();
-          public event EventHandler TimeLapseStatus;
+        //  private CancellationTokenSource tokenSource;
 
-          public delegate void ExperimentUpdate();
-        //  public event EventHandler ExperimentStatus;
+        //  public bool runningTimeLapse = false;
+        //  public bool runningSingleCycle = false;
+        //  //bool growLightsOn = false;
 
-          public void Start()
-          {
-              growLightsOn = false;
-              _log.Info("Timelapse Starting");
+        //  public string tlEnd;
+        //  public string tlCount;
+        //  public double totalMinutes;
+        //  //   private Experiment tempExperiment;
+        //  private bool growLightsOn = false;
 
-              runningTimeLapse = true;
-              TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
-              _log.Debug(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
-              _log.Debug(timeLapseInterval.Seconds);
+        //  public delegate void TimeLapseUpdate();
+        //  public event EventHandler TimeLapseStatus;
 
-              View_Consts.tlStartDate = DateTime.Now;
+        //  public delegate void ExperimentUpdate();
+        ////  public event EventHandler ExperimentStatus;
 
-              double endTime = View_Consts.tlEndInterval * View_Consts.tlEndIntervalType;
+        //  public void Start()
+        //  {
+        //      growLightsOn = false;
+        //      _log.Info("Timelapse Starting");
 
-              DateTime endDate = View_Consts.tlStartDate.AddMilliseconds(endTime);
-              tlEnd = endDate.ToString();
+        //      runningTimeLapse = true;
+        //      TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
+        //      _log.Debug(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
+        //      _log.Debug(timeLapseInterval.Seconds);
 
-              tlCount = View_Consts.tlStartDate.ToString();
-            //  TimeLapseStatus.Raise(this, new EventArgs());
-              HandleTimelapseCalculations(timeLapseInterval, endTime);
-              //timeLapseCount.Text = "Not Running";
+        //      View_Consts.tlStartDate = DateTime.Now;
 
+        //      double endTime = View_Consts.tlEndInterval * View_Consts.tlEndIntervalType;
 
-          }
-          //private void Machine_StatusChanged()
-          //{
+        //      DateTime endDate = View_Consts.tlStartDate.AddMilliseconds(endTime);
+        //      tlEnd = endDate.ToString();
 
-          //    if (machine.Status == "Alarm")
-          //    {
-          //        //("Timelapse canclled because hard limit encountered");
-          //        _log.Error("Machine in Alarm State. Cancelling Timelapse");
-          //        Stop();
-          //    }
-
-          //}
-          async Task WaitForStartNow()
-          {
-              await Task.Delay(5000);
-          }
-          async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
-          {
-              _log.Debug("Awaiting timelapse");
-              while (duration.TotalSeconds > 0)
-              {
-                  totalMinutes = duration.TotalMinutes;
-                  tlCount = duration.TotalMinutes.ToString() + " minute(s)";
-                  TimeLapseStatus.Raise(this, new EventArgs());
-                  /*if (!cycle.runningCycle)
-                   {
-                       if (!litArdunio.IsNightTime() && !growLightsOn)
-                       {
-                           litArdunio.SetLight(litArdunio.GrowLight, true, true);
-                           growLightsOn = true;
-                       }
-                       else if (litArdunio.IsNightTime() && growLightsOn)
-                       {
-                           litArdunio.SetLight(litArdunio.GrowLight, false, false);
-                           growLightsOn = false;
-                       }
-                   }
-                  await Task.Delay(60 * 1000, token);
-                  duration = duration.Subtract(TimeSpan.FromMinutes(1));
-              }
-
-          }
-          //public void CycleStatusUpdated(object sender, EventArgs e)
-          //{
-          //    if (!cycle.runningCycle && runningSingleCycle)
-          //    {
-          //        runningSingleCycle = false;
-          //        tempExperiment.SaveExperimentToSettings();
-          //        ExperimentStatus.Raise(this, new EventArgs());
-          //    }
-          //}
-
-          public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
-          {
-
-              if (((View_Consts.startNow || View_Consts.tlStartDate <= DateTime.Now))
-               && endDuration > 0)
-              {
-                  _log.Info("Running single timelapse cycle");
-                  tokenSource = new CancellationTokenSource();
-
-                  //   tempExperiment = new Experiment();
-                  //   tempExperiment.LoadExperiment();
+        //      tlCount = View_Consts.tlStartDate.ToString();
+        //    //  TimeLapseStatus.Raise(this, new EventArgs());
+        //      HandleTimelapseCalculations(timeLapseInterval, endTime);
+        //      //timeLapseCount.Text = "Not Running";
 
 
-                  //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
-                  //experiment.SaveExperimentToSettings();
-                  //   ExperimentStatus.Raise(this, new EventArgs());
-                 // litArdunio.SetLight(litArdunio.Backlight, true);
-                  //Thread.Sleep(300);
-                  runningSingleCycle = true;
-                  _log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
-                  //single cycle here
-                  SingleCycle();
+        //  }
+        //  //private void Machine_StatusChanged()
+        //  //{
 
-                  try
-                  {
-                      await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
-                  }
-                  catch (TaskCanceledException e)
-                  {
-                      _log.Error("TimeLapse Cancelled: " + e);
-                      //runningTimeLapse = false;
-                      Stop();
-                      //TimeLapseStatus.Raise(this, new EventArgs());
-                      return;
-                  }
-                  catch (Exception e)
-                  {
-                      _log.Error("Unknown timelapse error: " + e);
-                  }
+        //  //    if (machine.Status == "Alarm")
+        //  //    {
+        //  //        //("Timelapse canclled because hard limit encountered");
+        //  //        _log.Error("Machine in Alarm State. Cancelling Timelapse");
+        //  //        Stop();
+        //  //    }
 
-                  HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
-              }
-              else if (View_Consts.tlStartDate > DateTime.Now)
-              {
-                  await WaitForStartNow();
-                  HandleTimelapseCalculations(timeLapseInterval, endDuration);
-              }
-              else
-              {
-                  _log.Info("TimeLapse Finished");
-                  runningTimeLapse = false;
-                //  TimeLapseStatus.Raise(this, new EventArgs());
-                  return;
-              }
+        //  //}
+        //  async Task WaitForStartNow()
+        //  {
+        //      await Task.Delay(5000);
+        //  }
+        //  async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
+        //  {
+        //      _log.Debug("Awaiting timelapse");
+        //      while (duration.TotalSeconds > 0)
+        //      {
+        //          totalMinutes = duration.TotalMinutes;
+        //          tlCount = duration.TotalMinutes.ToString() + " minute(s)";
+        //          TimeLapseStatus.Raise(this, new EventArgs());
+        //         /* if (!cycle.runningCycle)
+        //           {
+        //               if (!litArdunio.IsNightTime() && !growLightsOn)
+        //               {
+        //                   litArdunio.SetLight(litArdunio.GrowLight, true, true);
+        //                   growLightsOn = true;
+        //               }
+        //               else if (litArdunio.IsNightTime() && growLightsOn)
+        //               {
+        //                   litArdunio.SetLight(litArdunio.GrowLight, false, false);
+        //                   growLightsOn = false;
+        //               }
+        //           }*/
+        //          await Task.Delay(60 * 1000, token);
+        //          duration = duration.Subtract(TimeSpan.FromMinutes(1));
+        //      }
 
-          }
-          public void Stop()
-          {
+        //  }
+        //  //public void CycleStatusUpdated(object sender, EventArgs e)
+        //  //{
+        //  //    if (!cycle.runningCycle && runningSingleCycle)
+        //  //    {
+        //  //        runningSingleCycle = false;
+        //  //        tempExperiment.SaveExperimentToSettings();
+        //  //        ExperimentStatus.Raise(this, new EventArgs());
+        //  //    }
+        //  //}
 
-              // cycle.Stop();
-              if (tokenSource != null)
-              {
-                  tokenSource.Cancel();
-              }
-              growLightsOn = true;
-              runningTimeLapse = false;
-              TimeLapseStatus.Raise(this, new EventArgs());
+        //  public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
+        //  {
 
-          }*/
+        //      if (((View_Consts.startNow || View_Consts.tlStartDate <= DateTime.Now))
+        //       && endDuration > 0)
+        //      {
+        //          _log.Info("Running single timelapse cycle");
+        //          tokenSource = new CancellationTokenSource();
+
+        //          //   tempExperiment = new Experiment();
+        //          //   tempExperiment.LoadExperiment();
+
+
+        //          //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
+        //          //experiment.SaveExperimentToSettings();
+        //          //   ExperimentStatus.Raise(this, new EventArgs());
+        //         // litArdunio.SetLight(litArdunio.Backlight, true);
+        //          //Thread.Sleep(300);
+        //          runningSingleCycle = true;
+        //          _log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
+        //          //single cycle here
+        //          SingleCycle();
+
+        //          try
+        //          {
+        //              await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
+        //          }
+        //          catch (TaskCanceledException e)
+        //          {
+        //              _log.Error("TimeLapse Cancelled: " + e);
+        //              //runningTimeLapse = false;
+        //              Stop();
+        //              //TimeLapseStatus.Raise(this, new EventArgs());
+        //              return;
+        //          }
+        //          catch (Exception e)
+        //          {
+        //              _log.Error("Unknown timelapse error: " + e);
+        //          }
+
+        //          HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
+        //      }
+        //      else if (View_Consts.tlStartDate > DateTime.Now)
+        //      {
+        //          await WaitForStartNow();
+        //          HandleTimelapseCalculations(timeLapseInterval, endDuration);
+        //      }
+        //      else
+        //      {
+        //          _log.Info("TimeLapse Finished");
+        //          runningTimeLapse = false;
+        //        //  TimeLapseStatus.Raise(this, new EventArgs());
+        //          return;
+        //      }
+
+        //  }
+        //  public void Stop()
+        //  {
+
+        //      // cycle.Stop();
+        //      if (tokenSource != null)
+        //      {
+        //          tokenSource.Cancel();
+        //      }
+        //      growLightsOn = true;
+        //      runningTimeLapse = false;
+        //      TimeLapseStatus.Raise(this, new EventArgs());
+
+        //  }
+        #endregion
     }
 
-    
+
 }

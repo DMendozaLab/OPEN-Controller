@@ -97,4 +97,3 @@ namespace Cyberbear_View
         }
     }
 }
-0
