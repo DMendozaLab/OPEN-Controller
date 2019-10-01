@@ -82,8 +82,8 @@ namespace Cyberbear_View
                 StartManualCycleBtn.IsEnabled = true;
                 StopManualCycleBtn.IsEnabled = true;
 
-              //  StartTimelapseCycleBtn.IsEnabled = true;
-               // StopTimelapseCycleBtn.IsEnabled = true;
+                StartTimelapseCycleBtn.IsEnabled = true;
+                StopTimelapseCycleBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -570,269 +570,266 @@ namespace Cyberbear_View
 
         #region Timelapse
 
-        ///// <summary>
-        ///// Starts timelapse
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //  private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
-        //  {
-        //      log.Info("Starting Timelapse");
+        /// <summary>
+        /// Starts timelapse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            log.Info("Starting Timelapse");
 
-        //      View_Consts.runningTL = true;
+            View_Consts.runningTL = true;
 
-        //      Start(); //starting of timelapse
+            Start(); //starting of timelapse
+        }
 
-        //      log.Debug("Completed Timelapse");
-        //  }
+        /// <summary>
+        /// Stops timelapse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Stop();
+        }
 
-        //  /// <summary>
-        //  /// Stops timelapse
-        //  /// </summary>
-        //  /// <param name="sender"></param>
-        //  /// <param name="e"></param>
-        //  private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
-        //  {
+        /// <summary>
+        /// Value for combo box of timelapse things
+        /// </summary>
+        private static readonly KeyValuePair<long, string>[] intervalList = {
+              //new KeyValuePair<long, string>(1000, "seconds(s)"),
+              new KeyValuePair<long, string>(60000, "minute(s)"),
+              new KeyValuePair<long, string>(3600000, "hour(s)"),
+              new KeyValuePair<long, string>(86400000, "day(s)"),
+              new KeyValuePair<long, string>(604800000, "week(s)")
+          };
 
-        //  }
+        /// <summary>
+        /// Accessor for interval list
+        /// </summary>
+        public KeyValuePair<long, string>[] IntervalList
+        {
+            get
+            {
+                return intervalList;
+            }
+        }
 
-        //  /// <summary>
-        //  /// Value for combo box of timelapse things
-        //  /// </summary>
-        //  private static readonly KeyValuePair<long, string>[] intervalList = {
-        //      //new KeyValuePair<long, string>(1000, "seconds(s)"),
-        //      new KeyValuePair<long, string>(60000, "minute(s)"),
-        //      new KeyValuePair<long, string>(3600000, "hour(s)"),
-        //      new KeyValuePair<long, string>(86400000, "day(s)"),
-        //      new KeyValuePair<long, string>(604800000, "week(s)")
-        //  };
+        public long TlEndIntervalType
+        {
+            get
+            {
+                return View_Consts.tlEndIntervalType;
+            }
+            set
+            {
+                View_Consts.tlEndIntervalType = value;
+            }
+        }
 
-        //  /// <summary>
-        //  /// Accessor for interval list
-        //  /// </summary>
-        //  public KeyValuePair<long, string>[] IntervalList
-        //  {
-        //      get
-        //      {
-        //          return intervalList;
-        //      }
-        //  }
+        /// <summary>
+        /// accesor for tl interval of view consts
+        /// </summary>
+        public int TlInterval
+        {
+            get
+            {
+                return View_Consts.tlInterval;
+            }
+            set
+            {
+                View_Consts.tlInterval = value;
+            }
+        }
 
-        //  public int TlEndIntervalType
-        //  {
-        //      get
-        //      {
-        //          return View_Consts.tlEndIntervalType;
-        //      }
-        //      set
-        //      {
-        //          View_Consts.tlEndIntervalType = value;
-        //      }
-        //  }
+        public int TlEndInterval
+        {
+            get
+            {
+                return View_Consts.tlEndInterval;
+            }
+            set
+            {
+                View_Consts.tlEndInterval = value;
+            }
+        }
 
-        //  /// <summary>
-        //  /// accesor for tl interval of view consts
-        //  /// </summary>
-        //  public int TlInterval
-        //  {
-        //      get
-        //      {
-        //          return View_Consts.tlInterval;
-        //      }
-        //      set
-        //      {
-        //          View_Consts.tlInterval = value;
-        //      }
-        //  }
+        public long TlIntervalType
+        {
+            get
+            {
+                return View_Consts.tlIntervalType;
+            }
+            set
+            {
+                View_Consts.tlIntervalType = value;
+            }
+        }
 
-        //  public int TlEndInterval
-        //  {
-        //      get
-        //      {
-        //          return View_Consts.tlEndInterval;
-        //      }
-        //      set
-        //      {
-        //          View_Consts.tlEndInterval = value;
-        //      }
-        //  }
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        //  public int TlIntervalType
-        //  {
-        //      get
-        //      {
-        //          return View_Consts.tlIntervalType;
-        //      }
-        //      set
-        //      {
-        //          View_Consts.tlIntervalType = value;
-        //      }
-        //  }
+        private CancellationTokenSource tokenSource;
 
-        // private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        public bool runningTimeLapse = false;
+        public bool runningSingleCycle = false;
 
-        //  private CancellationTokenSource tokenSource;
+        public string tlEnd;
+        public string tlCount;
+        public double totalMinutes;
 
-        //  public bool runningTimeLapse = false;
-        //  public bool runningSingleCycle = false;
-        //  //bool growLightsOn = false;
+        public delegate void TimeLapseUpdate();
+        public event EventHandler TimeLapseStatus;
 
-        //  public string tlEnd;
-        //  public string tlCount;
-        //  public double totalMinutes;
-        //  //   private Experiment tempExperiment;
-        //  private bool growLightsOn = false;
+        public delegate void ExperimentUpdate();
+        //  public event EventHandler ExperimentStatus;
 
-        //  public delegate void TimeLapseUpdate();
-        //  public event EventHandler TimeLapseStatus;
+        public void Start()
+        {
+            _log.Info("Timelapse Starting");
 
-        //  public delegate void ExperimentUpdate();
-        ////  public event EventHandler ExperimentStatus;
+            runningTimeLapse = true;
+            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval * View_Consts.tlIntervalType);
+            _log.Debug(View_Consts.tlInterval * View_Consts.tlIntervalType);
+            _log.Debug(timeLapseInterval.Seconds);
 
-        //  public void Start()
-        //  {
-        //      growLightsOn = false;
-        //      _log.Info("Timelapse Starting");
+            View_Consts.tlStartDate = DateTime.Now;
+            TimelapseCountTextBox.Text = View_Consts.tlStartDate.ToString();
 
-        //      runningTimeLapse = true;
-        //      TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
-        //      _log.Debug(View_Consts.tlInterval * View_Consts.tlEndIntervalType);
-        //      _log.Debug(timeLapseInterval.Seconds);
+            double endTime = View_Consts.tlEndInterval * View_Consts.tlEndIntervalType;
 
-        //      View_Consts.tlStartDate = DateTime.Now;
+            DateTime endDate = View_Consts.tlStartDate.AddMilliseconds(endTime);
+            tlEnd = endDate.ToString();
 
-        //      double endTime = View_Consts.tlEndInterval * View_Consts.tlEndIntervalType;
+            TimelapseEndTimeTextBox.Text = tlEnd;
 
-        //      DateTime endDate = View_Consts.tlStartDate.AddMilliseconds(endTime);
-        //      tlEnd = endDate.ToString();
+            if(endTime <= timeLapseInterval.TotalMilliseconds)
+            {
+                MessageBox.Show("Timelapse interval is larger than ending timelapse time, did you make a mistake?");
+                return; //return to exit start method
+            }
 
-        //      tlCount = View_Consts.tlStartDate.ToString();
-        //    //  TimeLapseStatus.Raise(this, new EventArgs());
-        //      HandleTimelapseCalculations(timeLapseInterval, endTime);
-        //      //timeLapseCount.Text = "Not Running";
+            tlCount = View_Consts.tlStartDate.ToString();
+            //  TimeLapseStatus.Raise(this, new EventArgs());
+            HandleTimelapseCalculations(timeLapseInterval, endTime);
 
+        }
+        
+        async Task WaitForStartNow()
+        {
+            await Task.Delay(5000);
+        }
 
-        //  }
-        //  //private void Machine_StatusChanged()
-        //  //{
+        async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
+        {
+            _log.Debug("Awaiting timelapse");
+            while (duration.TotalSeconds > 0)
+            {
+                totalMinutes = duration.TotalMinutes;
+                tlCount = duration.TotalMinutes.ToString() + " minute(s)";
+                TimelapseCountTextBox.Text = tlCount;
+               // TimeLapseStatus.Raise(this, new EventArgs());
+                /* if (!cycle.runningCycle)
+                  {
+                      if (!litArdunio.IsNightTime() && !growLightsOn)
+                      {
+                          litArdunio.SetLight(litArdunio.GrowLight, true, true);
+                          growLightsOn = true;
+                      }
+                      else if (litArdunio.IsNightTime() && growLightsOn)
+                      {
+                          litArdunio.SetLight(litArdunio.GrowLight, false, false);
+                          growLightsOn = false;
+                      }
+                  }*/
+                await Task.Delay(60 * 1000, token);
+                duration = duration.Subtract(TimeSpan.FromMinutes(1));
+            }
 
-        //  //    if (machine.Status == "Alarm")
-        //  //    {
-        //  //        //("Timelapse canclled because hard limit encountered");
-        //  //        _log.Error("Machine in Alarm State. Cancelling Timelapse");
-        //  //        Stop();
-        //  //    }
+        }
+        //public void CycleStatusUpdated(object sender, EventArgs e)
+        //{
+        //    if (!cycle.runningCycle && runningSingleCycle)
+        //    {
+        //        runningSingleCycle = false;
+        //        tempExperiment.SaveExperimentToSettings();
+        //        ExperimentStatus.Raise(this, new EventArgs());
+        //    }
+        //}
 
-        //  //}
-        //  async Task WaitForStartNow()
-        //  {
-        //      await Task.Delay(5000);
-        //  }
-        //  async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
-        //  {
-        //      _log.Debug("Awaiting timelapse");
-        //      while (duration.TotalSeconds > 0)
-        //      {
-        //          totalMinutes = duration.TotalMinutes;
-        //          tlCount = duration.TotalMinutes.ToString() + " minute(s)";
-        //          TimeLapseStatus.Raise(this, new EventArgs());
-        //         /* if (!cycle.runningCycle)
-        //           {
-        //               if (!litArdunio.IsNightTime() && !growLightsOn)
-        //               {
-        //                   litArdunio.SetLight(litArdunio.GrowLight, true, true);
-        //                   growLightsOn = true;
-        //               }
-        //               else if (litArdunio.IsNightTime() && growLightsOn)
-        //               {
-        //                   litArdunio.SetLight(litArdunio.GrowLight, false, false);
-        //                   growLightsOn = false;
-        //               }
-        //           }*/
-        //          await Task.Delay(60 * 1000, token);
-        //          duration = duration.Subtract(TimeSpan.FromMinutes(1));
-        //      }
+        public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
+        {
 
-        //  }
-        //  //public void CycleStatusUpdated(object sender, EventArgs e)
-        //  //{
-        //  //    if (!cycle.runningCycle && runningSingleCycle)
-        //  //    {
-        //  //        runningSingleCycle = false;
-        //  //        tempExperiment.SaveExperimentToSettings();
-        //  //        ExperimentStatus.Raise(this, new EventArgs());
-        //  //    }
-        //  //}
+            if (((View_Consts.startNow || View_Consts.tlStartDate <= DateTime.Now))
+             && endDuration > 0)
+            {
+                _log.Info("Running single timelapse cycle");
+                tokenSource = new CancellationTokenSource();
 
-        //  public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
-        //  {
-
-        //      if (((View_Consts.startNow || View_Consts.tlStartDate <= DateTime.Now))
-        //       && endDuration > 0)
-        //      {
-        //          _log.Info("Running single timelapse cycle");
-        //          tokenSource = new CancellationTokenSource();
-
-        //          //   tempExperiment = new Experiment();
-        //          //   tempExperiment.LoadExperiment();
+                //   tempExperiment = new Experiment();
+                //   tempExperiment.LoadExperiment();
 
 
-        //          //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
-        //          //experiment.SaveExperimentToSettings();
-        //          //   ExperimentStatus.Raise(this, new EventArgs());
-        //         // litArdunio.SetLight(litArdunio.Backlight, true);
-        //          //Thread.Sleep(300);
-        //          runningSingleCycle = true;
-        //          _log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
-        //          //single cycle here
-        //          SingleCycle();
+                //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
+                //experiment.SaveExperimentToSettings();
+                //   ExperimentStatus.Raise(this, new EventArgs());
+                // litArdunio.SetLight(litArdunio.Backlight, true);
+                //Thread.Sleep(300);
+                runningSingleCycle = true;
+                _log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
+                //single cycle here
 
-        //          try
-        //          {
-        //              await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
-        //          }
-        //          catch (TaskCanceledException e)
-        //          {
-        //              _log.Error("TimeLapse Cancelled: " + e);
-        //              //runningTimeLapse = false;
-        //              Stop();
-        //              //TimeLapseStatus.Raise(this, new EventArgs());
-        //              return;
-        //          }
-        //          catch (Exception e)
-        //          {
-        //              _log.Error("Unknown timelapse error: " + e);
-        //          }
+                
+                
+                SingleCycle();
 
-        //          HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
-        //      }
-        //      else if (View_Consts.tlStartDate > DateTime.Now)
-        //      {
-        //          await WaitForStartNow();
-        //          HandleTimelapseCalculations(timeLapseInterval, endDuration);
-        //      }
-        //      else
-        //      {
-        //          _log.Info("TimeLapse Finished");
-        //          runningTimeLapse = false;
-        //        //  TimeLapseStatus.Raise(this, new EventArgs());
-        //          return;
-        //      }
+                try
+                {
+                    await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
+                }
+                catch (TaskCanceledException e)
+                {
+                    _log.Error("TimeLapse Cancelled: " + e);
+                    //runningTimeLapse = false;
+                    Stop();
+                    //TimeLapseStatus.Raise(this, new EventArgs());
+                    return;
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Unknown timelapse error: " + e);
+                }
 
-        //  }
-        //  public void Stop()
-        //  {
+                
 
-        //      // cycle.Stop();
-        //      if (tokenSource != null)
-        //      {
-        //          tokenSource.Cancel();
-        //      }
-        //      growLightsOn = true;
-        //      runningTimeLapse = false;
-        //      TimeLapseStatus.Raise(this, new EventArgs());
+                HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
+            }
+            else if (View_Consts.tlStartDate > DateTime.Now)
+            {
+                await WaitForStartNow();
+                HandleTimelapseCalculations(timeLapseInterval, endDuration);
+            }
+            else
+            {
+                _log.Info("TimeLapse Finished");
+                runningTimeLapse = false;
+                //  TimeLapseStatus.Raise(this, new EventArgs());
+                return;
+            }
 
-        //  }
+        }
+        public void Stop()
+        {
+
+            // cycle.Stop();
+            if (tokenSource != null)
+            {
+                tokenSource.Cancel();
+            }
+            runningTimeLapse = false;
+            log.Debug("Timelapse stopped manually");
+
+        }
         #endregion
     }
 

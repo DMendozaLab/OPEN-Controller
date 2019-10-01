@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="600" Width="800"
+        Title="MachineConnectionWindow" Height="800" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -135,43 +135,68 @@
         
 
         <!--Timelapse-->
-       <!--<Label FontWeight="Bold">Timelapse</Label>
+       <Label FontWeight="Bold">Timelapse</Label>
 
         <Border BorderThickness="10">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="5">Run Every:</TextBlock>
-                    <xctk:IntegerUpDown Margin="5" Value="{Binding TlInterval}" Minimum="0"></xctk:IntegerUpDown>
-                    <ComboBox
-                        SelectedValue="{Binding TlIntervalType, Mode=OneWay}"
-                        ItemsSource="{Binding IntervalList, Mode=OneWay}"
-                        SelectedValuePath="Key"
-                        DisplayMemberPath="Value"></ComboBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Timelapse intervals-->
+                <StackPanel Grid.Column="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="5">Run Every:</TextBlock>
+                        <xctk:IntegerUpDown Margin="5" Value="{Binding TlInterval}" Minimum="0"></xctk:IntegerUpDown>
+                        <ComboBox
+                            SelectedValue="{Binding TlIntervalType}"
+                            ItemsSource="{Binding IntervalList, Mode=OneWay}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"></ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>
+                        <xctk:IntegerUpDown Margin="5" Value="{Binding TlEndInterval}" Minimum="0"></xctk:IntegerUpDown>
+                        <ComboBox
+                            SelectedValue="{Binding TlEndIntervalType}"
+                            ItemsSource="{Binding IntervalList, Mode=OneWay}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            ></ComboBox>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>
-                    <xctk:IntegerUpDown Margin="5" Value="{Binding TlEndInterval}" Minimum="0"></xctk:IntegerUpDown>
-                    <ComboBox
-                        SelectedValue="{Binding TlEndIntervalType, Mode=OneWay}"
-                        ItemsSource="{Binding IntervalList, Mode=OneWay}"
-                        SelectedValuePath="Key"
-                        DisplayMemberPath="Value"
-                        ></ComboBox>
-                </StackPanel>
-            </StackPanel>
+                
+                <!--Nect Timelapse textbox-->
+                <Border Margin="5" Grid.Column="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold">Next Timelapse:</TextBlock>
+                            <TextBox Name="TimelapseCountTextBox" IsReadOnly="True"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold">Ending Time:</TextBlock>
+                            <TextBox Name="TimelapseEndTimeTextBox" IsReadOnly="True"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </Border>
+                
+            </Grid>
+            
         </Border>
         
         
         
-        --><!--Start Timelapse button--><!--
+        <!--Start Timelapse button-->
         <Border BorderThickness="10">
             <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
         
-        --><!--Stop Timelapse Button--><!--
+        <!--Stop Timelapse Button-->
         <Border BorderThickness="10">
             <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click" IsEnabled="False">Stop</Button>
-        </Border>-->
+        </Border>
 
        <!-- <Border BorderThickness="10">
             <Expander VerticalContentAlignment="Stretch" ExpandDirection="Down" Header="GRBL Log" IsExpanded="True">

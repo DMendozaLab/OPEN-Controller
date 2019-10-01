@@ -14,9 +14,9 @@ namespace Cyberbear_View.Consts
         public static bool runningTL = false;
         public static string tlEnd;
         public static int tlInterval = 0;
-        public static int tlEndInterval;
-        public static int tlIntervalType = 0;
-        public static int tlEndIntervalType;
+        public static int tlEndInterval = 0;
+        public static long tlIntervalType = 60000;
+        public static long tlEndIntervalType = 60000;
         public static DateTime tlStartDate;
         public static bool startNow = true;
     }
