@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="780" Width="800"
+        Title="MachineConnectionWindow" Height="800" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -66,10 +66,22 @@
         
         <!--Camera Settings Combo Box-->
         <Label FontWeight="Bold">Camera Settings:</Label>
-                <Border BorderThickness="3" Grid.Column="0">
-                    <ComboBox  Name="CameraList_cb" DropDownOpened="CameraList_cb_DropDownOpened" SelectionChanged="CameraList_cb_SelectionChanged"></ComboBox>
-                </Border>
-        
+        <Border BorderThickness="6">
+            <DockPanel>
+                <!--Camera Settings Location Button-->
+                <Button Name="CameraSettingsBtn" DockPanel.Dock="Left" Click="CameraSettingsBtn_Click">
+                    Click for Folder
+                </Button>
+
+                <!--Camera Settings Path Textbox-->
+                <TextBox Name="CameraSettingsPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                                             IsReadOnly="True">
+
+                </TextBox>
+            </DockPanel>
+        </Border>
+                
+
         <!--Save Folder Location-->
         <Label FontWeight="Bold">Save Folder Location:</Label>
         <Border BorderThickness="6">

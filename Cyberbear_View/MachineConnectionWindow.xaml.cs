@@ -386,53 +386,53 @@ namespace Cyberbear_View
         #endregion
         
         #region Camera Settings 
-        private void CameraList_cb_DropDownOpened(object sender, EventArgs e)
-        {
-            updateCameraSettingsOptions();
-        }
+        //private void CameraList_cb_DropDownOpened(object sender, EventArgs e)
+        //{
+        //    updateCameraSettingsOptions();
+        //}
 
         /// <summary>
         /// Updates Camera Settings Options for combo box, may change in future
         /// </summary>
         /// Commenting out for now because not problem
-        private void updateCameraSettingsOptions()
-        {
-            string csPath = CameraConst.CameraSettingsPath;
-            CameraList_cb.Items.Clear();
+        //private void updateCameraSettingsOptions()
+        //{
+        //    string csPath = CameraConst.CameraSettingsPath;
+        //    CameraList_cb.Items.Clear();
 
-            DirectoryInfo d = new DirectoryInfo(@"C:\Users\sam998\Desktop\Cyberbear\Cyberbear\Cyberbear_Events\Machine\CameraControl\CameraSettings");//Assuming Test is your Folder
-            FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
-                                                    //string str = "";
+        //    DirectoryInfo d = new DirectoryInfo(@"C:\Users\sam998\Desktop\Cyberbear\Cyberbear\Cyberbear_Events\Machine\CameraControl\CameraSettings");//Assuming Test is your Folder
+        //    FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
+        //                                            //string str = "";
 
-            int i = 0;
-            int selectedIndex = i;
-            foreach (FileInfo file in Files)
-            {
-                if (string.Equals(file.Name, csPath))
-                {
-                    selectedIndex = i;
-                }
-                CameraList_cb.Items.Add(file);
-                i++;
-            }
-            Dispatcher.Invoke(() =>
-            {//this refer to form in WPF application 
-                CameraList_cb.SelectedIndex = selectedIndex;
-            });
+        //    int i = 0;
+        //    int selectedIndex = i;
+        //    foreach (FileInfo file in Files)
+        //    {
+        //        if (string.Equals(file.Name, csPath))
+        //        {
+        //            selectedIndex = i;
+        //        }
+        //        CameraList_cb.Items.Add(file);
+        //        i++;
+        //    }
+        //    Dispatcher.Invoke(() =>
+        //    {//this refer to form in WPF application 
+        //        CameraList_cb.SelectedIndex = selectedIndex;
+        //    });
 
-        }
+        //}
 
         /// <summary>
         /// Updates Camera instance of new settings chosen
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CameraList_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Task task = new Task(() => cameraControl.loadCameraSettings());
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-        }
+        //private void CameraList_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    Task task = new Task(() => cameraControl.loadCameraSettings());
+        //    task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+        //    task.Start();
+        //}
         #endregion
          
         #region Save Folder Location 
@@ -831,6 +831,20 @@ namespace Cyberbear_View
 
         }
         #endregion
+
+        private void CameraSettingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string fileResult = GetFileResult();
+
+            if (fileResult != null) //if user chose something
+            {
+                CameraConst.CameraSettingsPath = fileResult;
+
+                CameraSettingsPath.Text = fileResult; //set text to folder path
+
+                cameraControl.loadCameraSettings(); //load settings after finding file
+            }
+        }
     }
 
 
