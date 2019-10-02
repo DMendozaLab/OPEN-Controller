@@ -214,11 +214,11 @@ namespace Cyberbear_View
 
             foreach (string port in ports)
             {
-                if (string.Equals(cb.Name, "PeripheralSerialPortSelect"))
+                if (string.Equals(cb.Name, "LightsSerialComboBox"))
                 {
                     selectedIndex = i;
                 }
-                if (string.Equals(cb.Name, "SerialPortSelect"))
+                if (string.Equals(cb.Name, "GrblSerialComboBox"))
                 {
                     selectedIndex = i;
                 }
@@ -245,12 +245,12 @@ namespace Cyberbear_View
         /// <param name="cb">The name of the combo box that will have the const updated</param>
         private void UpdateSerialConst(string comPort, ComboBox cb)
         {
-            if (string.Equals(cb.Name, "PeripheralSerialPortSelect"))
+            if (string.Equals(cb.Name, "LightsSerialComboBox"))
             {
                 SerialConsts.defaultComPortLights = comPort;
                 log.Debug("Serial Port for lights is: " + comPort);
             }
-            if (string.Equals(cb.Name, "SerialPortSelect"))
+            if (string.Equals(cb.Name, "GrblSerialComboBox"))
             {
                 SerialConsts.defaultComPortGrbl = comPort;
                 log.Debug("Serial Port for Grbl is: " + comPort);
