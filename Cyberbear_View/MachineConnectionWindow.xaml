@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="800" Width="800"
+        Title="MachineConnectionWindow" Height="780" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -114,30 +114,15 @@
         <Border BorderThickness="10">
             <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
-        
-        <!--Stop Button for machine-->
+         <!--Stop Button for machine-->
         <Border BorderThickness="10">
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
         </Border>
         
-        <!--Lighting Control-->
-        <Label FontWeight="Bold">Lighting Control</Label>
-        
-        <!--Lights On-->
-        <Border BorderThickness="10">
-            <Button Name="LightsOnBtn" Click="LightsOnBtn_Click">Lights On</Button>
-        </Border>
-        
-        <!--Lights Off-->
-        <Border BorderThickness="10">
-            <Button Name="LightsOffBtn" Click="LightsOffBtn_Click">Lights Off</Button>
-        </Border>
-        
-
         <!--Timelapse-->
        <Label FontWeight="Bold">Timelapse</Label>
 
-        <Border BorderThickness="10">
+        <Border BorderThickness="5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -167,17 +152,26 @@
                     </StackPanel>
                 </StackPanel>
                 
-                <!--Nect Timelapse textbox-->
-                <Border Margin="5" Grid.Column="1">
+                <!--Nect Timelapse and Ending Time textbox-->
+                <Border Margin="10" Grid.Column="1">
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
+                        
+                        <!--Next Timelapse Textbox-->
+                        <Border Margin="3">
+                            <StackPanel Orientation="Horizontal">
                             <TextBlock FontWeight="Bold">Next Timelapse:</TextBlock>
                             <TextBox Name="TimelapseCountTextBox" IsReadOnly="True"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                            </StackPanel>
+                        </Border>
+                        
+                        <!--Ending Time of Timelapse Textbox-->
+                        <Border Margin="3">
+                            <StackPanel Orientation="Horizontal">
                             <TextBlock FontWeight="Bold">Ending Time:</TextBlock>
                             <TextBox Name="TimelapseEndTimeTextBox" IsReadOnly="True"></TextBox>
-                        </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        
                     </StackPanel>
                     
                 </Border>
@@ -185,9 +179,7 @@
             </Grid>
             
         </Border>
-        
-        
-        
+         
         <!--Start Timelapse button-->
         <Border BorderThickness="10">
             <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click" IsEnabled="False">Start</Button>
@@ -197,19 +189,20 @@
         <Border BorderThickness="10">
             <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click" IsEnabled="False">Stop</Button>
         </Border>
-
-       <!-- <Border BorderThickness="10">
-            <Expander VerticalContentAlignment="Stretch" ExpandDirection="Down" Header="GRBL Log" IsExpanded="True">
-                <ListBox Name="ListBoxHistory" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionChanged="ListBoxHistory_SelectionChanged">
-                    <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel VerticalAlignment ="Top" HorizontalAlignment="Left"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                </ListBox>
-                
-            </Expander>
-        </Border> -->
+       
         
-    </StackPanel>
+        <!--Lighting Control-->
+        <Label FontWeight="Bold">Lighting Control</Label>
+        
+        <!--Lights On-->
+        <Border BorderThickness="10">
+            <Button Name="LightsOnBtn" Click="LightsOnBtn_Click">Lights On</Button>
+        </Border>
+        
+        <!--Lights Off-->
+        <Border BorderThickness="10">
+            <Button Name="LightsOffBtn" Click="LightsOffBtn_Click">Lights Off</Button>
+        </Border>
+        
+       </StackPanel>
 </Window>
