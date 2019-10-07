@@ -836,13 +836,19 @@ namespace Cyberbear_View
         {
             string fileResult = GetFileResult();
 
-            if (fileResult != null) //if user chose something
+
+            if (fileResult != null && fileResult.Contains(".xml")) //if user chose something
             {
                 CameraConst.CameraSettingsPath = fileResult;
 
                 CameraSettingsPath.Text = fileResult; //set text to folder path
 
                 cameraControl.loadCameraSettings(); //load settings after finding file
+            }
+            else
+            {
+                log.Error("Wrong Camera Settinsg File selected");
+                MessageBox.Show("Selected camera setttings file was incompatible with camera, please try again");
             }
         }
     }
