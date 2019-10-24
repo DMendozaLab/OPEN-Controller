@@ -1,0 +1,19 @@
+﻿<Window x:Class="Cyberbear_View.MachineNameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cyberbear_View"
+        mc:Ignorable="d"
+        Title="MachineName" Height="125" Width="300"
+        Closing="Window_Closing">
+    <Border Margin="10">
+        <StackPanel>
+            <Label HorizontalAlignment="Center">What is the name of this machine?</Label>
+            <TextBox x:Name ="tbName"></TextBox>
+            <Button x:Name ="MachineNameEnterButton" Click="MachineNameEnterButton_Click">Enter</Button>
+        </StackPanel>
+        
+    </Border>
+    
+</Window>
