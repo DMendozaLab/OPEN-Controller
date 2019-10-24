@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cyberbear_Events.Machine.GrblArdunio
+namespace Cyberbear_Events.MachineControl.GrblArdunio
 {
     public static class GRBLArdunio_Constants
     {

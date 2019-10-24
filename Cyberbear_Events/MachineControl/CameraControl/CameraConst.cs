@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cyberbear_Events.Machine.CameraControl
+namespace Cyberbear_Events.MachineControl.CameraControl
 {
     /// <summary>
     /// Consts for Camera Control Class

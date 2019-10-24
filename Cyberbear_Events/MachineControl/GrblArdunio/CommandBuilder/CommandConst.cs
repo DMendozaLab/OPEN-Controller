@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cyberbear_Events.Machine.GrblArdunio.CommandBuilder
+namespace Cyberbear_Events.MachineControl.GrblArdunio.CommandBuilder
 {
     /// <summary>
     /// Collection of the constants used by command builder for building commands
