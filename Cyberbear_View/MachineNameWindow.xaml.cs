@@ -37,7 +37,14 @@ namespace Cyberbear_View
 
         private void MachineNameEnterButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            if(tbName.Text != "")
+            {
+                this.DialogResult = true;
+            }
+            else
+            {
+                MessageBox.Show("Please enter a name for the window");
+            }
         }
 
         private void SetText(string returnVal, TextBox textBox)

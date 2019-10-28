@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cyberbear_View"
         mc:Ignorable="d"
-        Title="MachineName" Height="125" Width="300"
+        Title="MachineName" Height="150" Width="300"
         Closing="Window_Closing">
     <Border Margin="10">
         <StackPanel>
             <Label HorizontalAlignment="Center">What is the name of this machine?</Label>
-            <TextBox x:Name ="tbName"></TextBox>
-            <Button x:Name ="MachineNameEnterButton" Click="MachineNameEnterButton_Click">Enter</Button>
+            <TextBox x:Name ="tbName" Margin="10"></TextBox>
+            <Button x:Name ="MachineNameEnterButton" Click="MachineNameEnterButton_Click" Margin="3">Enter</Button>
         </StackPanel>
         
     </Border>
