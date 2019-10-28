@@ -27,12 +27,14 @@ namespace Cyberbear_Events.MachineControl
         private GRBLArdunio grblArdunio;
         private LightsArdunio litArdunio;
         private Camera cameraControl;
+        private TimelapseConst timelapseConst;
         private string name; //name of machine, may be user added or by front end automatically, or window
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
         public Camera CameraControl { get => cameraControl; set => cameraControl = value; }
         public string Name { get => name; set => name = value; }
+        public TimelapseConst TimelapseConst { get => timelapseConst; set => timelapseConst = value; }
 
         //constructor
         /// <summary>
@@ -48,6 +50,8 @@ namespace Cyberbear_Events.MachineControl
             log.Info("New Lights Ardunuio added");
             cameraControl = new Camera();
             log.Info("New Camera Control added");
+
+            TimelapseConst = new TimelapseConst(); //for timelapses
         }
 
         /// <summary>
@@ -226,15 +230,15 @@ namespace Cyberbear_Events.MachineControl
             log.Info("Timelapse Starting");
 
             runningTimeLapse = true;
-            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(TimelapseConst.tlInterval * TimelapseConst.tlIntervalType);
-            log.Debug(TimelapseConst.tlInterval * TimelapseConst.tlIntervalType);
+            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(TimelapseConst.TlInterval * TimelapseConst.TlIntervalType);
+            log.Debug(TimelapseConst.TlInterval * TimelapseConst.TlIntervalType);
             log.Debug(timeLapseInterval.Seconds);
 
-            TimelapseConst.tlStartDate = DateTime.Now;
+            TimelapseConst.TlStartDate = DateTime.Now;
 
-            double endTime = TimelapseConst.tlEndInterval * TimelapseConst.tlEndIntervalType;
+            double endTime = TimelapseConst.TlEndInterval * TimelapseConst.TlEndIntervalType;
 
-            DateTime endDate = TimelapseConst.tlStartDate.AddMilliseconds(endTime);
+            DateTime endDate = TimelapseConst.TlStartDate.AddMilliseconds(endTime);
             tlEnd = endDate.ToString();
 
             if (endTime <= timeLapseInterval.TotalMilliseconds)
@@ -243,7 +247,7 @@ namespace Cyberbear_Events.MachineControl
                 return; //return to exit start method
             }
 
-            tlCount = TimelapseConst.tlStartDate.ToString();
+            tlCount = TimelapseConst.TlStartDate.ToString();
             //  TimeLapseStatus.Raise(this, new EventArgs());
             HandleTimelapseCalculations(timeLapseInterval, endTime);
 
@@ -284,7 +288,7 @@ namespace Cyberbear_Events.MachineControl
         public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
         {
 
-            if (((TimelapseConst.startNow || TimelapseConst.tlStartDate <= DateTime.Now))
+            if (((TimelapseConst.StartNow || TimelapseConst.TlStartDate <= DateTime.Now))
              && endDuration > 0)
             {
                 log.Info("Running single timelapse cycle");
@@ -328,7 +332,7 @@ namespace Cyberbear_Events.MachineControl
 
                 HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
             }
-            else if (TimelapseConst.tlStartDate > DateTime.Now)
+            else if (TimelapseConst.TlStartDate > DateTime.Now)
             {
                 await WaitForStartNow();
                 HandleTimelapseCalculations(timeLapseInterval, endDuration);

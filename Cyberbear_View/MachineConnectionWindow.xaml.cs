@@ -544,11 +544,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return TimelapseConst.tlEndIntervalType;
+                return machine.TimelapseConst.TlEndIntervalType;
             }
             set
             {
-                TimelapseConst.tlEndIntervalType = value;
+                machine.TimelapseConst.TlEndIntervalType = value;
             }
         }
 
@@ -559,11 +559,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return TimelapseConst.tlInterval;
+                return machine.TimelapseConst.TlInterval;
             }
             set
             {
-                TimelapseConst.tlInterval = value;
+                machine.TimelapseConst.TlInterval = value;
             }
         }
 
@@ -571,11 +571,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return TimelapseConst.tlEndInterval;
+                return machine.TimelapseConst.TlEndInterval;
             }
             set
             {
-                TimelapseConst.tlEndInterval = value;
+                machine.TimelapseConst.TlEndInterval = value;
             }
         }
 
@@ -583,11 +583,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return TimelapseConst.tlIntervalType;
+                return machine.TimelapseConst.TlIntervalType;
             }
             set
             {
-                TimelapseConst.tlIntervalType = value;
+                machine.TimelapseConst.TlIntervalType = value;
             }
         }
 
@@ -595,9 +595,9 @@ namespace Cyberbear_View
         {
 
             machine.startTimelapse();
-           TimelapseCountTextBox.Text = TimelapseConst.tlStartDate.ToString();
+           TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString();
                        
-            TimelapseEndTimeTextBox.Text = TimelapseConst.tlEnd;
+            TimelapseEndTimeTextBox.Text = machine.TimelapseConst.TlEnd;
 
         }
         
