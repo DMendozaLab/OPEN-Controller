@@ -35,9 +35,9 @@ namespace Cyberbear_View
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private GRBLArdunio gArdunio = GRBLArdunio.Instance;
-        private LightsArdunio litArdunio = LightsArdunio.Instance;
-        private Camera cameraControl = Camera.Instance;
+        //private GRBLArdunio gArdunio = GRBLArdunio.Instance;
+        //private LightsArdunio litArdunio = LightsArdunio.Instance;
+        //private Camera cameraControl = Camera.Instance;
 
         private Machine machine = new Machine();
 
@@ -60,7 +60,7 @@ namespace Cyberbear_View
                 
             }
             
-            Task task = new Task(() => cameraControl.StartVimba());
+            Task task = new Task(() => machine.CameraControl.StartVimba());
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
 
@@ -111,20 +111,9 @@ namespace Cyberbear_View
         {
             try
             {
-                //testing machine object
-                if(machine.GrblArdunio.Connected == false)
-                {
-                    machine.GrblArdunio.Connect();
-                    log.Info("GRBL Ardunio Connected");
-                }
-                if (litArdunio.Connected ==false)
-                {
-                    litArdunio.Connect();
-                    log.Info("Lights Ardunio Connected");
+                machine.Connect(); //machine object
 
-                    Thread.Sleep(500);
-                    setLightWhite();
-                } 
+                setLightWhite(); //maybe need to remove
             }
             catch(Exception ex)
             {
@@ -169,23 +158,7 @@ namespace Cyberbear_View
         /// </summary>
         private void Disconnect_Machine()
         {
-            if (gArdunio.Connected == true)
-            {
-                gArdunio.Disconnect();
-                log.Info("Grbl Ardunio Disconnected");
-            }
-            else if (litArdunio.Connected == true)
-            {
-                ButtonBackLightOff(); //turn lights off before disconnecting
-
-                litArdunio.Disconnect();
-                log.Info("Lights Ardunio Disconnected");
-            }
-            else
-            {
-                cameraControl.ShutdownVimba();
-                log.Info("Camera Control Shutdown");
-            }
+            machine.Disconnect();
 
             log.Info("Machine Disconnected");
         }
@@ -431,7 +404,7 @@ namespace Cyberbear_View
         /// </summary>
         private void setLightWhite()
         {
-            litArdunio.SetBacklightColorWhite();
+            machine.setLightWhiteMachine();
         }
 
         /// <summary>
@@ -462,9 +435,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void ButtonBackLightOn()
         {
-            Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, true));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            machine.LightOn();
         }
 
         /// <summary>
@@ -474,7 +445,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void ButtonBackLightOff()
         {
-            Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, false));
+            Task task = new Task(() => machine.LitArdunio.SetLight(Peripheral.Backlight, false));
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
         }
@@ -497,65 +468,7 @@ namespace Cyberbear_View
         /// </summary>
         public void SingleCycle()
         {
-            cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
-
-            log.Info("Starting a Manual Cycle");
-
-            string filePath = GRBLArdunio_Constants.GRBLFilePath; //for second workstation testing
-
-            log.Debug("Using the file: " + filePath);
-
-            List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
-            bool firstHome = true; //first time homing in cycle
-
-            ButtonBackLightOn();
-            setLightWhite();
-
-            log.Debug("Backlights set to white");
-
-            if(lines.Count == 0 || lines[0] != "$H")
-            {
-                MessageBox.Show("Please check that correct GRBLCommand file is selected.");
-                return; // exit function
-            }
-
-            foreach (string line in lines)
-            {
-                gArdunio.SendLine(line); //sending line to ardunio
-                log.Info("G Command Sent: " + line);
-
-                if(line == "$H" && firstHome)
-                {
-                    System.Threading.Thread.Sleep(40000); //40 secs t0 home and not miss positions
-                    firstHome = false; 
-                }
-
-                if(line.Contains('X'))
-                {
-                    System.Threading.Thread.Sleep(3000); 
-                }
-                if(line == "$HY")
-                {
-                    Thread.Sleep(6500);
-                }
-
-                //if line not homing command then take pics
-                if(!line.Contains('H'))
-                {
-                    if(!line.Contains('X')) //if not moving y axis then take pics
-                    {
-                        cameraControl.CapSaveImage(); //capture image
-                       
-                      //  bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
-                        //may need to raise event to work but idk
-                   }
-                }
-
-                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
-            }
-
-            //turn lights off
-            ButtonBackLightOff();
+            machine.SingleCycle();
         }
 
         /// <summary>
@@ -575,7 +488,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            gArdunio.SoftReset();
+            machine.GrblArdunio.SoftReset(); //todo move into machine object
         }
         #endregion
 
@@ -631,11 +544,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return View_Consts.tlEndIntervalType;
+                return TimelapseConst.tlEndIntervalType;
             }
             set
             {
-                View_Consts.tlEndIntervalType = value;
+                TimelapseConst.tlEndIntervalType = value;
             }
         }
 
@@ -646,11 +559,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return View_Consts.tlInterval;
+                return TimelapseConst.tlInterval;
             }
             set
             {
-                View_Consts.tlInterval = value;
+                TimelapseConst.tlInterval = value;
             }
         }
 
@@ -658,11 +571,11 @@ namespace Cyberbear_View
         {
             get
             {
-                return View_Consts.tlEndInterval;
+                return TimelapseConst.tlEndInterval;
             }
             set
             {
-                View_Consts.tlEndInterval = value;
+                TimelapseConst.tlEndInterval = value;
             }
         }
 
@@ -670,175 +583,28 @@ namespace Cyberbear_View
         {
             get
             {
-                return View_Consts.tlIntervalType;
+                return TimelapseConst.tlIntervalType;
             }
             set
             {
-                View_Consts.tlIntervalType = value;
+                TimelapseConst.tlIntervalType = value;
             }
         }
-
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private CancellationTokenSource tokenSource;
-
-        public bool runningTimeLapse = false;
-        public bool runningSingleCycle = false;
-
-        public string tlEnd;
-        public string tlCount;
-        public double totalMinutes;
-
-        public delegate void TimeLapseUpdate();
-        public event EventHandler TimeLapseStatus;
-
-        public delegate void ExperimentUpdate();
-        //  public event EventHandler ExperimentStatus;
 
         public void Start()
         {
-            _log.Info("Timelapse Starting");
 
-            runningTimeLapse = true;
-            TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(View_Consts.tlInterval * View_Consts.tlIntervalType);
-            _log.Debug(View_Consts.tlInterval * View_Consts.tlIntervalType);
-            _log.Debug(timeLapseInterval.Seconds);
-
-            View_Consts.tlStartDate = DateTime.Now;
-            TimelapseCountTextBox.Text = View_Consts.tlStartDate.ToString();
-
-            double endTime = View_Consts.tlEndInterval * View_Consts.tlEndIntervalType;
-
-            DateTime endDate = View_Consts.tlStartDate.AddMilliseconds(endTime);
-            tlEnd = endDate.ToString();
-
-            TimelapseEndTimeTextBox.Text = tlEnd;
-
-            if(endTime <= timeLapseInterval.TotalMilliseconds)
-            {
-                MessageBox.Show("Timelapse interval is larger than ending timelapse time, did you make a mistake?");
-                return; //return to exit start method
-            }
-
-            tlCount = View_Consts.tlStartDate.ToString();
-            //  TimeLapseStatus.Raise(this, new EventArgs());
-            HandleTimelapseCalculations(timeLapseInterval, endTime);
+            machine.startTimelapse();
+           TimelapseCountTextBox.Text = TimelapseConst.tlStartDate.ToString();
+                       
+            TimelapseEndTimeTextBox.Text = TimelapseConst.tlEnd;
 
         }
         
-        async Task WaitForStartNow()
-        {
-            await Task.Delay(5000);
-        }
-
-        async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
-        {
-            _log.Debug("Awaiting timelapse");
-            while (duration.TotalSeconds > 0)
-            {
-                totalMinutes = duration.TotalMinutes;
-                tlCount = duration.TotalMinutes.ToString() + " minute(s)";
-                TimelapseCountTextBox.Text = tlCount;
-               // TimeLapseStatus.Raise(this, new EventArgs());
-                /* if (!cycle.runningCycle)
-                  {
-                      if (!litArdunio.IsNightTime() && !growLightsOn)
-                      {
-                          litArdunio.SetLight(litArdunio.GrowLight, true, true);
-                          growLightsOn = true;
-                      }
-                      else if (litArdunio.IsNightTime() && growLightsOn)
-                      {
-                          litArdunio.SetLight(litArdunio.GrowLight, false, false);
-                          growLightsOn = false;
-                      }
-                  }*/
-                await Task.Delay(60 * 1000, token);
-                duration = duration.Subtract(TimeSpan.FromMinutes(1));
-            }
-
-        }
-        //public void CycleStatusUpdated(object sender, EventArgs e)
-        //{
-        //    if (!cycle.runningCycle && runningSingleCycle)
-        //    {
-        //        runningSingleCycle = false;
-        //        tempExperiment.SaveExperimentToSettings();
-        //        ExperimentStatus.Raise(this, new EventArgs());
-        //    }
-        //}
-
-        public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
-        {
-
-            if (((View_Consts.startNow || View_Consts.tlStartDate <= DateTime.Now))
-             && endDuration > 0)
-            {
-                _log.Info("Running single timelapse cycle");
-                tokenSource = new CancellationTokenSource();
-
-                //   tempExperiment = new Experiment();
-                //   tempExperiment.LoadExperiment();
-
-
-                //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
-                //experiment.SaveExperimentToSettings();
-                //   ExperimentStatus.Raise(this, new EventArgs());
-                // litArdunio.SetLight(litArdunio.Backlight, true);
-                //Thread.Sleep(300);
-                runningSingleCycle = true;
-                _log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
-                //single cycle here
-
-                
-                
-                SingleCycle();
-
-                try
-                {
-                    await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
-                }
-                catch (TaskCanceledException e)
-                {
-                    _log.Error("TimeLapse Cancelled: " + e);
-                    //runningTimeLapse = false;
-                    Stop();
-                    //TimeLapseStatus.Raise(this, new EventArgs());
-                    return;
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Unknown timelapse error: " + e);
-                }
-
-                
-
-                HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
-            }
-            else if (View_Consts.tlStartDate > DateTime.Now)
-            {
-                await WaitForStartNow();
-                HandleTimelapseCalculations(timeLapseInterval, endDuration);
-            }
-            else
-            {
-                _log.Info("TimeLapse Finished");
-                runningTimeLapse = false;
-                //  TimeLapseStatus.Raise(this, new EventArgs());
-                return;
-            }
-
-        }
         public void Stop()
         {
 
-            // cycle.Stop();
-            if (tokenSource != null)
-            {
-                tokenSource.Cancel();
-            }
-            runningTimeLapse = false;
-            log.Debug("Timelapse stopped manually");
+            machine.stopTimelapse();
 
         }
         #endregion
@@ -854,7 +620,7 @@ namespace Cyberbear_View
 
                 CameraSettingsPath.Text = fileResult; //set text to folder path
 
-                cameraControl.loadCameraSettings(); //load settings after finding file
+                machine.loadCameraSettingsMachine();
             }
             else
             {
