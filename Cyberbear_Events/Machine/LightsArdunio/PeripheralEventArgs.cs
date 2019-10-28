@@ -1,7 +1,7 @@
 ﻿using System;
-using static Cyberbear_Events.MachineControl.LightingControl.LightsArdunio;
+using static Cyberbear_Events.Machine.LightsArdunio.LightsArdunio;
 
-namespace Cyberbear_Events.MachineControl.LightingControl
+namespace Cyberbear_Events.Machine.LightsArdunio
 {
     /// <summary>
     /// Event Args for lights event raisers

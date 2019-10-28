@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 //using Microsoft.SPOT.Hardware.SerialPort.dll;
 using System.IO.Ports;
-using Cyberbear_Events.MachineControl;
+using Cyberbear_Events.Machine;
 using Cyberbear_Events;
 //using Cyberbear_Events.Machine.Util;
 
-namespace Cyberbear_Events.MachineControl.GrblArdunio
+namespace Cyberbear_Events.Machine.GrblArdunio
 {
     /// <summary>
     /// For connecting and disconnecting from grbl ardunio and other needed things, like sending lines

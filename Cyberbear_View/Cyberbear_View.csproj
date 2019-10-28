@@ -90,19 +90,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Cycle.cs" />
-    <Compile Include="MachineNameWindow.xaml.cs">
-      <DependentUpon>MachineNameWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TimelapseControl.cs" />
     <Page Include="ExperimentBuilderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MachineConnectionWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MachineNameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,16 +14,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using log4net;
 using System.IO;
-using Cyberbear_Events.MachineControl;
-using Cyberbear_Events.MachineControl.GrblArdunio;
-using Cyberbear_Events.MachineControl.LightingControl;
-using Cyberbear_Events.MachineControl.CameraControl;
+using Cyberbear_Events.Machine;
+using Cyberbear_Events.Machine.GrblArdunio;
+using Cyberbear_Events.Machine.LightsArdunio;
+using Cyberbear_Events.Machine.CameraControl;
 using Cyberbear_Events;
 using Cyberbear_View.Consts;
 using System.Threading;
 using Cyberbear_Events.Util;
 using System.Drawing;
-using static Cyberbear_Events.MachineControl.LightingControl.LightsArdunio;
+using static Cyberbear_Events.Machine.LightsArdunio.LightsArdunio;
 
 namespace Cyberbear_View
 {
@@ -37,10 +37,7 @@ namespace Cyberbear_View
 
         private GRBLArdunio gArdunio = GRBLArdunio.Instance;
         private LightsArdunio litArdunio = LightsArdunio.Instance;
-        private Camera cameraControl = Camera.Instance;
-
-        private Machine machine = new Machine();
-
+        private CameraControl cameraControl = CameraControl.Instance;
 
         /// <summary>
         /// Constructor for Machine Connection Window Class
@@ -51,15 +48,6 @@ namespace Cyberbear_View
 
             log.Info("Machine Connection Window Entered");
 
-            //setting name of window and machine
-            var w = new MachineNameWindow();
-            if (w.ShowDialog() == true) //gotta make sure no memory leak
-            {
-                machine.Name = w.TextBoxName;
-                this.Title = machine.Name;
-                
-            }
-            
             Task task = new Task(() => cameraControl.StartVimba());
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
@@ -111,10 +99,9 @@ namespace Cyberbear_View
         {
             try
             {
-                //testing machine object
-                if(machine.GrblArdunio.Connected == false)
+                if(gArdunio.Connected == false)
                 {
-                    machine.GrblArdunio.Connect();
+                    gArdunio.Connect();
                     log.Info("GRBL Ardunio Connected");
                 }
                 if (litArdunio.Connected ==false)
@@ -281,6 +268,107 @@ namespace Cyberbear_View
 
             foreach (string port in System.IO.Ports.SerialPort.GetPortNames())
                 ((ComboBox)sender).Items.Add(port);
+        }
+        #endregion
+    
+        #region Cycle Control
+        /// <summary>
+        /// Event for start button of MachineConnectionWindow, takes in a hard coded file
+        /// and reads the commands line by line and sends to gArdunio property
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SingleCycle();
+        }
+
+        /// <summary>
+        /// Single Cycle of machine
+        /// </summary>
+        public void SingleCycle()
+        {
+            cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
+
+            log.Info("Starting a Manual Cycle");
+
+            // string filePath = @"C:\Users\lsceedlings\Desktop\Lando's Folder\GRBLCommands.txt"; //for first workstation testing
+            string filePath = GRBLArdunio_Constants.GRBLFilePath; //for second workstation testing
+
+            log.Debug("Using the file: " + filePath);
+
+            List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
+            bool firstHome = true; //first time homing in cycle
+
+            
+            ButtonBackLightOn();
+            setLightWhite();
+
+            log.Debug("Backlights set to white");
+
+            if(lines.Count == 0 || lines[0] != "$H")
+            {
+                MessageBox.Show("Please check that correct GRBLCommand file is selected.");
+                return; // exit function
+            }
+
+            foreach (string line in lines)
+            {
+                gArdunio.SendLine(line); //sending line to ardunio
+                log.Info("G Command Sent: " + line);
+
+                if(line == "$H" && firstHome)
+                {
+                    System.Threading.Thread.Sleep(40000); //40 secs t0 home and not miss positions
+                    firstHome = false; 
+                }
+
+                if(line.Contains('X'))
+                {
+                    System.Threading.Thread.Sleep(3000); 
+                }
+                if(line == "$HY")
+                {
+                    Thread.Sleep(6500);
+                }
+
+                //if line not homing command then take pics
+                if(!line.Contains('H'))
+                {
+                    if(!line.Contains('X')) //if not moving y axis then take pics
+                    {
+                        cameraControl.CapSaveImage(); //capture image
+                       
+                      //  bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
+                        //may need to raise event to work but idk
+                   }
+                }
+
+                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
+            }
+
+            //turn lights off
+            ButtonBackLightOff();
+        }
+
+        /// <summary>
+        /// Camera Control registers when the Image Acquired Event is raised
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CameraControl_ImageAcquiredEvent(object sender, EventArgs e)
+        {
+            log.Debug("Photo taken by program");
+        }
+
+        /// <summary>
+        /// Stops manual cycle when started
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            gArdunio.SoftReset();
         }
         #endregion
 
@@ -477,105 +565,6 @@ namespace Cyberbear_View
             Task task = new Task(() => litArdunio.SetLight(Peripheral.Backlight, false));
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
-        }
-        #endregion
-        
-        #region Cycle Control
-        /// <summary>
-        /// Event for start button of MachineConnectionWindow, takes in a hard coded file
-        /// and reads the commands line by line and sends to gArdunio property
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SingleCycle();
-        }
-
-        /// <summary>
-        /// Single Cycle of machine
-        /// </summary>
-        public void SingleCycle()
-        {
-            cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
-
-            log.Info("Starting a Manual Cycle");
-
-            string filePath = GRBLArdunio_Constants.GRBLFilePath; //for second workstation testing
-
-            log.Debug("Using the file: " + filePath);
-
-            List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
-            bool firstHome = true; //first time homing in cycle
-
-            ButtonBackLightOn();
-            setLightWhite();
-
-            log.Debug("Backlights set to white");
-
-            if(lines.Count == 0 || lines[0] != "$H")
-            {
-                MessageBox.Show("Please check that correct GRBLCommand file is selected.");
-                return; // exit function
-            }
-
-            foreach (string line in lines)
-            {
-                gArdunio.SendLine(line); //sending line to ardunio
-                log.Info("G Command Sent: " + line);
-
-                if(line == "$H" && firstHome)
-                {
-                    System.Threading.Thread.Sleep(40000); //40 secs t0 home and not miss positions
-                    firstHome = false; 
-                }
-
-                if(line.Contains('X'))
-                {
-                    System.Threading.Thread.Sleep(3000); 
-                }
-                if(line == "$HY")
-                {
-                    Thread.Sleep(6500);
-                }
-
-                //if line not homing command then take pics
-                if(!line.Contains('H'))
-                {
-                    if(!line.Contains('X')) //if not moving y axis then take pics
-                    {
-                        cameraControl.CapSaveImage(); //capture image
-                       
-                      //  bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
-                        //may need to raise event to work but idk
-                   }
-                }
-
-                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
-            }
-
-            //turn lights off
-            ButtonBackLightOff();
-        }
-
-        /// <summary>
-        /// Camera Control registers when the Image Acquired Event is raised
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CameraControl_ImageAcquiredEvent(object sender, EventArgs e)
-        {
-            log.Debug("Photo taken by program");
-        }
-
-        /// <summary>
-        /// Stops manual cycle when started
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
-        {
-            gArdunio.SoftReset();
         }
         #endregion
 

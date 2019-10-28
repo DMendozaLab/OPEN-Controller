@@ -57,23 +57,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MachineControl\CameraControl\CameraControl.cs" />
-    <Compile Include="MachineControl\CameraControl\CameraConst.cs" />
-    <Compile Include="MachineControl\CameraControl\VimbaHelper.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandConst.cs" />
-    <Compile Include="MachineControl\GrblArdunio\GRBLArdunio_Constants.cs" />
+    <Compile Include="Machine\CameraControl\CameraControl.cs" />
+    <Compile Include="Machine\CameraControl\CameraConst.cs" />
+    <Compile Include="Machine\CameraControl\VimbaHelper.cs" />
+    <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandConst.cs" />
+    <Compile Include="Machine\GrblArdunio\GRBLArdunio_Constants.cs" />
     <Compile Include="Util\EventExtension.cs" />
     <Compile Include="Util\ConnectionType.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandCalc.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\SingleCycle\PlateCycle.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\SingleCycle\TrayCycle.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\SingleCycle\WellCycle.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\TimelapseControl.cs" />
-    <Compile Include="MachineControl\GrblArdunio\GRBLArdunio.cs" />
-    <Compile Include="MachineControl\LightingControl\PeripheralEventArgs.cs" />
-    <Compile Include="MachineControl\LightingControl\LightsArdunio.cs" />
-    <Compile Include="MachineControl\Machine.cs" />
+    <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
+    <Compile Include="Machine\GrblArdunio\CommandBuilder\CommandCalc.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\SingleCycle\PlateCycle.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\SingleCycle\TrayCycle.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\SingleCycle\WellCycle.cs" />
+    <Compile Include="Machine\GrblArdunio\CycleControl\TimelapseControl.cs" />
+    <Compile Include="Machine\GrblArdunio\GRBLArdunio.cs" />
+    <Compile Include="Machine\LightsArdunio\PeripheralEventArgs.cs" />
+    <Compile Include="Machine\LightsArdunio\LightsArdunio.cs" />
+    <Compile Include="Machine\Machine.cs" />
     <Compile Include="Util\SerialConsts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Calculator.cs" />
@@ -96,10 +96,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MachineControl\CycleControl\" />
+    <Folder Include="Machine\CycleControl\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MachineControl\CameraControl\CameraSettings\wednesday_night_special.xml" />
+    <Content Include="Machine\CameraControl\CameraSettings\wednesday_night_special.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

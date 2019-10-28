@@ -5,12 +5,12 @@ using System.Reflection;
 using System.Windows.Media;
 using Cyberbear_Events;
 
-namespace Cyberbear_Events.MachineControl.LightingControl
+namespace Cyberbear_Events.Machine.LightsArdunio
 {
     /// <summary>
     /// Controls the lights of the machine, ripped from old SPIPware, should work the same
     /// </summary>
-    public class LightsArdunio
+    public sealed class LightsArdunio
     {
         //logger
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

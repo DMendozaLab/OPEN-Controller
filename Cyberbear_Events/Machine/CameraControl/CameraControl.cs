@@ -13,25 +13,25 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Threading;
 
-namespace Cyberbear_Events.MachineControl.CameraControl
+namespace Cyberbear_Events.Machine.CameraControl
 {
     /// <summary>
     /// Class for controlling the camera module of the machine
     /// </summary>
-    public class Camera
+    public sealed class CameraControl
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly Camera instance = new Camera();
+        private static readonly CameraControl instance = new CameraControl();
 
         #region Constructors
         /// <summary>
         /// Constructor for Camera Control Class
         /// </summary> 
-        static Camera()
+        static CameraControl()
         {
 
         }
-        public static Camera Instance //instance is the object's understanding at the specific point in time when called.
+        public static CameraControl Instance //instance is the object's understanding at the specific point in time when called.
         {
             get
             {
