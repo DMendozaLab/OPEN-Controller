@@ -29,7 +29,7 @@
                 <!--Grbl Ardunio connection-->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="10">Serial port for grbl ardunio:</TextBlock>
-                    <ComboBox Margin="10" Name="GrblSerialComboBox" DropDownOpened="GrblSerialComboBox_DropDownOpened"></ComboBox>
+                    <ComboBox Margin="10" Name="GrblSerialComboBox" DropDownOpened="GrblSerialComboBox_DropDownOpened" SelectionChanged="GrblSerialComboBox_SelectionChanged" ></ComboBox>
                     <!--Baud Rate-->
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10">
@@ -40,7 +40,7 @@
                 <!--Lights Ardunio Connection-->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="10">Serial port for lights ardunio</TextBlock>
-                    <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened"></ComboBox>
+                    <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened" SelectionChanged="LightsSerialComboBox_SelectionChanged"></ComboBox>
                     <!--Baud Rate Lights-->
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10">

@@ -196,32 +196,29 @@ namespace Cyberbear_View
             cb.Items.Clear();
             String[] ports = System.IO.Ports.SerialPort.GetPortNames();
             int i = 0;
-            int selectedIndex = 0;
+            //int selectedIndex = 0;
 
             foreach (string port in ports)
             {
-                if (string.Equals(cb.Name, "LightsSerialComboBox"))
-                {
-                    selectedIndex = i;
-                }
-                if (string.Equals(cb.Name, "GrblSerialComboBox"))
-                {
-                    selectedIndex = i;
-                }
+                //if (string.Equals(cb.Name, "LightsSerialComboBox"))
+                //{
+                //    selectedIndex = i;
+                //}
+                //if (string.Equals(cb.Name, "GrblSerialComboBox"))
+                //{
+                //    selectedIndex = i;
+                //}
 
                 cb.Items.Add(port);
                 i++;
             }
 
-            string selectPort = ports[i-1];
-            UpdateSerialConst(selectPort, cb);
-
-            cb.SelectedIndex = selectedIndex;
+            
+                        
 
             log.Debug("Serial Ports Updated for Combo Box");
 
-            //sees if connection button can be enabled
-            Connect_Btn_CanEnable();
+         
         }
 
         /// <summary>
@@ -241,8 +238,27 @@ namespace Cyberbear_View
                 SerialConsts.defaultComPortGrbl = comPort;
                 log.Debug("Serial Port for Grbl is: " + comPort);
             }
+
+            
         }
 
+        private void GrblSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectPort = GrblSerialComboBox.SelectedItem;
+            string selectPortString = selectPort.ToString();
+            UpdateSerialConst(selectPortString, GrblSerialComboBox);
+
+            Connect_Btn_CanEnable();
+        }
+
+        private void LightsSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectPort = LightsSerialComboBox.SelectedItem;
+            string selectPortString = selectPort.ToString();
+            UpdateSerialConst(selectPortString, LightsSerialComboBox);
+
+            Connect_Btn_CanEnable();
+        }
         /// <summary>
         /// If drop down opened
         /// </summary>
@@ -628,6 +644,8 @@ namespace Cyberbear_View
                 MessageBox.Show("Selected camera setttings file was incompatible with camera, please try again");
             }
         }
+
+        
     }
 
 
