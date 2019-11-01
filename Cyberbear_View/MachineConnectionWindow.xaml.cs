@@ -675,7 +675,39 @@ namespace Cyberbear_View
             }
         }
 
-        
+        /// <summary>
+        /// For when combo box for list of cameras opened
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CameraSelectionCb_DropDownOpened(object sender, EventArgs e)
+        {
+            machine.CameraControl.UpdateCameraList();
+
+            List<string> cameraNames = machine.CameraControl.GetCameraListNames();
+
+            CameraSelectionCb.Items.Clear();
+
+            foreach(string name in cameraNames)
+            {
+                CameraSelectionCb.Items.Add(name);
+            }
+            
+
+        }
+
+        /// <summary>
+        /// when combo box for camera selection is changed, will set machine camera control to that
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CameraSelectionCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string name = (string)CameraSelectionCb.SelectedItem;
+
+            machine.CameraControl.selectCameraName(name);
+
+        }
     }
 
 

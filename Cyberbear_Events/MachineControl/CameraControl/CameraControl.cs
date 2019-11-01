@@ -53,6 +53,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         //Add log message to logging list box
         public delegate void ImageAcquired();
         public event EventHandler ImageAcquiredEvent;
+        List<CameraInfo> cameras; //what is this?
         #endregion
 
         #region Start and Setting Methods
@@ -144,8 +145,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
         }
 
-        List<CameraInfo> cameras; //what is this?
-
         public void UpdateCameraState(bool cameraReady)
         {
             if (cameraReady)
@@ -159,6 +158,8 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
             _log.Debug("Camera State is " + CameraConst.CameraState);
         }
+
+
         public void UpdateCameraList()
         {
 
@@ -166,15 +167,62 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
             if (cameras.Any())
             {
-                SelectedItem = cameras[0];
+                //SelectedItem = cameras[0];
                 UpdateCameraState(true);
-                _log.Info("New Selected Camera" + SelectedItem);
+                //_log.Info("New Selected Camera" + SelectedItem);
             }
             else
             {
                 UpdateCameraState(false);
             }
 
+        }
+
+        /// <summary>
+        /// Gets camera list from object and allows user to see all cameras available. Returns a list of string names for UI
+        /// </summary>
+        /// <returns>Returns list of camera infos available</returns>
+        public List<string> GetCameraListNames()
+        {
+            List<string> cameraListNames = new List<string>();
+            UpdateCameraList();
+
+            foreach(CameraInfo cameraInfo in cameras)
+            {
+                string nameID;
+                nameID = cameraInfo.Name + cameraInfo.ID;
+
+                
+                cameraListNames.Add(nameID); //make change to ID or make dictionary perhaps
+            }
+
+            return cameraListNames;
+        }
+
+
+        public void selectCameraName(string name)
+        {
+            int position = 0;
+
+            foreach(CameraInfo cameraInfo in cameras)
+            {
+                if (name == (cameraInfo.Name + cameraInfo.ID))
+                {
+                    SelectCamera(position);
+                }
+                else
+                    position++;
+            }
+        }
+
+        /// <summary>
+        /// For selecting camera from camera list
+        /// </summary>
+        public void SelectCamera(int listPosition)
+        {
+            selectedItem = cameras[listPosition];
+
+            _log.Info("New Selected Camera" + SelectedItem);
         }
 
         public void OnCameraListChanged(object sender, EventArgs args)

@@ -67,18 +67,29 @@
         <!--Camera Settings Combo Box-->
         <Label FontWeight="Bold">Camera Settings:</Label>
         <Border BorderThickness="6">
-            <DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.37*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
                 <!--Camera Settings Location Button-->
-                <Button Name="CameraSettingsBtn" DockPanel.Dock="Left" Click="CameraSettingsBtn_Click">
+                <Button Name="CameraSettingsBtn" Grid.Column="0" Click="CameraSettingsBtn_Click">
                     Click for Folder
                 </Button>
 
                 <!--Camera Settings Path Textbox-->
-                <TextBox Name="CameraSettingsPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                <TextBox Name="CameraSettingsPath" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
                                              IsReadOnly="True">
 
                 </TextBox>
-            </DockPanel>
+
+                <ComboBox Name ="CameraSelectionCb" Grid.Column="2" DropDownOpened="CameraSelectionCb_DropDownOpened" SelectionChanged="CameraSelectionCb_SelectionChanged">
+                    
+                </ComboBox>
+
+            </Grid>
         </Border>
                 
 
