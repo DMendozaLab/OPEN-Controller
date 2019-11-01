@@ -29,12 +29,14 @@ namespace Cyberbear_Events.MachineControl
         private Camera cameraControl;
         private TimelapseConst timelapseConst;
         private string name; //name of machine, may be user added or by front end automatically, or window
+        private int numPlants; 
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
         public Camera CameraControl { get => cameraControl; set => cameraControl = value; }
         public string Name { get => name; set => name = value; }
         public TimelapseConst TimelapseConst { get => timelapseConst; set => timelapseConst = value; }
+        public int NumPlants { get => numPlants; set => numPlants = value; }
 
         //constructor
         /// <summary>
@@ -150,6 +152,7 @@ namespace Cyberbear_Events.MachineControl
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
             bool firstHome = true; //first time homing in cycle
 
+            
             LightOn();
             setLightWhiteMachine();
 

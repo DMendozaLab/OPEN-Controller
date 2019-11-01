@@ -130,6 +130,11 @@
         <Border BorderThickness="10">
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
         </Border>
+
+        <Grid Margin="10">
+            <ProgressBar Name="CycleProgress" Minimum="0" Maximum="100" Height="10"></ProgressBar>
+        </Grid>
+        
         
         <!--Timelapse-->
        <Label FontWeight="Bold">Timelapse</Label>

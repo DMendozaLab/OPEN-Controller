@@ -24,6 +24,7 @@ using System.Threading;
 using Cyberbear_Events.Util;
 using System.Drawing;
 using static Cyberbear_Events.MachineControl.LightingControl.LightsArdunio;
+using System.ComponentModel;
 
 namespace Cyberbear_View
 {
@@ -475,6 +476,35 @@ namespace Cyberbear_View
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+            //make buttons not enabled
+            //TEST
+
+            //may move to initializing window
+            BackgroundWorker cycleWorker = new BackgroundWorker();
+            cycleWorker.WorkerReportsProgress = true;
+            cycleWorker.DoWork += CycleWorker_DoWork; //does work
+            cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
+            cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
+            cycleWorker.RunWorkerAsync();
+
+            //SingleCycle();
+        }
+
+        private void CycleWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //TODO
+            //reenable certian buttons and some other shiz
+            throw new NotImplementedException();
+        }
+
+        private void CycleWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            CycleProgress.Value = e.ProgressPercentage;
+        }
+
+        private void CycleWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             SingleCycle();
         }
