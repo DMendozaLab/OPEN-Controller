@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="800" Width="800"
+        Title="MachineConnectionWindow" Height="900" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -220,7 +220,7 @@
        
         
         <!--Lighting Control-->
-        <Label FontWeight="Bold">Lighting Control</Label>
+        <Label FontWeight="Bold">Camera Lighting Control</Label>
         
         <!--Lights On-->
         <Border BorderThickness="10">
@@ -231,6 +231,21 @@
         <Border BorderThickness="10">
             <Button Name="LightsOffBtn" Click="LightsOffBtn_Click">Lights Off</Button>
         </Border>
+
+        <!--Growlight Lighting UI-->
+        <Label FontWeight="Bold">Growlight Control</Label>
+        
+        <!--Growlights On-->
+        <Border BorderThickness="10">
+            <Button Name="GrowlightOnBtn" Click="GrowlightOnBtn_Click">Growlights On</Button>
+        </Border>
+        
+        <!--Growlights Off-->
+        <Border BorderThickness="10">
+            <Button Name="GrowlightsOffBtn" Click="GrowlightsOffBtn_Click">Growlights Off</Button>
+        </Border>
+        
+        
         
        </StackPanel>
 </Window>

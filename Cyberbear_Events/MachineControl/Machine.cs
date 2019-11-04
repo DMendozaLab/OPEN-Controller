@@ -28,6 +28,7 @@ namespace Cyberbear_Events.MachineControl
         private LightsArdunio litArdunio;
         private Camera cameraControl;
         private TimelapseConst timelapseConst;
+        private GRBLArdunio_Constants grblArdunio_Constants;
         private string name; //name of machine, may be user added or by front end automatically, or window
         private int numPlants; 
 
@@ -37,6 +38,7 @@ namespace Cyberbear_Events.MachineControl
         public string Name { get => name; set => name = value; }
         public TimelapseConst TimelapseConst { get => timelapseConst; set => timelapseConst = value; }
         public int NumPlants { get => numPlants; set => numPlants = value; }
+        public GRBLArdunio_Constants GrblArdunio_Constants { get => grblArdunio_Constants; set => grblArdunio_Constants = value; }
 
         //constructor
         /// <summary>
@@ -54,6 +56,7 @@ namespace Cyberbear_Events.MachineControl
             log.Info("New Camera Control added");
 
             TimelapseConst = new TimelapseConst(); //for timelapses
+            GrblArdunio_Constants = new GRBLArdunio_Constants();
         }
 
         /// <summary>
@@ -114,29 +117,7 @@ namespace Cyberbear_Events.MachineControl
         }
 
 
-        /// <summary>
-        /// Sets lights to white on lights ardunio
-        /// </summary>
-        public void setLightWhiteMachine()
-        {
-            litArdunio.SetBacklightColorWhite();
-        }
-
-        public void LightOn()
-        {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));    //may chnage task onto object
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-        }
-
-        public void LightOff()
-        {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-        }
-
-        /// <summary>
+                /// <summary>
         /// Single Cycle of machine
         /// </summary>
         public void SingleCycle()
@@ -145,7 +126,7 @@ namespace Cyberbear_Events.MachineControl
 
             log.Info("Starting a Manual Cycle");
 
-            string filePath = GRBLArdunio_Constants.GRBLFilePath; //for second workstation testing
+            string filePath = GrblArdunio_Constants.GRBLFilePath; //for second workstation testing
 
             log.Debug("Using the file: " + filePath);
 
@@ -385,6 +366,52 @@ namespace Cyberbear_Events.MachineControl
             var exception = task.Exception;
             log.Error(exception);
         }
+        #endregion
+
+        #region Lighting Control
+        /// <summary>
+        /// When called, turns Growlights on in machine object
+        /// </summary>
+        public void GrowLightOn()
+        {
+            Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
+        /// <summary>
+        /// When called, turns growlights off
+        /// </summary>
+        public void GrowLightOff()
+        {
+            Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
+
+        /// <summary>
+        /// Sets lights to white on lights ardunio
+        /// </summary>
+        public void setLightWhiteMachine()
+        {
+            Task task = new Task(() => LitArdunio.SetBacklightColorWhite());
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
+
+        public void LightOn()
+        {
+            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));    
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
+
+        public void LightOff()
+        {
+            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();
+        }
+
         #endregion
     }
 }

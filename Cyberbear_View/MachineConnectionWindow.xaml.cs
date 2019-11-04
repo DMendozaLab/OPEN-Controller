@@ -388,7 +388,7 @@ namespace Cyberbear_View
 
             if (fileResult != null) //if user chose something
             {
-                GRBLArdunio_Constants.GRBLFilePath = fileResult;
+                machine.GrblArdunio_Constants.GRBLFilePath = fileResult;
 
                 GRBLCommandFilePath.Text = fileResult; //set text to folder path
             }
@@ -496,7 +496,7 @@ namespace Cyberbear_View
         {
             //TODO
             //reenable certian buttons and some other shiz
-            throw new NotImplementedException();
+            log.Info("Cycle Completed");
         }
 
         private void CycleWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -707,6 +707,26 @@ namespace Cyberbear_View
 
             machine.CameraControl.selectCameraName(name);
 
+        }
+
+        /// <summary>
+        /// Turn on glowlight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GrowlightOnBtn_Click(object sender, RoutedEventArgs e)
+        {
+            machine.GrowLightOn();
+        }
+
+        /// <summary>
+        /// turn off glowlight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GrowlightsOffBtn_Click(object sender, RoutedEventArgs e)
+        {
+            machine.GrowLightOff();
         }
     }
 
