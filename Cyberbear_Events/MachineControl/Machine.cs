@@ -277,16 +277,6 @@ namespace Cyberbear_Events.MachineControl
             {
                 log.Info("Running single timelapse cycle");
                 tokenSource = new CancellationTokenSource();
-
-                //   tempExperiment = new Experiment();
-                //   tempExperiment.LoadExperiment();
-
-
-                //   Experiment experiment = Experiment.LoadExperimentAndSave(Properties.Settings.Default.tlExperimentPath);
-                //experiment.SaveExperimentToSettings();
-                //   ExperimentStatus.Raise(this, new EventArgs());
-                // litArdunio.SetLight(litArdunio.Backlight, true);
-                //Thread.Sleep(300);
                 runningSingleCycle = true;
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
                 //single cycle here

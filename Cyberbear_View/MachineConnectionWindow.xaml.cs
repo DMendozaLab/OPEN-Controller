@@ -550,7 +550,19 @@ namespace Cyberbear_View
             log.Info("Starting Timelapse");
 
             View_Consts.runningTL = true;
+            BackgroundWorker timelapseControl = new BackgroundWorker();
+            timelapseControl.DoWork += TimelapseControl_DoWork;
+            timelapseControl.RunWorkerCompleted += TimelapseControl_RunWorkerCompleted;
+            timelapseControl.RunWorkerAsync();
+        }
 
+        private void TimelapseControl_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            log.Info("Timelapse completed");
+        }
+
+        private void TimelapseControl_DoWork(object sender, DoWorkEventArgs e)
+        {
             Start(); //starting of timelapse
         }
 
@@ -561,7 +573,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            Stop();
+            machine.stopTimelapse(); //may need to make a background worker
         }
 
         /// <summary>
