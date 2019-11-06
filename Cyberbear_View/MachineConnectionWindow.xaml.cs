@@ -653,7 +653,7 @@ namespace Cyberbear_View
         {
 
             machine.startTimelapse();
-           TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString();
+           TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString(); //TODO Fix thuis bug and figure out how to report
                        
             TimelapseEndTimeTextBox.Text = machine.TimelapseConst.TlEnd;
 
