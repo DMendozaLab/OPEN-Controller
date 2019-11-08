@@ -246,7 +246,7 @@ namespace Cyberbear_View
         private void GrblSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectPort = GrblSerialComboBox.SelectedItem;
-            string selectPortString = selectPort.ToString();
+            string selectPortString = selectPort.ToString();//Todo fix
             UpdateSerialConst(selectPortString, GrblSerialComboBox);
 
             Connect_Btn_CanEnable();

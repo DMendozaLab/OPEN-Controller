@@ -147,18 +147,19 @@ namespace Cyberbear_Events.MachineControl
 
             foreach (string line in lines)
             {
+                //TODO something about the timing
                 GrblArdunio.SendLine(line); //sending line to ardunio
                 log.Info("G Command Sent: " + line);
 
                 if (line == "$H" && firstHome)
                 {
-                    System.Threading.Thread.Sleep(40000); //40 secs t0 home and not miss positions
+                    System.Threading.Thread.Sleep(1500); //40 secs t0 home and not miss positions
                     firstHome = false;
                 }
 
                 if (line.Contains('X'))
                 {
-                    System.Threading.Thread.Sleep(3000);
+                   // System.Threading.Thread.Sleep(250);
                 }
                 if (line == "$HY")
                 {
@@ -168,7 +169,7 @@ namespace Cyberbear_Events.MachineControl
                 //if line not homing command then take pics
                 if (!line.Contains('H'))
                 {
-                    if (!line.Contains('X')) //if not moving y axis then take pics
+                    //if (!line.Contains('X')) //if not moving y axis then take pics
                     {
                         cameraControl.CapSaveImage(); //capture image
 
@@ -177,7 +178,7 @@ namespace Cyberbear_Events.MachineControl
                     }
                 }
 
-                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
+                System.Threading.Thread.Sleep(600); //sleep for 1 seconds
             }
 
             //turn lights off

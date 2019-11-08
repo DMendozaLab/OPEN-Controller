@@ -220,7 +220,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         /// </summary>
         public void SelectCamera(int listPosition)
         {
-            selectedItem = cameras[listPosition];
+            selectedItem = cameras[listPosition]; //TODO make it so camera don't overlap with machines
 
             _log.Info("New Selected Camera" + SelectedItem);
         }
