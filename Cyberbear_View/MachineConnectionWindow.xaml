@@ -137,14 +137,18 @@
         <Border BorderThickness="10">
             <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
+        <!--Stop Button for machine-->
+        <Border BorderThickness="10">
+            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
+        </Border>
          <!--Stop Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
+            <Button x:Name="ResetArdunioBtn" Click="ResetArdunioBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
         </Border>
 
-        <Grid Margin="10">
+        <!--<Grid Margin="10">
             <ProgressBar Name="CycleProgress" Minimum="0" Maximum="100" Height="10"></ProgressBar>
-        </Grid>
+        </Grid>-->
         
         
         <!--Timelapse-->

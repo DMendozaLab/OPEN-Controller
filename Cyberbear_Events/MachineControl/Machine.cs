@@ -153,32 +153,30 @@ namespace Cyberbear_Events.MachineControl
 
                 if (line == "$H" && firstHome)
                 {
-                    System.Threading.Thread.Sleep(1500); //40 secs t0 home and not miss positions
+                    System.Threading.Thread.Sleep(6000); //40 secs t0 home and not miss positions
                     firstHome = false;
                 }
 
                 if (line.Contains('X'))
                 {
-                   // System.Threading.Thread.Sleep(250);
+                   System.Threading.Thread.Sleep(3000);
                 }
                 if (line == "$HY")
                 {
-                    Thread.Sleep(6500);
+                    Thread.Sleep(11000);
                 }
 
                 //if line not homing command then take pics
                 if (!line.Contains('H'))
                 {
-                    //if (!line.Contains('X')) //if not moving y axis then take pics
+                    if (!line.Contains('X')) //if not moving y axis then take pics
                     {
                         cameraControl.CapSaveImage(); //capture image
 
-                        //  bi.Freeze(); //freezes image to avoid need for copying to display and put in other threads
-                        //may need to raise event to work but idk
                     }
                 }
 
-                System.Threading.Thread.Sleep(600); //sleep for 1 seconds
+                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
             }
 
             //turn lights off
@@ -202,6 +200,8 @@ namespace Cyberbear_Events.MachineControl
 
         #region Timelapse
         private CancellationTokenSource tokenSource;
+
+        public delegate void SingleCycleCompleted();
 
         public bool runningTimeLapse = false;
         public bool runningSingleCycle = false;
@@ -334,6 +334,8 @@ namespace Cyberbear_Events.MachineControl
 
         }
 
+        //find way to report timelapse timing and shiz 
+
         //legacy code, don't known if needed or not
         //public void CycleStatusUpdated(object sender, EventArgs e)
         //{
@@ -356,6 +358,24 @@ namespace Cyberbear_Events.MachineControl
         {
             var exception = task.Exception;
             log.Error(exception);
+        }
+
+        /// <summary>
+        /// To accesss the machine's timelapse start date and make it into a string for a textbox
+        /// </summary>
+        /// <returns>A string version of the timelapse starting date</returns>
+        public string TimelapseStartDate()
+        {
+            return TimelapseConst.TlStartDate.ToString();
+        }
+
+        /// <summary>
+        /// Accesses the machine's end date for the timelapse
+        /// </summary>
+        /// <returns>Returns string version of ending time for timelapse</returns>
+        public string TimelapseEndDate()
+        {
+            return timelapseConst.TlEnd;
         }
         #endregion
 
@@ -403,6 +423,13 @@ namespace Cyberbear_Events.MachineControl
             task.Start();
         }
 
+        /// <summary>
+        /// soft reset Grbl Ardunio for machine
+        /// </summary>
+        public void SoftReset()
+        {
+            GrblArdunio.SoftReset();
+        }
         #endregion
     }
 }

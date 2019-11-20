@@ -42,6 +42,8 @@ namespace Cyberbear_View
 
         private Machine machine = new Machine();
 
+        BackgroundWorker cycleWorker = new BackgroundWorker();
+
 
         /// <summary>
         /// Constructor for Machine Connection Window Class
@@ -58,7 +60,14 @@ namespace Cyberbear_View
             {
                 machine.Name = w.TextBoxName;
                 this.Title = machine.Name;
-                
+
+               // BackgroundWorker cycleWorker = new BackgroundWorker();
+                cycleWorker.WorkerReportsProgress = true;
+                cycleWorker.DoWork += CycleWorker_DoWork; //does work
+                cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
+                cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
+                cycleWorker.WorkerSupportsCancellation = true;
+
             }
             
             Task task = new Task(() => machine.CameraControl.StartVimba());
@@ -94,6 +103,7 @@ namespace Cyberbear_View
                 //start and stop buttons enabling to be pressed
                 StartManualCycleBtn.IsEnabled = true;
                 StopManualCycleBtn.IsEnabled = true;
+                ResetArdunioBtn.IsEnabled = true;
 
                 StartTimelapseCycleBtn.IsEnabled = true;
                 StopTimelapseCycleBtn.IsEnabled = true;
@@ -477,19 +487,14 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
-            //make buttons not enabled
-            //TEST
-
             //may move to initializing window
-            BackgroundWorker cycleWorker = new BackgroundWorker();
-            cycleWorker.WorkerReportsProgress = true;
-            cycleWorker.DoWork += CycleWorker_DoWork; //does work
-            cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
-            cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
+            //BackgroundWorker cycleWorker = new BackgroundWorker();
+            //cycleWorker.WorkerReportsProgress = true;
+            //cycleWorker.DoWork += CycleWorker_DoWork; //does work
+            //cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
+            //cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
             cycleWorker.RunWorkerAsync();
 
-            //SingleCycle();
         }
 
         private void CycleWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -501,12 +506,29 @@ namespace Cyberbear_View
 
         private void CycleWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            CycleProgress.Value = e.ProgressPercentage;
+         //   CycleProgress.Value = e.ProgressPercentage;
         }
 
         private void CycleWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             SingleCycle();
+        }
+
+        /// <summary>
+        /// Resets Ardunios with crtl x command
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetArdunioBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                machine.SoftReset();
+            }
+            catch
+            {
+               
+            }
         }
 
         /// <summary>
@@ -534,7 +556,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            machine.GrblArdunio.SoftReset(); //todo move into machine object
+            cycleWorker.CancelAsync();
         }
         #endregion
 
@@ -559,11 +581,21 @@ namespace Cyberbear_View
         private void TimelapseControl_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             log.Info("Timelapse completed");
+
+            TimelapseCountTextBox.Clear();
+            TimelapseEndTimeTextBox.Clear();
         }
 
         private void TimelapseControl_DoWork(object sender, DoWorkEventArgs e)
         {
-            Start(); //starting of timelapse
+            machine.startTimelapse();
+
+            TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
+            TimelapseEndTimeTextBox.Text = machine.TimelapseEndDate();
+            
+           
+
+          //  Start(); //starting of timelapse
         }
 
         /// <summary>
@@ -653,9 +685,9 @@ namespace Cyberbear_View
         {
 
             machine.startTimelapse();
-           TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString(); //TODO Fix thuis bug and figure out how to report
+            TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
                        
-            TimelapseEndTimeTextBox.Text = machine.TimelapseConst.TlEnd;
+            TimelapseEndTimeTextBox.Text = machine.TimelapseEndDate();
 
         }
         
