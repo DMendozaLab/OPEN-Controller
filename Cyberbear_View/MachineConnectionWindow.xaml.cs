@@ -628,6 +628,138 @@ namespace Cyberbear_View
             }
         }
 
+        //private CancellationTokenSource tokenSource;
+
+      
+        //public bool runningTimeLapse = false;
+        //public bool runningSingleCycle = false;
+
+        //public string tlEnd;
+        //public string tlCount;
+        //public double totalMinutes;
+
+        //public void startTimelapse()
+        //{
+        //    log.Info("Timelapse Starting");
+
+        //    runningTimeLapse = true;
+        //    TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(TimelapseConst.TlInterval * TimelapseConst.TlIntervalType);
+        //    log.Debug(TimelapseConst.TlInterval * TimelapseConst.TlIntervalType);
+        //    log.Debug(timeLapseInterval.Seconds);
+
+        //    TimelapseConst.TlStartDate = DateTime.Now;
+
+        //    double endTime = TimelapseConst.TlEndInterval * TimelapseConst.TlEndIntervalType;
+
+        //    DateTime endDate = TimelapseConst.TlStartDate.AddMilliseconds(endTime);
+        //    tlEnd = endDate.ToString();
+
+        //    if (endTime <= timeLapseInterval.TotalMilliseconds)
+        //    {
+        //        MessageBox.Show("Timelapse interval is larger than ending timelapse time, did you make a mistake?");
+        //        return; //return to exit start method
+        //    }
+
+        //    tlCount = TimelapseConst.TlStartDate.ToString();
+        //    HandleTimelapseCalculations(timeLapseInterval, endTime);
+
+        //}
+
+        //async Task WaitForStartNow()
+        //{
+        //    await Task.Delay(5000);
+        //}
+
+        //async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
+        //{
+        //    log.Debug("Awaiting timelapse");
+        //    while (duration.TotalSeconds > 0)
+        //    {
+        //        totalMinutes = duration.TotalMinutes;
+        //        tlCount = duration.TotalMinutes.ToString() + " minute(s)";
+        //        // TimeLapseStatus.Raise(this, new EventArgs());
+        //        /* if (!cycle.runningCycle)
+        //          {
+        //              if (!litArdunio.IsNightTime() && !growLightsOn)
+        //              {
+        //                  litArdunio.SetLight(litArdunio.GrowLight, true, true);
+        //                  growLightsOn = true;
+        //              }
+        //              else if (litArdunio.IsNightTime() && growLightsOn)
+        //              {
+        //                  litArdunio.SetLight(litArdunio.GrowLight, false, false);
+        //                  growLightsOn = false;
+        //              }
+        //          }*/
+        //        await Task.Delay(60 * 1000, token);
+        //        duration = duration.Subtract(TimeSpan.FromMinutes(1));
+        //    }
+
+        //}
+
+        //public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
+        //{
+
+        //    if (((TimelapseConst.StartNow || TimelapseConst.TlStartDate <= DateTime.Now))
+        //     && endDuration > 0)
+        //    {
+        //        log.Info("Running single timelapse cycle");
+        //        tokenSource = new CancellationTokenSource();
+        //        runningSingleCycle = true;
+        //        log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
+        //        //single cycle here
+
+
+
+        //        SingleCycle();
+
+        //        try
+        //        {
+        //            await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
+        //        }
+        //        catch (TaskCanceledException e)
+        //        {
+        //            log.Error("TimeLapse Cancelled: " + e);
+        //            //runningTimeLapse = false;
+        //            stopTimelapse();
+        //            //TimeLapseStatus.Raise(this, new EventArgs());
+        //            return;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            log.Error("Unknown timelapse error: " + e);
+        //        }
+
+
+
+        //        HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
+        //    }
+        //    else if (TimelapseConst.TlStartDate > DateTime.Now)
+        //    {
+        //        await WaitForStartNow();
+        //        HandleTimelapseCalculations(timeLapseInterval, endDuration);
+        //    }
+        //    else
+        //    {
+        //        log.Info("TimeLapse Finished");
+        //        runningTimeLapse = false;
+        //        //  TimeLapseStatus.Raise(this, new EventArgs());
+        //        return;
+        //    }
+
+        //}
+        //public void stopTimelapse()
+        //{
+
+        //    // cycle.Stop();
+        //    if (tokenSource != null)
+        //    {
+        //        tokenSource.Cancel();
+        //    }
+        //    runningTimeLapse = false;
+        //    log.Debug("Timelapse stopped manually");
+
+        //}
 
         /// <summary>
         /// Value for combo box of timelapse things
