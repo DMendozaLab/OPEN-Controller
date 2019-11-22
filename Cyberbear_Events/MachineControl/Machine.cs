@@ -40,6 +40,8 @@ namespace Cyberbear_Events.MachineControl
         public int NumPlants { get => numPlants; set => numPlants = value; }
         public GRBLArdunio_Constants GrblArdunio_Constants { get => grblArdunio_Constants; set => grblArdunio_Constants = value; }
 
+      
+
         //constructor
         /// <summary>
         /// Will initalize a new machine object and subsaquent other things
@@ -282,7 +284,7 @@ namespace Cyberbear_Events.MachineControl
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
                 //single cycle here
 
-
+                
 
                 SingleCycle();
 
@@ -332,6 +334,15 @@ namespace Cyberbear_Events.MachineControl
             runningTimeLapse = false;
             log.Debug("Timelapse stopped manually");
 
+        }
+
+        /// <summary>
+        /// returns next timelapse starting time
+        /// </summary>
+        /// <returns></returns>
+        public string UpdateNextTimelapse()
+        {
+            return TimelapseConst.TlStartDate.ToString();
         }
 
         //find way to report timelapse timing and shiz 

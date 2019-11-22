@@ -143,7 +143,16 @@
         </Border>
          <!--Stop Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="ResetArdunioBtn" Click="ResetArdunioBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" x:Name="ResetArdunioBtn" Click="ResetArdunioBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
+                <Button Grid.Column="1" x:Name="HomeArdunioBtn" Click="HomeArdunioBtn_Click" IsEnabled="False">Home</Button>
+            </Grid>
+            
         </Border>
 
         <!--<Grid Margin="10">

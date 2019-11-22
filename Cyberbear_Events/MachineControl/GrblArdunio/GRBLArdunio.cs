@@ -998,6 +998,11 @@ namespace Cyberbear_Events.MachineControl.GrblArdunio
         }
         #endregion
 
+        public void HomeMachine()
+        {
+            SendLine("$H");
+        }
+
         #region Event Raisers and Error Reporting
         /// <summary>
         /// Reports error. This is there to offload the ExpandError function from the "Real-Time" worker thread to the application thread

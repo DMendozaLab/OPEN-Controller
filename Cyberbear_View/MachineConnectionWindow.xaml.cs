@@ -43,7 +43,7 @@ namespace Cyberbear_View
         private Machine machine = new Machine();
 
         BackgroundWorker cycleWorker = new BackgroundWorker();
-
+        BackgroundWorker timelapseControl = new BackgroundWorker();
 
         /// <summary>
         /// Constructor for Machine Connection Window Class
@@ -68,6 +68,11 @@ namespace Cyberbear_View
                 cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
                 cycleWorker.WorkerSupportsCancellation = true;
 
+               
+                timelapseControl.DoWork += TimelapseControl_DoWork;
+                timelapseControl.WorkerReportsProgress = true;
+                timelapseControl.ProgressChanged += TimelapseControl_ProgressChanged;
+                timelapseControl.RunWorkerCompleted += TimelapseControl_RunWorkerCompleted;
             }
             
             Task task = new Task(() => machine.CameraControl.StartVimba());
@@ -76,6 +81,7 @@ namespace Cyberbear_View
 
             //for now will initalize one machine in start  
         }
+
         #region Window Closing
         /// <summary>
         /// For when Machine Window Closing
@@ -104,6 +110,7 @@ namespace Cyberbear_View
                 StartManualCycleBtn.IsEnabled = true;
                 StopManualCycleBtn.IsEnabled = true;
                 ResetArdunioBtn.IsEnabled = true;
+                HomeArdunioBtn.IsEnabled = true;
 
                 StartTimelapseCycleBtn.IsEnabled = true;
                 StopTimelapseCycleBtn.IsEnabled = true;
@@ -527,7 +534,7 @@ namespace Cyberbear_View
             }
             catch
             {
-               
+                throw new NotImplementedException(); //TODO implement
             }
         }
 
@@ -572,15 +579,13 @@ namespace Cyberbear_View
             log.Info("Starting Timelapse");
 
             View_Consts.runningTL = true;
-            BackgroundWorker timelapseControl = new BackgroundWorker();
-            timelapseControl.DoWork += TimelapseControl_DoWork;
-            timelapseControl.RunWorkerCompleted += TimelapseControl_RunWorkerCompleted;
             timelapseControl.RunWorkerAsync();
         }
 
         private void TimelapseControl_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             log.Info("Timelapse completed");
+            View_Consts.runningTL = false;
 
             TimelapseCountTextBox.Clear();
             TimelapseEndTimeTextBox.Clear();
@@ -590,23 +595,39 @@ namespace Cyberbear_View
         {
             machine.startTimelapse();
 
+            //while (View_Consts.runningTL == true)
+            //{
+            //    timelapseControl.ReportProgress(1);
+            //}
+
             TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
             TimelapseEndTimeTextBox.Text = machine.TimelapseEndDate();
-            
-           
+                  
+        }
 
-          //  Start(); //starting of timelapse
+        private void TimelapseControl_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
+            TimelapseEndTimeTextBox.Text = machine.TimelapseEndDate();
         }
 
         /// <summary>
-        /// Stops timelapse
+        /// Stops timelapse by canceling async thread
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void StopTimelapseCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            machine.stopTimelapse(); //may need to make a background worker
+            if(View_Consts.runningTL == true)
+            {
+                timelapseControl.CancelAsync();
+            }
+            else
+            {
+                MessageBox.Show("No timelapse is running at the moment");
+            }
         }
+
 
         /// <summary>
         /// Value for combo box of timelapse things
@@ -771,6 +792,16 @@ namespace Cyberbear_View
         private void GrowlightsOffBtn_Click(object sender, RoutedEventArgs e)
         {
             machine.GrowLightOff();
+        }
+
+        /// <summary>
+        /// Homes machine
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HomeArdunioBtn_Click(object sender, RoutedEventArgs e)
+        {
+            machine.GrblArdunio.HomeMachine();
         }
     }
 
