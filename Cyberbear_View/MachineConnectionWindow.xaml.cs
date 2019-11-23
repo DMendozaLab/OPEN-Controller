@@ -790,6 +790,11 @@ namespace Cyberbear_View
             {
                 log.Info("TimeLapse Finished");
                 runningTimeLapse = false;
+                Dispatcher.Invoke(() =>
+                {
+                    TimelapseCountTextBox.Clear();
+                    TimelapseEndTimeTextBox.Clear();
+                });
                 //  TimeLapseStatus.Raise(this, new EventArgs());
                 return;
             }
@@ -803,6 +808,12 @@ namespace Cyberbear_View
             {
                 tokenSource.Cancel();
             }
+            Dispatcher.Invoke(() =>
+            {
+                TimelapseCountTextBox.Clear();
+                TimelapseEndTimeTextBox.Clear();
+            });
+            
             runningTimeLapse = false;
             log.Debug("Timelapse stopped manually");
 
