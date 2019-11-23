@@ -534,7 +534,7 @@ namespace Cyberbear_View
             }
             catch
             {
-                throw new NotImplementedException(); //TODO implement
+                //need to implement exception but may not need one
             }
         }
 
@@ -563,7 +563,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StopManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            cycleWorker.CancelAsync();
+            stopTimelapse();
         }
         #endregion
 
@@ -881,22 +881,7 @@ namespace Cyberbear_View
             }
         }
 
-        public void Start()
-        {
-
-            machine.startTimelapse();
-            TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
-                       
-            TimelapseEndTimeTextBox.Text = machine.TimelapseEndDate();
-
-        }
-        
-        public void Stop()
-        {
-
-            machine.stopTimelapse();
-
-        }
+       
         #endregion
 
         private void CameraSettingsBtn_Click(object sender, RoutedEventArgs e)
