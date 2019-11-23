@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="800" Width="800"
+        Title="MachineConnectionWindow" Height="950" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -29,7 +29,7 @@
                 <!--Grbl Ardunio connection-->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="10">Serial port for grbl ardunio:</TextBlock>
-                    <ComboBox Margin="10" Name="GrblSerialComboBox" DropDownOpened="GrblSerialComboBox_DropDownOpened"></ComboBox>
+                    <ComboBox Margin="10" Name="GrblSerialComboBox" DropDownOpened="GrblSerialComboBox_DropDownOpened" SelectionChanged="GrblSerialComboBox_SelectionChanged" ></ComboBox>
                     <!--Baud Rate-->
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10">
@@ -40,7 +40,7 @@
                 <!--Lights Ardunio Connection-->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="10">Serial port for lights ardunio</TextBlock>
-                    <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened"></ComboBox>
+                    <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened" SelectionChanged="LightsSerialComboBox_SelectionChanged"></ComboBox>
                     <!--Baud Rate Lights-->
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10">
@@ -67,18 +67,29 @@
         <!--Camera Settings Combo Box-->
         <Label FontWeight="Bold">Camera Settings:</Label>
         <Border BorderThickness="6">
-            <DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.37*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
                 <!--Camera Settings Location Button-->
-                <Button Name="CameraSettingsBtn" DockPanel.Dock="Left" Click="CameraSettingsBtn_Click">
+                <Button Name="CameraSettingsBtn" Grid.Column="0" Click="CameraSettingsBtn_Click">
                     Click for Folder
                 </Button>
 
                 <!--Camera Settings Path Textbox-->
-                <TextBox Name="CameraSettingsPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                <TextBox Name="CameraSettingsPath" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
                                              IsReadOnly="True">
 
                 </TextBox>
-            </DockPanel>
+
+                <ComboBox Name ="CameraSelectionCb" Grid.Column="2" DropDownOpened="CameraSelectionCb_DropDownOpened" SelectionChanged="CameraSelectionCb_SelectionChanged">
+                    
+                </ComboBox>
+
+            </Grid>
         </Border>
                 
 
@@ -126,10 +137,28 @@
         <Border BorderThickness="10">
             <Button x:Name="StartManualCycleBtn" Click="StartManualCycleBtn_Click" IsEnabled="False">Start</Button>
         </Border>
+        <!--Stop Button for machine-->
+        <Border BorderThickness="10">
+            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Stop</Button>
+        </Border>
          <!--Stop Button for machine-->
         <Border BorderThickness="10">
-            <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" x:Name="ResetArdunioBtn" Click="ResetArdunioBtn_Click" IsEnabled="False">Reset GRBL Ardunio</Button>
+                <Button Grid.Column="1" x:Name="HomeArdunioBtn" Click="HomeArdunioBtn_Click" IsEnabled="False">Home</Button>
+            </Grid>
+            
         </Border>
+
+        <!--<Grid Margin="10">
+            <ProgressBar Name="CycleProgress" Minimum="0" Maximum="100" Height="10"></ProgressBar>
+        </Grid>-->
+        
         
         <!--Timelapse-->
        <Label FontWeight="Bold">Timelapse</Label>
@@ -204,7 +233,7 @@
        
         
         <!--Lighting Control-->
-        <Label FontWeight="Bold">Lighting Control</Label>
+        <Label FontWeight="Bold">Camera Lighting Control</Label>
         
         <!--Lights On-->
         <Border BorderThickness="10">
@@ -215,6 +244,21 @@
         <Border BorderThickness="10">
             <Button Name="LightsOffBtn" Click="LightsOffBtn_Click">Lights Off</Button>
         </Border>
+
+        <!--Growlight Lighting UI-->
+        <Label FontWeight="Bold">Growlight Control</Label>
+        
+        <!--Growlights On-->
+        <Border BorderThickness="10">
+            <Button Name="GrowlightOnBtn" Click="GrowlightOnBtn_Click">Growlights On</Button>
+        </Border>
+        
+        <!--Growlights Off-->
+        <Border BorderThickness="10">
+            <Button Name="GrowlightsOffBtn" Click="GrowlightsOffBtn_Click">Growlights Off</Button>
+        </Border>
+        
+        
         
        </StackPanel>
 </Window>
