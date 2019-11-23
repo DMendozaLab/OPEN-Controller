@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
-using Cyberbear_Events.Machine.GrblArdunio;
+using Cyberbear_Events.MachineControl.GrblArdunio;
 
 namespace Cyberbear_View
 {
@@ -29,8 +29,7 @@ namespace Cyberbear_View
 
         //windows
         ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
-        MachineConnectionWindow machineConnectionWindow = new MachineConnectionWindow();
-
+        int counter = 0;
         //testing
        
 
@@ -48,9 +47,10 @@ namespace Cyberbear_View
             experimentBuilderWindow.Show();
         }
 
-        //ADD THE UPDATED SERIAL BOX FUNCTION TO THIS
         private void MachineWindow_Click(object sender, RoutedEventArgs e)
         {
+            MachineConnectionWindow machineConnectionWindow = new MachineConnectionWindow(); //maybe make new one every time?
+
             machineConnectionWindow.Show();
 
             log.Info("Opened Machine Connection Window");
@@ -78,10 +78,7 @@ namespace Cyberbear_View
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            machineConnectionWindow.Close();
-            experimentBuilderWindow.Close();
-                       
+        {             
             Application.Current.Shutdown();
         }
 

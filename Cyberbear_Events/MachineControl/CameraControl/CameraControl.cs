@@ -13,25 +13,25 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Threading;
 
-namespace Cyberbear_Events.Machine.CameraControl
+namespace Cyberbear_Events.MachineControl.CameraControl
 {
     /// <summary>
     /// Class for controlling the camera module of the machine
     /// </summary>
-    public sealed class CameraControl
+    public class Camera
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly CameraControl instance = new CameraControl();
+        private static readonly Camera instance = new Camera();
 
         #region Constructors
         /// <summary>
         /// Constructor for Camera Control Class
         /// </summary> 
-        static CameraControl()
+        static Camera()
         {
 
         }
-        public static CameraControl Instance //instance is the object's understanding at the specific point in time when called.
+        public static Camera Instance //instance is the object's understanding at the specific point in time when called.
         {
             get
             {
@@ -53,6 +53,7 @@ namespace Cyberbear_Events.Machine.CameraControl
         //Add log message to logging list box
         public delegate void ImageAcquired();
         public event EventHandler ImageAcquiredEvent;
+        List<CameraInfo> cameras; //what is this?
         #endregion
 
         #region Start and Setting Methods
@@ -144,8 +145,6 @@ namespace Cyberbear_Events.Machine.CameraControl
 
         }
 
-        List<CameraInfo> cameras; //what is this?
-
         public void UpdateCameraState(bool cameraReady)
         {
             if (cameraReady)
@@ -159,6 +158,8 @@ namespace Cyberbear_Events.Machine.CameraControl
 
             _log.Debug("Camera State is " + CameraConst.CameraState);
         }
+
+
         public void UpdateCameraList()
         {
 
@@ -166,15 +167,62 @@ namespace Cyberbear_Events.Machine.CameraControl
 
             if (cameras.Any())
             {
-                SelectedItem = cameras[0];
+                //SelectedItem = cameras[0];
                 UpdateCameraState(true);
-                _log.Info("New Selected Camera" + SelectedItem);
+                //_log.Info("New Selected Camera" + SelectedItem);
             }
             else
             {
                 UpdateCameraState(false);
             }
 
+        }
+
+        /// <summary>
+        /// Gets camera list from object and allows user to see all cameras available. Returns a list of string names for UI
+        /// </summary>
+        /// <returns>Returns list of camera infos available</returns>
+        public List<string> GetCameraListNames()
+        {
+            List<string> cameraListNames = new List<string>();
+            UpdateCameraList();
+
+            foreach(CameraInfo cameraInfo in cameras)
+            {
+                string nameID;
+                nameID = cameraInfo.Name + cameraInfo.ID;
+
+                
+                cameraListNames.Add(nameID); //make change to ID or make dictionary perhaps
+            }
+
+            return cameraListNames;
+        }
+
+
+        public void selectCameraName(string name)
+        {
+            int position = 0;
+
+            foreach(CameraInfo cameraInfo in cameras)
+            {
+                if (name == (cameraInfo.Name + cameraInfo.ID))
+                {
+                    SelectCamera(position);
+                }
+                else
+                    position++;
+            }
+        }
+
+        /// <summary>
+        /// For selecting camera from camera list
+        /// </summary>
+        public void SelectCamera(int listPosition)
+        {
+            selectedItem = cameras[listPosition]; //TODO make it so camera don't overlap with machines
+
+            _log.Info("New Selected Camera" + SelectedItem);
         }
 
         public void OnCameraListChanged(object sender, EventArgs args)
