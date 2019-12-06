@@ -73,6 +73,7 @@ namespace Cyberbear_View
                 timelapseControl.WorkerReportsProgress = true;
                 timelapseControl.ProgressChanged += TimelapseControl_ProgressChanged;
                 timelapseControl.RunWorkerCompleted += TimelapseControl_RunWorkerCompleted;
+                timelapseControl.WorkerSupportsCancellation = true;
             }
             
             Task task = new Task(() => machine.CameraControl.StartVimba());
@@ -366,7 +367,7 @@ namespace Cyberbear_View
 
             if(folderResult != null) //if user chose something
             {
-                CameraConst.SaveFolderPath = folderResult;
+                machine.CameraControl.CameraConst.SaveFolderPath = folderResult;
 
                 SaveFolderPath.Text = folderResult; //set text to folder path
             }
@@ -479,9 +480,7 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void ButtonBackLightOff()
         {
-            Task task = new Task(() => machine.LitArdunio.SetLight(Peripheral.Backlight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            machine.LightOff();
         }
         #endregion
         
@@ -579,7 +578,9 @@ namespace Cyberbear_View
             log.Info("Starting Timelapse");
 
             View_Consts.runningTL = true;
-            timelapseControl.RunWorkerAsync();
+
+            startTimelapse();
+          //  timelapseControl.RunWorkerAsync();
         }
 
         private void TimelapseControl_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -635,6 +636,7 @@ namespace Cyberbear_View
 
         }
 
+       
         private void TimelapseControl_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
@@ -650,7 +652,8 @@ namespace Cyberbear_View
         {
             if(View_Consts.runningTL == true)
             {
-                timelapseControl.CancelAsync();
+                stopTimelapse();
+                //timelapseControl.CancelAsync();
             }
             else
             {
@@ -756,9 +759,13 @@ namespace Cyberbear_View
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
                 //single cycle here
 
-
-
-                SingleCycle();
+                //may need await, we will see
+                Task.Factory.StartNew(
+                    () =>
+                     {
+                         SingleCycle();
+                     });
+                
 
                 try
                 {
@@ -902,7 +909,7 @@ namespace Cyberbear_View
 
             if (fileResult != null && fileResult.Contains(".xml")) //if user chose something
             {
-                CameraConst.CameraSettingsPath = fileResult;
+                machine.CameraControl.CameraConst.CameraSettingsPath = fileResult;
 
                 CameraSettingsPath.Text = fileResult; //set text to folder path
 

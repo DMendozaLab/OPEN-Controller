@@ -422,16 +422,35 @@ namespace Cyberbear_Events.MachineControl
 
         public void LightOn()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));    
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            if(litArdunio.LightStatus == false)
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+
+                litArdunio.LightStatus = true; //lights are on
+            }
+            else
+            {
+                return;
+            }
         }
 
         public void LightOff()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            if(litArdunio.LightStatus == true)
+            {
+              Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+              task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+              task.Start();
+
+                litArdunio.LightStatus = false; //lights are off
+            }
+            else
+            {
+                return;
+            }
+            
         }
 
         /// <summary>

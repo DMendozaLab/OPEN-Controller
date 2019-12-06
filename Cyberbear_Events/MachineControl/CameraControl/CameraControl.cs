@@ -23,13 +23,15 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly Camera instance = new Camera();
 
+        private CameraConst cameraConst = new CameraConst();
+
         #region Constructors
         /// <summary>
         /// Constructor for Camera Control Class
         /// </summary> 
         static Camera()
         {
-
+           
         }
         public static Camera Instance //instance is the object's understanding at the specific point in time when called.
         {
@@ -50,6 +52,8 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         private CameraInfo selectedItem;
         public VimbaHelper VimbaHelper { get => m_VimbaHelper; set => m_VimbaHelper = value; } //from VIMBAhelper.cs
         public CameraInfo SelectedItem { get => selectedItem; set => selectedItem = value; }
+        public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
+
         //Add log message to logging list box
         public delegate void ImageAcquired();
         public event EventHandler ImageAcquiredEvent;

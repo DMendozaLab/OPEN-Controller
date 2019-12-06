@@ -20,6 +20,10 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         ConnectionType connectionType;
         public bool Connected { get => connected; set => connected = value; }
 
+        //false means off, true means on
+        private bool lightStatus = false;
+        public bool LightStatus { get => lightStatus; set => lightStatus = value; }
+
         SerialPort port;
 
         public enum Peripheral { Backlight = 6, GrowLight = 1 };
@@ -41,7 +45,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         }
         #endregion
 
-       
+
         public void Connect()
         {
             switch (connectionType)
