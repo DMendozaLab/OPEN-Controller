@@ -36,10 +36,6 @@ namespace Cyberbear_View
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        //private GRBLArdunio gArdunio = GRBLArdunio.Instance;
-        //private LightsArdunio litArdunio = LightsArdunio.Instance;
-        //private Camera cameraControl = Camera.Instance;
-
         private Machine machine = new Machine();
 
         BackgroundWorker cycleWorker = new BackgroundWorker();
@@ -367,7 +363,7 @@ namespace Cyberbear_View
 
             if(folderResult != null) //if user chose something
             {
-                machine.CameraControl.CameraConst.SaveFolderPath = folderResult;
+                machine.CameraSaveFolderPathChange(folderResult);
 
                 SaveFolderPath.Text = folderResult; //set text to folder path
             }
@@ -406,7 +402,7 @@ namespace Cyberbear_View
 
             if (fileResult != null) //if user chose something
             {
-                machine.GrblArdunio_Constants.GRBLFilePath = fileResult;
+                machine.GRBLCommandFileChange(fileResult);
 
                 GRBLCommandFilePath.Text = fileResult; //set text to folder path
             }
@@ -727,7 +723,6 @@ namespace Cyberbear_View
                 {
                     TimelapseCountTextBox.Text = tlCount;
                 });
-                // TimeLapseStatus.Raise(this, new EventArgs());
                 /* if (!cycle.runningCycle)
                   {
                       if (!litArdunio.IsNightTime() && !growLightsOn)
@@ -757,7 +752,6 @@ namespace Cyberbear_View
                 tokenSource = new CancellationTokenSource();
                 runningSingleCycle = true;
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
-                //single cycle here
 
                 //may need await, we will see
                 Task.Factory.StartNew(
@@ -776,7 +770,6 @@ namespace Cyberbear_View
                     log.Error("TimeLapse Cancelled: " + e);
                     //runningTimeLapse = false;
                     stopTimelapse();
-                    //TimeLapseStatus.Raise(this, new EventArgs());
                     return;
                 }
                 catch (Exception e)
@@ -802,7 +795,6 @@ namespace Cyberbear_View
                     TimelapseCountTextBox.Clear();
                     TimelapseEndTimeTextBox.Clear();
                 });
-                //  TimeLapseStatus.Raise(this, new EventArgs());
                 return;
             }
 
@@ -909,7 +901,7 @@ namespace Cyberbear_View
 
             if (fileResult != null && fileResult.Contains(".xml")) //if user chose something
             {
-                machine.CameraControl.CameraConst.CameraSettingsPath = fileResult;
+                machine.CameraSettingsPathChange(fileResult);
 
                 CameraSettingsPath.Text = fileResult; //set text to folder path
 

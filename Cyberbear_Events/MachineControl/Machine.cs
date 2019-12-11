@@ -30,7 +30,8 @@ namespace Cyberbear_Events.MachineControl
         private TimelapseConst timelapseConst;
         private GRBLArdunio_Constants grblArdunio_Constants;
         private string name; //name of machine, may be user added or by front end automatically, or window
-        private int numPlants; 
+        private int numPlants;
+        private CameraConst cameraConst;
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
@@ -39,8 +40,9 @@ namespace Cyberbear_Events.MachineControl
         public TimelapseConst TimelapseConst { get => timelapseConst; set => timelapseConst = value; }
         public int NumPlants { get => numPlants; set => numPlants = value; }
         public GRBLArdunio_Constants GrblArdunio_Constants { get => grblArdunio_Constants; set => grblArdunio_Constants = value; }
+        public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
 
-      
+
 
         //constructor
         /// <summary>
@@ -59,6 +61,7 @@ namespace Cyberbear_Events.MachineControl
 
             TimelapseConst = new TimelapseConst(); //for timelapses
             GrblArdunio_Constants = new GRBLArdunio_Constants();
+            cameraConst = new CameraConst();
         }
 
         /// <summary>
@@ -155,17 +158,17 @@ namespace Cyberbear_Events.MachineControl
 
                 if (line == "$H" && firstHome)
                 {
-                    System.Threading.Thread.Sleep(6000); //40 secs t0 home and not miss positions
+                    System.Threading.Thread.Sleep(6000); //6 secs t0 home and not miss positions
                     firstHome = false;
                 }
 
                 if (line.Contains('X'))
                 {
-                   System.Threading.Thread.Sleep(3000);
+                   System.Threading.Thread.Sleep(4000);
                 }
                 if (line == "$HY")
                 {
-                    Thread.Sleep(11000);
+                    Thread.Sleep(12000);
                 }
 
                 //if line not homing command then take pics
@@ -173,12 +176,16 @@ namespace Cyberbear_Events.MachineControl
                 {
                     if (!line.Contains('X')) //if not moving y axis then take pics
                     {
+                        Thread.Sleep(1000); //presleep for capture to adjust
+
                         cameraControl.CapSaveImage(); //capture image
+
+                        Thread.Sleep(1500); //sleep for 1 seconds
 
                     }
                 }
 
-                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
+                
             }
 
             //turn lights off
@@ -444,7 +451,11 @@ namespace Cyberbear_Events.MachineControl
               task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
               task.Start();
 
-                litArdunio.LightStatus = false; //lights are off
+              Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+              task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+              task2.Start();
+
+               litArdunio.LightStatus = false; //lights are off
             }
             else
             {
@@ -461,5 +472,21 @@ namespace Cyberbear_Events.MachineControl
             GrblArdunio.SoftReset();
         }
         #endregion
+
+        //add camera const changes
+        public void CameraSettingsPathChange(string filepath)
+        {
+            CameraControl.CameraConst.CameraSettingsPath = filepath;
+        }
+
+        public void CameraSaveFolderPathChange(string folderResult)
+        {
+            CameraControl.CameraConst.SaveFolderPath = folderResult;
+        }
+
+        public void GRBLCommandFileChange(string fileResult)
+        {
+            GrblArdunio_Constants.GRBLFilePath = fileResult;
+        }
     }
 }
