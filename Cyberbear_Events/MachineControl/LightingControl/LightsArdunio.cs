@@ -120,6 +120,12 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             SendCommand(cmdStr);
         }
 
+        public void SetBrightness()
+        {
+            string cmdStr = "S4P0";
+            SendCommand(cmdStr);
+        }
+
         private int BtoI(bool value)
         {
             return (value == true) ? 1 : 0;
