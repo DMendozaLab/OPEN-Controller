@@ -256,9 +256,8 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                 forceSettingsReload();
             }
 
-
-
         }
+
         public void forceSettingsReload()
         {
             string cameraSettingsFileName = CameraConst.CameraSettingsPath;
