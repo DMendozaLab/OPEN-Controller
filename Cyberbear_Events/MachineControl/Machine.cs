@@ -100,29 +100,37 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void Disconnect()
         {
-            if (GrblArdunio.Connected == true)
+            try
             {
-                GrblArdunio.Disconnect();
-                log.Info("Grbl Ardunio Disconnected");
-            }
-            else if (litArdunio.Connected == true)
-            {
-                LightOff(); //turn lights off before disconnecting
+                if (GrblArdunio.Connected == true)
+                {
+                    GrblArdunio.Disconnect();
+                    log.Info("Grbl Ardunio Disconnected");
+                }
+                else if (litArdunio.Connected == true)
+                {
+                    LightOff(); //turn lights off before disconnecting
 
-                litArdunio.Disconnect();
-                log.Info("Lights Ardunio Disconnected");
-            }
-            else
-            {
-                cameraControl.ShutdownVimba();
-                log.Info("Camera Control Shutdown");
-            }
+                    litArdunio.Disconnect();
+                    log.Info("Lights Ardunio Disconnected");
+                }
+                else
+                {
+                    cameraControl.ShutdownVimba();
+                    log.Info("Camera Control Shutdown");
+                }
 
-            log.Info("Machine Disconnected");
+                log.Info("Machine Disconnected");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
 
-                /// <summary>
+        /// <summary>
         /// Single Cycle of machine
         /// </summary>
         public void SingleCycle()

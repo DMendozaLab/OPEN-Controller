@@ -503,7 +503,18 @@ namespace Cyberbear_View
         {
             //TODO
             //reenable certian buttons and some other shiz
-            log.Info("Cycle Completed");
+            if(e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else if(e.Cancelled)
+            {
+                MessageBox.Show("Cycle was cancelled");
+            }
+            else
+            {
+                log.Info("Cycle Completed");
+            }
         }
 
         private void CycleWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
