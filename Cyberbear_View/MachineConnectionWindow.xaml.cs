@@ -722,6 +722,9 @@ namespace Cyberbear_View
             await Task.Delay(5000);
         }
 
+        //to remove
+       // public bool growLightsOn = false;
+
         async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
         {
             log.Debug("Awaiting timelapse");
@@ -734,19 +737,18 @@ namespace Cyberbear_View
                 {
                     TimelapseCountTextBox.Text = tlCount;
                 });
-                /* if (!cycle.runningCycle)
-                  {
-                      if (!litArdunio.IsNightTime() && !growLightsOn)
-                      {
-                          litArdunio.SetLight(litArdunio.GrowLight, true, true);
-                          growLightsOn = true;
-                      }
-                      else if (litArdunio.IsNightTime() && growLightsOn)
-                      {
-                          litArdunio.SetLight(litArdunio.GrowLight, false, false);
-                          growLightsOn = false;
-                      }
-                  }*/
+                
+                //if (!machine.LitArdunio.IsNightTime() && !machine.GrowlightsOn)
+                //{
+                //    machine.LitArdunio.SetLight(Peripheral.GrowLight, true, true);
+                //    machine.GrowlightsOn = true;
+                //}
+                //else if (machine.LitArdunio.IsNightTime() && machine.GrowlightsOn)
+                //{
+                //    machine.LitArdunio.SetLight(Peripheral.GrowLight, false, false);
+                //    machine.GrowlightsOn = false;
+                //}
+                
                 await Task.Delay(60 * 1000, token);
                 duration = duration.Subtract(TimeSpan.FromMinutes(1));
             }
@@ -987,6 +989,21 @@ namespace Cyberbear_View
         private void HomeArdunioBtn_Click(object sender, RoutedEventArgs e)
         {
             machine.GrblArdunio.HomeMachine();
+        }
+
+        /// <summary>
+        /// Opens Nighttime Selection Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenNightTimeSelectionWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new NightTimeSelectionWindow();
+            if (w.ShowDialog() == true) //gotta make sure no memory leak
+            {
+                machine.LitArdunio.StartOfNight = (DateTime)w.StartOfNightTime.Value;
+                machine.LitArdunio.EndOfNight = (DateTime)w.EndOfNightTime.Value;
+            }
         }
     }
 

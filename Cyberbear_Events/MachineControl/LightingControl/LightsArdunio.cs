@@ -28,8 +28,17 @@ namespace Cyberbear_Events.MachineControl.LightingControl
 
         public enum Peripheral { Backlight = 6, GrowLight = 1 };
 
+        private bool nightTime = false;
+        public bool NightTime { get => nightTime; set => nightTime = value; }
+
         private bool connected = false;
         private static readonly LightsArdunio instance = new LightsArdunio();
+
+        private DateTime startOfNight;
+        private DateTime endOfNight;
+
+        public DateTime StartOfNight { get => startOfNight; set => startOfNight = value; }
+        public DateTime EndOfNight { get => endOfNight; set => endOfNight = value; }
 
         #region Constructors
         static LightsArdunio()
@@ -43,6 +52,8 @@ namespace Cyberbear_Events.MachineControl.LightingControl
                 return instance;
             }
         }
+
+      
         #endregion
 
 
@@ -65,18 +76,21 @@ namespace Cyberbear_Events.MachineControl.LightingControl
 
         }
 
-        //Is this needed?
-        
-        /*public bool IsNightTime()
+        /// <summary>
+        /// Method for finding an boolean statement to if the system is currently in nighttime
+        /// and should have the growlights on or not
+        /// </summary>
+        /// <returns>Returns a true or false (boolean) statement for if nighttime or not. Will turn on Growlights
+        /// on for Sunbear if accurate</returns>
+        public bool IsNightTime()
         {
-            TimeSpan startOfNight = Properties.Settings.Default.StartOfNight;
-            TimeSpan endOfNight = Properties.Settings.Default.EndOfNight;
-            TimeSpan now = DateTime.Now.TimeOfDay;
+            //TimeSpan startOfNight = TimeSpan.Parse("11:27:00"); //replace with window values
+            //TimeSpan endOfNight = TimeSpan.Parse("12:32:00");
+            DateTime now = DateTime.Now;
 
-            //_log.Debug("Current total hours: " + now.TotalHours);
-            return (now >= startOfNight || now <= endOfNight) ? true : false;
+            return (now.TimeOfDay >= StartOfNight.TimeOfDay && now.TimeOfDay <= EndOfNight.TimeOfDay) ? true : false;
 
-        }*/
+        }
 
 
         public void SetLight(Peripheral peripheral, bool status, bool daytime)

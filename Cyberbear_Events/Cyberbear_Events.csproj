@@ -67,10 +67,6 @@
     <Compile Include="Util\ConnectionType.cs" />
     <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
     <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandCalc.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\SingleCycle\PlateCycle.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\SingleCycle\TrayCycle.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\SingleCycle\WellCycle.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CycleControl\TimelapseControl.cs" />
     <Compile Include="MachineControl\GrblArdunio\GRBLArdunio.cs" />
     <Compile Include="MachineControl\LightingControl\PeripheralEventArgs.cs" />
     <Compile Include="MachineControl\LightingControl\LightsArdunio.cs" />

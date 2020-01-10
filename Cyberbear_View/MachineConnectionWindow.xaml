@@ -96,19 +96,27 @@
         <!--Save Folder Location-->
         <Label FontWeight="Bold">Save Folder Location:</Label>
         <Border BorderThickness="6">
-            <DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.37*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
                 <!--Save Folder Location Button-->
-                <Button Name="SaveFolderBtn" DockPanel.Dock="Left" Click="SaveFolderBtn_Click">
+                <Button Name="SaveFolderBtn" Grid.Column ="0"  Click="SaveFolderBtn_Click">
                     Click for Folder
                 </Button>
 
                 <!--Save Folder Path Textbox-->
-                <TextBox Name="SaveFolderPath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                <TextBox Name="SaveFolderPath" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
                                      IsReadOnly="True">
 
                 </TextBox>
 
-            </DockPanel>
+                <Button Name="OpenNightTimeSelectionWindow" Click="OpenNightTimeSelectionWindow_Click" Grid.Column="2">Night Time Selection</Button>
+
+            </Grid>
 
         </Border>
 

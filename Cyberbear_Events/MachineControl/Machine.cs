@@ -32,6 +32,7 @@ namespace Cyberbear_Events.MachineControl
         private string name; //name of machine, may be user added or by front end automatically, or window
         private int numPlants;
         private CameraConst cameraConst;
+        private bool growlightsOn;
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
@@ -41,6 +42,7 @@ namespace Cyberbear_Events.MachineControl
         public int NumPlants { get => numPlants; set => numPlants = value; }
         public GRBLArdunio_Constants GrblArdunio_Constants { get => grblArdunio_Constants; set => grblArdunio_Constants = value; }
         public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
+        public bool GrowlightsOn { get => growlightsOn; set => growlightsOn = value; }
 
 
 
@@ -196,8 +198,9 @@ namespace Cyberbear_Events.MachineControl
                 
             }
 
-            //turn lights off
+            //turn lights off (and growlights if night)
             LightOff();
+
         }
 
         /// <summary>
@@ -414,6 +417,8 @@ namespace Cyberbear_Events.MachineControl
             Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
+
+            growlightsOn = true;
         }
         /// <summary>
         /// When called, turns growlights off
@@ -423,6 +428,8 @@ namespace Cyberbear_Events.MachineControl
             Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
             task.Start();
+
+            growlightsOn = false;
         }
 
         /// <summary>
@@ -444,6 +451,7 @@ namespace Cyberbear_Events.MachineControl
                 task.Start();
 
                 litArdunio.LightStatus = true; //lights are on
+
             }
             else
             {
@@ -464,6 +472,16 @@ namespace Cyberbear_Events.MachineControl
               task2.Start();
 
                litArdunio.LightStatus = false; //lights are off
+
+
+                if (litArdunio.IsNightTime() == true)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(500);
+                        GrowLightOff();
+                    });
+                }
             }
             else
             {
