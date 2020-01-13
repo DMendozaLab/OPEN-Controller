@@ -474,20 +474,28 @@ namespace Cyberbear_Events.MachineControl
                litArdunio.LightStatus = false; //lights are off
 
 
-                if (litArdunio.IsNightTime() == true)
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        Thread.Sleep(500);
-                        GrowLightOff();
-                    });
-                }
+               NightTimeLightOff();
             }
             else
             {
                 return;
             }
             
+        }
+
+        /// <summary>
+        /// Checks if nightime then turns growlights off
+        /// </summary>
+        public void NightTimeLightOff()
+        {
+            if (litArdunio.IsNightTime() == true)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(500);
+                    GrowLightOff();
+                });
+            }
         }
 
         /// <summary>

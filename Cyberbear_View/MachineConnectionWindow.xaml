@@ -174,7 +174,7 @@
         <Border BorderThickness="5">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 
@@ -188,6 +188,8 @@
                             ItemsSource="{Binding IntervalList, Mode=OneWay}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"></ComboBox>
+                        <TextBlock VerticalAlignment="Center" Margin="5">Nightime Starts:</TextBlock>
+                        <TextBox Name="NightTimeStartsTextbox" VerticalAlignment="Center" Margin="5"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>
@@ -198,6 +200,8 @@
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
                             ></ComboBox>
+                        <TextBlock VerticalAlignment="Center" Margin="5">Nightime End:</TextBlock>
+                        <TextBox Name="NightTimeEndTextbox" VerticalAlignment="Center" Margin="5"></TextBox>
                     </StackPanel>
                 </StackPanel>
                 

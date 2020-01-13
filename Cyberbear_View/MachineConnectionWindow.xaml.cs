@@ -707,8 +707,6 @@ namespace Cyberbear_View
             await Task.Delay(5000);
         }
 
-        //to remove
-       // public bool growLightsOn = false;
 
         async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
         {
@@ -722,7 +720,9 @@ namespace Cyberbear_View
                 {
                     TimelapseCountTextBox.Text = tlCount;
                 });
-                
+
+                machine.NightTimeLightOff(); //check if nightime
+
                 //if (!machine.LitArdunio.IsNightTime() && !machine.GrowlightsOn)
                 //{
                 //    machine.LitArdunio.SetLight(Peripheral.GrowLight, true, true);
@@ -733,7 +733,7 @@ namespace Cyberbear_View
                 //    machine.LitArdunio.SetLight(Peripheral.GrowLight, false, false);
                 //    machine.GrowlightsOn = false;
                 //}
-                
+
                 await Task.Delay(60 * 1000, token);
                 duration = duration.Subtract(TimeSpan.FromMinutes(1));
             }
@@ -987,7 +987,11 @@ namespace Cyberbear_View
             if (w.ShowDialog() == true) //gotta make sure no memory leak
             {
                 machine.LitArdunio.StartOfNight = (DateTime)w.StartOfNightTime.Value;
+                NightTimeStartsTextbox.Text = machine.LitArdunio.StartOfNight.ToString("HH:mm:ss tt");
                 machine.LitArdunio.EndOfNight = (DateTime)w.EndOfNightTime.Value;
+                NightTimeEndTextbox.Text = machine.LitArdunio.EndOfNight.ToString("HH:mm:ss tt");
+
+                //NightTimeEndTextbox.Text = w.EndOfNightTime.Value.ToString();
             }
         }
     }
