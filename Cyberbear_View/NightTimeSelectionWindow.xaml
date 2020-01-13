@@ -16,7 +16,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock FontWeight="Bold" Margin="5" Grid.Column="0">Start of Night:</TextBlock>
-            <xctk:DateTimeUpDown Name="StartOfNightTime" Grid.Column="1" DefaultValue="23:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True"/>
+            <xctk:TimePicker Name="StartOfNightTime" Grid.Column="1" DefaultValue="23:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True"/>
         </Grid>
 
         <Grid>
@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock FontWeight="Bold" Margin="5" Grid.Column="0">End of Night:</TextBlock>
-            <xctk:DateTimeUpDown Name="EndOfNightTime" Grid.Column="1" DefaultValue="7:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True" />
+            <xctk:TimePicker Name="EndOfNightTime" Grid.Column="1" DefaultValue="7:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True" />
         </Grid>
 
         <Button Name="ConfirmButton" Margin="20" Click="ConfirmButton_Click">Confirm</Button>
