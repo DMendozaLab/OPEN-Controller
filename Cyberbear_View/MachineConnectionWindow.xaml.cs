@@ -1,29 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using log4net;
-using System.IO;
 using Cyberbear_Events.MachineControl;
-using Cyberbear_Events.MachineControl.GrblArdunio;
-using Cyberbear_Events.MachineControl.LightingControl;
-using Cyberbear_Events.MachineControl.CameraControl;
 using Cyberbear_Events;
 using Cyberbear_View.Consts;
 using System.Threading;
-using Cyberbear_Events.Util;
-using System.Drawing;
-using static Cyberbear_Events.MachineControl.LightingControl.LightsArdunio;
 using System.ComponentModel;
 
 namespace Cyberbear_View
