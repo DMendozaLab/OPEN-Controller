@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GeometRi, Version=1.3.5.12, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GeometRi.1.3.5.12\lib\net20\GeometRi.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -61,12 +58,9 @@
     <Compile Include="MachineControl\CameraControl\CameraControl.cs" />
     <Compile Include="MachineControl\CameraControl\CameraConst.cs" />
     <Compile Include="MachineControl\CameraControl\VimbaHelper.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandConst.cs" />
     <Compile Include="MachineControl\GrblArdunio\GRBLArdunio_Constants.cs" />
     <Compile Include="Util\EventExtension.cs" />
     <Compile Include="Util\ConnectionType.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandBuilder.cs" />
-    <Compile Include="MachineControl\GrblArdunio\CommandBuilder\CommandCalc.cs" />
     <Compile Include="MachineControl\GrblArdunio\GRBLArdunio.cs" />
     <Compile Include="MachineControl\LightingControl\PeripheralEventArgs.cs" />
     <Compile Include="MachineControl\LightingControl\LightsArdunio.cs" />
@@ -93,9 +87,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MachineControl\CycleControl\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="MachineControl\CameraControl\CameraSettings\wednesday_night_special.xml" />
   </ItemGroup>

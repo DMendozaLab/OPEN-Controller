@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberbear_Events", "Cyberbear_Events\Cyberbear_Events.csproj", "{2BD5260E-08B4-46CC-BCDB-7ACC64060365}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cyberbear_Model", "Cyberbear_Model\Cyberbear_Model.csproj", "{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberbear_View", "Cyberbear_View\Cyberbear_View.csproj", "{D4F673C7-3B70-4287-854E-2D77895E238C}"
 EndProject
@@ -33,18 +31,6 @@ Global
 		{2BD5260E-08B4-46CC-BCDB-7ACC64060365}.Release|x64.Build.0 = Release|Any CPU
 		{2BD5260E-08B4-46CC-BCDB-7ACC64060365}.Release|x86.ActiveCfg = Release|Any CPU
 		{2BD5260E-08B4-46CC-BCDB-7ACC64060365}.Release|x86.Build.0 = Release|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Debug|x64.Build.0 = Debug|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Debug|x86.Build.0 = Debug|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Release|x64.ActiveCfg = Release|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Release|x64.Build.0 = Release|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Release|x86.ActiveCfg = Release|Any CPU
-		{84ED7CB3-2FC5-4D94-B513-E8F07B5D0F29}.Release|x86.Build.0 = Release|Any CPU
 		{D4F673C7-3B70-4287-854E-2D77895E238C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4F673C7-3B70-4287-854E-2D77895E238C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4F673C7-3B70-4287-854E-2D77895E238C}.Debug|x64.ActiveCfg = Debug|Any CPU
