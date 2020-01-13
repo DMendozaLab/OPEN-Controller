@@ -991,7 +991,6 @@ namespace Cyberbear_View
                 machine.LitArdunio.EndOfNight = (DateTime)w.EndOfNightTime.Value;
                 NightTimeEndTextbox.Text = machine.LitArdunio.EndOfNight.ToString("HH:mm:ss tt");
 
-                //NightTimeEndTextbox.Text = w.EndOfNightTime.Value.ToString();
             }
         }
     }
