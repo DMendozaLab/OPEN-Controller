@@ -98,10 +98,10 @@
         <Border BorderThickness="6">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.37*"/>
+                    <ColumnDefinition Width="0.39*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.6*"/>
                 </Grid.ColumnDefinitions>
                 
                 <!--Save Folder Location Button-->
