@@ -721,7 +721,11 @@ namespace Cyberbear_View
                     TimelapseCountTextBox.Text = tlCount;
                 });
 
-                machine.NightTimeLightOff(); //check if nightime
+                if(machine.DayNightCycleEnable == true)
+                {
+                    machine.NightTimeLightOff(); //check if nightime
+                }
+                
 
                 //if (!machine.LitArdunio.IsNightTime() && !machine.GrowlightsOn)
                 //{
@@ -992,6 +996,26 @@ namespace Cyberbear_View
                 NightTimeEndTextbox.Text = machine.LitArdunio.EndOfNight.ToString("HH:mm:ss tt");
 
             }
+        }
+
+        /// <summary>
+        /// Checkbox for enabling day night cycle is checked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            machine.DayNightCycleEnable = true;
+        }
+
+        /// <summary>
+        /// Day night cycle is unenabled from checked mark
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            machine.DayNightCycleEnable = false;
         }
     }
 

@@ -33,6 +33,7 @@ namespace Cyberbear_Events.MachineControl
         private int numPlants;
         private CameraConst cameraConst;
         private bool growlightsOn;
+        private bool dayNightCycleEnable = false; //day night cycle is not enabled unless checked box checked
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
@@ -43,6 +44,7 @@ namespace Cyberbear_Events.MachineControl
         public GRBLArdunio_Constants GrblArdunio_Constants { get => grblArdunio_Constants; set => grblArdunio_Constants = value; }
         public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
         public bool GrowlightsOn { get => growlightsOn; set => growlightsOn = value; }
+        public bool DayNightCycleEnable { get => dayNightCycleEnable; set => dayNightCycleEnable = value; }
 
 
 
@@ -463,18 +465,20 @@ namespace Cyberbear_Events.MachineControl
         {
             if(litArdunio.LightStatus == true)
             {
-              Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-              task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-              task.Start();
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
 
-              Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-              task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-              task2.Start();
+                Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task2.Start();
 
-               litArdunio.LightStatus = false; //lights are off
-
-
-               NightTimeLightOff();
+                litArdunio.LightStatus = false; //lights are off 
+                if(dayNightCycleEnable == true)
+                {
+                    NightTimeLightOff();
+                }
+               
             }
             else
             {

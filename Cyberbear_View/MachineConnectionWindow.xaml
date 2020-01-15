@@ -101,6 +101,7 @@
                     <ColumnDefinition Width="0.37*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="0.7*"/>
                 </Grid.ColumnDefinitions>
                 
                 <!--Save Folder Location Button-->
@@ -116,6 +117,11 @@
 
                 <Button Name="OpenNightTimeSelectionWindow" Click="OpenNightTimeSelectionWindow_Click" Grid.Column="2">Night Time Selection</Button>
 
+                <!--If night cycle on or not-->
+                <StackPanel Orientation="Horizontal" Grid.Column="3">
+                    <TextBlock VerticalAlignment="Center" Margin="2">Night Cycle Enable:</TextBlock>
+                    <CheckBox VerticalAlignment="Center" Margin="2" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"></CheckBox>
+                </StackPanel>
             </Grid>
 
         </Border>

@@ -18,6 +18,6 @@ namespace Cyberbear_View.Consts
         public static long tlIntervalType = 60000;
         public static long tlEndIntervalType = 60000;
         public static DateTime tlStartDate;
-        public static bool startNow = true;
+        public static bool startNow = true; //day night cycle is not enabled unless checked box checked
     }
 }
