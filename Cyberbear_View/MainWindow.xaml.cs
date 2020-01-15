@@ -26,11 +26,6 @@ namespace Cyberbear_View
     {
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        //windows
-       // ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
-        int counter = 0;
-        //testing
        
 
         public MainWindow()
