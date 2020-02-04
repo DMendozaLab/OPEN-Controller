@@ -474,6 +474,7 @@ namespace Cyberbear_Events.MachineControl
                 task2.Start();
 
                 litArdunio.LightStatus = false; //lights are off 
+
                 if(dayNightCycleEnable == true)
                 {
                     NightTimeLightOff();
@@ -499,6 +500,19 @@ namespace Cyberbear_Events.MachineControl
                     Thread.Sleep(500);
                     GrowLightOff();
                 });
+            }
+            else
+            {
+                if(growlightsOn == false) //if lights not on, like after coming off of night, turn on
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(500);
+                        GrowLightOn();
+                    });
+
+                }
+                
             }
         }
 

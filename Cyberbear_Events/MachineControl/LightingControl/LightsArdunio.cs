@@ -88,7 +88,8 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             //TimeSpan endOfNight = TimeSpan.Parse("12:32:00");
             DateTime now = DateTime.Now;
 
-            return (now.TimeOfDay >= StartOfNight.TimeOfDay && now.TimeOfDay <= EndOfNight.TimeOfDay) ? true : false;
+            //If current time is less than end of night and more than start of night, then it is night time 
+            return ((now.TimeOfDay <= EndOfNight.TimeOfDay) & (now.TimeOfDay >= StartOfNight.TimeOfDay)) ? true : false;
 
         }
 
