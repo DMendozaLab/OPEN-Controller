@@ -34,6 +34,7 @@ namespace Cyberbear_Events.MachineControl
         private CameraConst cameraConst;
         private bool growlightsOn;
         private bool dayNightCycleEnable = false; //day night cycle is not enabled unless checked box checked
+        private int numOfPositions; //number of positions of machine, determined by grbl file chosen in GUI
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
@@ -45,6 +46,7 @@ namespace Cyberbear_Events.MachineControl
         public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
         public bool GrowlightsOn { get => growlightsOn; set => growlightsOn = value; }
         public bool DayNightCycleEnable { get => dayNightCycleEnable; set => dayNightCycleEnable = value; }
+        public int NumOfPositions { get => numOfPositions; set => numOfPositions = value; }
         public bool LongerWaitCheck = false; //for single axis machines like the Gassman machine
 
 
