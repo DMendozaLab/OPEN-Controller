@@ -129,19 +129,30 @@
         <!--GRBL Command File Location TextFile-->
         <Label FontWeight="Bold">GRBL Command File Location:</Label>
         <Border BorderThickness="6">
-            <DockPanel>
-                <!--Save Folder Location Button-->
-                <Button Name="GRBLCommandFileBtn" DockPanel.Dock="Left" Click="GRBLCommandFileBtn_Click">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".36*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width=".75*"/>
+                </Grid.ColumnDefinitions>
+                <!--GRBL Location Button-->
+                <Button Name="GRBLCommandFileBtn" Grid.Column="0" Click="GRBLCommandFileBtn_Click">
                     Click for Folder
                 </Button>
 
-                <!--Save Folder Path Textbox-->
-                <TextBox Name="GRBLCommandFilePath" DockPanel.Dock="Right" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                <!--Grbl Command Path Textbox-->
+                <TextBox Name="GRBLCommandFilePath" Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
                                      IsReadOnly="True">
 
                 </TextBox>
 
-            </DockPanel>
+                <!--Extra Wait Checkbox-->
+                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                    <TextBlock VerticalAlignment="Center" Margin="3">Check to have longer wait: </TextBlock>
+                    <CheckBox Name="LongerWaitTimeCheckbox" VerticalAlignment="Center" Margin="3" Checked="LongerWaitTimeCheckbox_Checked" Unchecked="LongerWaitTimeCheckbox_Unchecked"></CheckBox>
+                </StackPanel>
+                
+            </Grid>
             
          </Border>
 
@@ -194,8 +205,12 @@
                             ItemsSource="{Binding IntervalList, Mode=OneWay}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"></ComboBox>
+                        <!--Nighttime Start textbox-->
                         <TextBlock VerticalAlignment="Center" Margin="5">Nightime Starts:</TextBlock>
                         <TextBox Name="NightTimeStartsTextbox" VerticalAlignment="Center" Margin="5"></TextBox>
+                        <!--Number of Positions Textbox-->
+                        <TextBlock VerticalAlignment="Center" Margin="5">Number of Positions:</TextBlock>
+                        <TextBox Name="NumberofPositionsBox" VerticalAlignment="Center" Margin="5"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>
@@ -206,6 +221,7 @@
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
                             ></ComboBox>
+                        <!--Nighttime end Textbox-->
                         <TextBlock VerticalAlignment="Center" Margin="5">Nightime End:</TextBlock>
                         <TextBox Name="NightTimeEndTextbox" VerticalAlignment="Center" Margin="5"></TextBox>
                     </StackPanel>
