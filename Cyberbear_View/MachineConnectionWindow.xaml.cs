@@ -387,24 +387,34 @@ namespace Cyberbear_View
             int numPositions = 0;
             string[] lines;
 
-            if (fileResult != null) //if user chose something
+            try
             {
-                machine.GRBLCommandFileChange(fileResult);
-
-                GRBLCommandFilePath.Text = fileResult; //set text to folder path
-
-                lines = System.IO.File.ReadAllLines(machine.GrblArdunio_Constants.GRBLFilePath);
-
-                foreach(string line in lines)
+                if (fileResult != null) //if user chose something
                 {
-                    if(!line.Contains("H"))
-                    {
-                        numPositions++;
-                    }
-                }
+                    machine.GRBLCommandFileChange(fileResult);
 
-                NumberofPositionsBox.Text = numPositions.ToString();
+                    GRBLCommandFilePath.Text = fileResult; //set text to folder path
+
+                    lines = System.IO.File.ReadAllLines(machine.GrblArdunio_Constants.GRBLFilePath);
+
+                    foreach(string line in lines)
+                    {
+                        if(!line.Contains("H"))
+                        {
+                            numPositions++;
+                        }
+                    }
+
+                    machine.NumOfPositions = numPositions; //machine object updating
+
+                    NumberofPositionsBox.Text = numPositions.ToString();
+                }
             }
+            catch
+            {
+                MessageBox.Show("Error..."); // will update in future
+            }
+            
         }
 
         /// <summary>
