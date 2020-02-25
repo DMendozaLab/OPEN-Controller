@@ -45,6 +45,7 @@ namespace Cyberbear_Events.MachineControl
         public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
         public bool GrowlightsOn { get => growlightsOn; set => growlightsOn = value; }
         public bool DayNightCycleEnable { get => dayNightCycleEnable; set => dayNightCycleEnable = value; }
+        public bool LongerWaitCheck = false; //for single axis machines like the Gassman machine
 
 
 
@@ -188,6 +189,11 @@ namespace Cyberbear_Events.MachineControl
                 {
                     if (!line.Contains('X')) //if not moving y axis then take pics
                     {
+                        if(LongerWaitCheck == true)
+                        {
+                            Thread.Sleep(5000); //for gassman machine because takes longer to move
+                        }
+
                         Thread.Sleep(1000); //presleep for capture to adjust
 
                         cameraControl.CapSaveImage(); //capture image

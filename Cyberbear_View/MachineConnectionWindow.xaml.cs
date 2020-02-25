@@ -384,12 +384,26 @@ namespace Cyberbear_View
         private void GRBLCommandFileBtn_Click(object sender, RoutedEventArgs e)
         {
             string fileResult = GetFileResult();
+            int numPositions = 0;
+            string[] lines;
 
             if (fileResult != null) //if user chose something
             {
                 machine.GRBLCommandFileChange(fileResult);
 
                 GRBLCommandFilePath.Text = fileResult; //set text to folder path
+
+                lines = System.IO.File.ReadAllLines(machine.GrblArdunio_Constants.GRBLFilePath);
+
+                foreach(string line in lines)
+                {
+                    if(!line.Contains("H"))
+                    {
+                        numPositions++;
+                    }
+                }
+
+                NumberofPositionsBox.Text = numPositions.ToString();
             }
         }
 
@@ -1016,6 +1030,30 @@ namespace Cyberbear_View
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             machine.DayNightCycleEnable = false;
+        }
+
+        private void LongerWaitTimeCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                machine.LongerWaitCheck = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
+        }
+
+        private void LongerWaitTimeCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                machine.LongerWaitCheck = false;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
         }
     }
 
