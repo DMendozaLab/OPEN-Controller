@@ -1065,6 +1065,11 @@ namespace Cyberbear_View
                 log.Error(ex.Message);
             }
         }
+
+        private void AppendPhotoNameWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 

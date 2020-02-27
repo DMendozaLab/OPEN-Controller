@@ -69,9 +69,10 @@
         <Border BorderThickness="6">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.37*"/>
+                    <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="0.625*"/>
                 </Grid.ColumnDefinitions>
                 
                 <!--Camera Settings Location Button-->
@@ -88,6 +89,10 @@
                 <ComboBox Name ="CameraSelectionCb" Grid.Column="2" DropDownOpened="CameraSelectionCb_DropDownOpened" SelectionChanged="CameraSelectionCb_SelectionChanged">
                     
                 </ComboBox>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="3">
+                    <Button Name="AppendPhotoNameWindowButton" Click="AppendPhotoNameWindowButton_Click">Change Photo Names</Button>
+                </StackPanel>
 
             </Grid>
         </Border>
