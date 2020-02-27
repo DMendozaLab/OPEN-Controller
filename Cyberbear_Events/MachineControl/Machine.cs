@@ -198,7 +198,7 @@ namespace Cyberbear_Events.MachineControl
 
                         Thread.Sleep(1000); //presleep for capture to adjust
 
-                        cameraConst.positionNum++;
+                        cameraControl.CameraConst.positionNum++;
 
                         cameraControl.CapSaveImage(); //capture image
 
