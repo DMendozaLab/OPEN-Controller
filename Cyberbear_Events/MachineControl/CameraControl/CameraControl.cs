@@ -66,9 +66,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         /// </summary>
         public void StartVimba()
         {
-            //cameraControl = new CameraControl();
-            //TODO Refactor to raise event
-            //updateCameraSettingsOptions();
             try
             {
                 //Start up Vimba API
@@ -333,12 +330,14 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         {
             StringBuilder sb = new StringBuilder();
             
-            
-            
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd--H-mm-ss");
 
             sb.Append(currentDate + "_");
             sb.Append(CameraConst.FileName);
+            if(cameraConst.AddPositionNumbers == true)
+            {
+                sb.Append("_PositionNumber" + cameraConst.positionNum);
+            }
             sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
 
             String filePath = Path.Combine(CameraConst.SaveFolderPath, sb.ToString());
@@ -375,7 +374,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
                 //Acquire an image synchronously (snap) from selected camera
                 Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
-                System.Drawing.Image imageCopy = (System.Drawing.Image)image.Clone();
+                Image imageCopy = (Image)image.Clone();
               //  BitmapImage img = UpdateImageBox(imageCopy);
               //  BitmapImage imgCopy = img;
 
@@ -383,8 +382,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                 String filePath = createFilePath();
                 if (Directory.Exists(CameraConst.SaveFolderPath))
                 {
-
-
                     Task witf = WriteImageToFile(imageCopy);
                     witf.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                     witf.Start();
@@ -401,7 +398,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
             catch (Exception exception)
             {
                 LogError("Could not acquire image. Reason: " + exception.Message);
-                //return null;
             }
         }
         static void ExceptionHandler(Task task)

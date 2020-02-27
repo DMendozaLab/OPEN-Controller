@@ -1068,7 +1068,12 @@ namespace Cyberbear_View
 
         private void AppendPhotoNameWindowButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var w = new PhotoFileNameAppenderWindow();
+            if (w.ShowDialog() == true) //gotta make sure no memory leak
+            {
+                machine.CameraConst.FileName = w.PhotoFileNameTextbox.Text;
+                machine.CameraConst.AddPositionNumbers = (bool)w.PositionNumbersBoolCheckbox.IsChecked;
+            }
         }
     }
 
