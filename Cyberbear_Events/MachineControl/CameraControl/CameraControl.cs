@@ -396,21 +396,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
             }
             catch (Exception exception)
             {
-                //REMOVE IN FUTURE
-                StringBuilder sb = new StringBuilder();
-
-                string currentDate = DateTime.Now.ToString("yyyy-MM-dd--H-mm-ss");
-
-                sb.Append(currentDate + "_");
-                sb.Append(CameraConst.FileName);
-                if (cameraConst.AddPositionNumbers == true)
-                {
-                    sb.Append("_PositionNumber" + cameraConst.positionNum);
-                }
-                sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
-
-                String filePath = Path.Combine(CameraConst.SaveFolderPath, sb.ToString());
-
                 LogError("Could not acquire image. Reason: " + exception.Message);
             }
         }

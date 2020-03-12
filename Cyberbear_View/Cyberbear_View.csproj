@@ -172,10 +172,6 @@
       <Project>{2bd5260e-08b4-46cc-bcdb-7acc64060365}</Project>
       <Name>Cyberbear_Events</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cyberbear_ViewModel\Cyberbear_ViewModel.csproj">
-      <Project>{2e374f2f-4da4-463d-ba11-aab644ad3078}</Project>
-      <Name>Cyberbear_ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
