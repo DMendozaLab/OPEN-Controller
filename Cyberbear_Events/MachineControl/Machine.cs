@@ -109,23 +109,23 @@ namespace Cyberbear_Events.MachineControl
         {
             try
             {
+                //if grbl connected
                 if (GrblArdunio.Connected == true)
                 {
                     GrblArdunio.Disconnect();
                     log.Info("Grbl Ardunio Disconnected");
                 }
-                else if (litArdunio.Connected == true)
+                //if lit aruindio connected
+                if (litArdunio.Connected == true)
                 {
                     LightOff(); //turn lights off before disconnecting
 
                     litArdunio.Disconnect();
                     log.Info("Lights Ardunio Disconnected");
                 }
-                else
-                {
-                    cameraControl.ShutdownVimba();
-                    log.Info("Camera Control Shutdown");
-                }
+                
+                cameraControl.ShutdownVimba(); //shutdown vimba
+                log.Info("Camera Control Shutdown");
 
                 log.Info("Machine Disconnected");
             }
