@@ -74,7 +74,7 @@ namespace Cyberbear_Events.MachineControl
         /// <summary>
         /// Connects Machine object by connecting GRBL ardunio, lights ardunio, and camera control. Returns boolean for success or failure
         /// </summary>
-        /// <returns>Returns 1 if success, 0 if connection failed</returns>
+        /// <returns></returns>
         public void Connect()
         {
             try
@@ -227,7 +227,15 @@ namespace Cyberbear_Events.MachineControl
 
         public void loadCameraSettingsMachine()
         {
-            cameraControl.loadCameraSettings();
+            try
+            {
+                cameraControl.loadCameraSettings();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Camera Settings failed to load because: " + ex.Message);
+                MessageBox.Show("Camera settings failed to load because: " + ex.Message);
+            }
         }
 
         #region Timelapse
@@ -426,22 +434,39 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void GrowLightOn()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
 
-            growlightsOn = true;
+                growlightsOn = true;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Growlights failed to turn on because: " + ex.Message);
+                MessageBox.Show("Growlights failed to turn on because: " + ex.Message);
+            }
+            
         }
         /// <summary>
         /// When called, turns growlights off
         /// </summary>
         public void GrowLightOff()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
+               task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+               task.Start();
 
-            growlightsOn = false;
+               growlightsOn = false;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Growlights failed to turn off because: " + ex.Message);
+                MessageBox.Show("Growlights failed to turn off because: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -449,9 +474,17 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void setLightWhiteMachine()
         {
-            Task task = new Task(() => LitArdunio.SetBacklightColorWhite());
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetBacklightColorWhite());
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Lights failed to change to white because: " + ex.Message);
+                MessageBox.Show("Lights failed to change to white because: " + ex.Message);
+            }
         }
 
         public void LightOn()
@@ -473,27 +506,34 @@ namespace Cyberbear_Events.MachineControl
 
         public void LightOff()
         {
-            if(litArdunio.LightStatus == true)
+            try
             {
-                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-                task.Start();
-
-                Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-                task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-                task2.Start();
-
-                litArdunio.LightStatus = false; //lights are off 
-
-                if(dayNightCycleEnable == true)
+                if(litArdunio.LightStatus == true)
                 {
-                    NightTimeLightOff();
+                    Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                    task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                    task.Start();
+
+                    Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                    task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                    task2.Start();
+
+                    litArdunio.LightStatus = false; //lights are off 
+
+                    if(dayNightCycleEnable == true)
+                    {
+                        NightTimeLightOff();
+                    }
                 }
-               
+                else
+                {
+                    return;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return;
+                log.Error("Lights failed to turn off because: " + ex.Message);
+                MessageBox.Show("Lights failed to turn off because: " + ex.Message);
             }
             
         }
@@ -503,26 +543,34 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void NightTimeLightOff()
         {
-            if (litArdunio.IsNightTime() == true)
+            try
             {
-                Task.Factory.StartNew(() =>
-                {
-                    Thread.Sleep(500);
-                    GrowLightOff();
-                });
-            }
-            else
-            {
-                if(growlightsOn == false) //if lights not on, like after coming off of night, turn on
+                if (litArdunio.IsNightTime() == true) //if night time
                 {
                     Task.Factory.StartNew(() =>
                     {
                         Thread.Sleep(500);
-                        GrowLightOn();
+                        GrowLightOff();
                     });
-
                 }
-                
+                else
+                {
+                    if(growlightsOn == false) //if lights not on, like after coming off of night, turn on
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            Thread.Sleep(500);
+                            GrowLightOn();
+                        });
+
+                    }
+                    
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to turn growlights off during nighttime check because: " + ex.Message);
+                MessageBox.Show("Failed to turn off during nighttime check because: " + ex.Message);
             }
         }
 
@@ -531,24 +579,56 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void SoftReset()
         {
-            GrblArdunio.SoftReset();
+            try
+            {
+                GrblArdunio.SoftReset();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to soft reset Grbl Arduino because: " + ex.Message);
+                MessageBox.Show("Failed to soft reset Grbl Arduino because: " + ex.Message);
+            }
         }
         #endregion
 
         //add camera const changes
         public void CameraSettingsPathChange(string filepath)
         {
-            CameraControl.CameraConst.CameraSettingsPath = filepath;
+            try
+            {
+                CameraControl.CameraConst.CameraSettingsPath = filepath;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to change camera settings path because: " + ex.Message);
+                MessageBox.Show("Failed to change camera settings path because: " + ex.Message);
+            }
         }
 
         public void CameraSaveFolderPathChange(string folderResult)
         {
-            CameraControl.CameraConst.SaveFolderPath = folderResult;
+            try
+            {
+                CameraControl.CameraConst.SaveFolderPath = folderResult;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to change camera save folder path because: " + ex.Message);
+                MessageBox.Show("Failed to change camera save folder path because: " + ex.Message);
+            }
         }
 
         public void GRBLCommandFileChange(string fileResult)
         {
-            GrblArdunio_Constants.GRBLFilePath = fileResult;
+            try
+            {
+                GrblArdunio_Constants.GRBLFilePath = fileResult;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to change GRBL command file path because: " + ex.Message);
+                MessageBox.Show("Failed to change GRBL command file path because: " + ex.Message);
+            }
         }
     }
 }
