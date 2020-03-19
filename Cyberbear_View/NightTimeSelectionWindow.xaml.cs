@@ -26,7 +26,7 @@ namespace Cyberbear_View
 
         private void DateTimeUpDown_InputValidationError(object sender, Xceed.Wpf.Toolkit.Core.Input.InputValidationErrorEventArgs e)
         {
-            MessageBox.Show("The date inputed was formatted incorrently, please try again");
+            MessageBox.Show("The date inputed was formatted incorrectly, please try again");
         }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)

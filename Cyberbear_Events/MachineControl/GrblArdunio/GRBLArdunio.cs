@@ -115,8 +115,6 @@ namespace Cyberbear_Events.MachineControl.GrblArdunio
         #endregion
 
         #region Status and other events 
-        // private Calculator _calculator;
-        // private Calculator Calculator { get { return _calculator; } }
 
         private ReadOnlyCollection<bool> _pauselines = new ReadOnlyCollection<bool>(new bool[0]);
         public ReadOnlyCollection<bool> PauseLines

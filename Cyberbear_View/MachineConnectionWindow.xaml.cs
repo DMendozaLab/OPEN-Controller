@@ -37,7 +37,7 @@ namespace Cyberbear_View
 
             //setting name of window and machine
             var w = new MachineNameWindow();
-            if (w.ShowDialog() == true) //gotta make sure no memory leak
+            if (w.ShowDialog() == true)
             {
                 machine.Name = w.TextBoxName;
                 this.Title = machine.Name;
@@ -59,9 +59,7 @@ namespace Cyberbear_View
             
             Task task = new Task(() => machine.CameraControl.StartVimba());
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-
-            //for now will initalize one machine in start  
+            task.Start();  
         }
 
         #region Window Closing
@@ -173,18 +171,34 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void GrblSerialComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            log.Info("Grbl Serial Port Combo Box Opened");
+            try
+            {
+                log.Info("Grbl Serial Port Combo Box Opened");
 
-            updateSerialPortComboBox(GrblSerialComboBox);
+                updateSerialPortComboBox(GrblSerialComboBox);
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to display grbl serial port combo box because: " + ex.Message);
+                MessageBox.Show("Failed to show serial ports for grbl arduino");
+            }
         }
         /// <summary>
         /// Opens all available serial ports for lights ardunio serial port combo box
         /// </summary>
         private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            log.Info("Lights Ardunio Serial Port Combo Box Opened");
+            try
+            {
+                log.Info("Lights Ardunio Serial Port Combo Box Opened");
 
-            updateSerialPortComboBox(LightsSerialComboBox);
+                updateSerialPortComboBox(LightsSerialComboBox);
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to display lights serial port combo box because: " + ex.Message);
+                MessageBox.Show("Failed to show serial ports for lights arduino");
+            }
         }
 
         /// <summary>
@@ -200,25 +214,12 @@ namespace Cyberbear_View
 
             foreach (string port in ports)
             {
-                //if (string.Equals(cb.Name, "LightsSerialComboBox"))
-                //{
-                //    selectedIndex = i;
-                //}
-                //if (string.Equals(cb.Name, "GrblSerialComboBox"))
-                //{
-                //    selectedIndex = i;
-                //}
-
                 cb.Items.Add(port);
                 i++;
             }
 
-            
-                        
-
             log.Debug("Serial Ports Updated for Combo Box");
-
-         
+ 
         }
 
         /// <summary>
@@ -242,10 +243,11 @@ namespace Cyberbear_View
             
         }
 
+        //selection for combo box was chosen
         private void GrblSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectPort = GrblSerialComboBox.SelectedItem;
-            string selectPortString = selectPort.ToString();//Todo fix
+            string selectPortString = selectPort.ToString();
             UpdateSerialConst(selectPortString, GrblSerialComboBox);
 
             Connect_Btn_CanEnable();
@@ -259,6 +261,7 @@ namespace Cyberbear_View
 
             Connect_Btn_CanEnable();
         }
+
         /// <summary>
         /// If drop down opened
         /// </summary>
@@ -287,53 +290,7 @@ namespace Cyberbear_View
         #endregion
         
         #region Camera Settings 
-        //private void CameraList_cb_DropDownOpened(object sender, EventArgs e)
-        //{
-        //    updateCameraSettingsOptions();
-        //}
-
-        /// <summary>
-        /// Updates Camera Settings Options for combo box, may change in future
-        /// </summary>
-        /// Commenting out for now because not problem
-        //private void updateCameraSettingsOptions()
-        //{
-        //    string csPath = CameraConst.CameraSettingsPath;
-        //    CameraList_cb.Items.Clear();
-
-        //    DirectoryInfo d = new DirectoryInfo(@"C:\Users\sam998\Desktop\Cyberbear\Cyberbear\Cyberbear_Events\Machine\CameraControl\CameraSettings");//Assuming Test is your Folder
-        //    FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
-        //                                            //string str = "";
-
-        //    int i = 0;
-        //    int selectedIndex = i;
-        //    foreach (FileInfo file in Files)
-        //    {
-        //        if (string.Equals(file.Name, csPath))
-        //        {
-        //            selectedIndex = i;
-        //        }
-        //        CameraList_cb.Items.Add(file);
-        //        i++;
-        //    }
-        //    Dispatcher.Invoke(() =>
-        //    {//this refer to form in WPF application 
-        //        CameraList_cb.SelectedIndex = selectedIndex;
-        //    });
-
-        //}
-
-        /// <summary>
-        /// Updates Camera instance of new settings chosen
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void CameraList_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    Task task = new Task(() => cameraControl.loadCameraSettings());
-        //    task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-        //    task.Start();
-        //}
+        //removed 3/19/2020
         #endregion
          
         #region Save Folder Location 
@@ -476,6 +433,7 @@ namespace Cyberbear_View
         private void ButtonBackLightOn()
         {
             machine.LightOn();
+            log.Debug("Back lights turned on");
         }
 
         /// <summary>
@@ -486,6 +444,7 @@ namespace Cyberbear_View
         private void ButtonBackLightOff()
         {
             machine.LightOff();
+            log.Debug("Back lights turned off");
         }
         #endregion
         
@@ -596,7 +555,6 @@ namespace Cyberbear_View
             View_Consts.runningTL = true;
 
             startTimelapse();
-          //  timelapseControl.RunWorkerAsync();
         }
 
         private void TimelapseControl_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -669,7 +627,6 @@ namespace Cyberbear_View
             if(View_Consts.runningTL == true)
             {
                 stopTimelapse();
-                //timelapseControl.CancelAsync();
             }
             else
             {
@@ -702,7 +659,6 @@ namespace Cyberbear_View
             {
                 TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString();
             });
-           // TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString();
 
             double endTime = machine.TimelapseConst.TlEndInterval * machine.TimelapseConst.TlEndIntervalType;
 
@@ -749,18 +705,6 @@ namespace Cyberbear_View
                 {
                     machine.NightTimeLightOff(); //check if nightime
                 }
-                
-
-                //if (!machine.LitArdunio.IsNightTime() && !machine.GrowlightsOn)
-                //{
-                //    machine.LitArdunio.SetLight(Peripheral.GrowLight, true, true);
-                //    machine.GrowlightsOn = true;
-                //}
-                //else if (machine.LitArdunio.IsNightTime() && machine.GrowlightsOn)
-                //{
-                //    machine.LitArdunio.SetLight(Peripheral.GrowLight, false, false);
-                //    machine.GrowlightsOn = false;
-                //}
 
                 await Task.Delay(60 * 1000, token);
                 duration = duration.Subtract(TimeSpan.FromMinutes(1));
@@ -786,7 +730,6 @@ namespace Cyberbear_View
                          SingleCycle();
                      });
                 
-
                 try
                 {
                     await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
@@ -794,7 +737,6 @@ namespace Cyberbear_View
                 catch (TaskCanceledException e)
                 {
                     log.Error("TimeLapse Cancelled: " + e);
-                    //runningTimeLapse = false;
                     stopTimelapse();
                     return;
                 }
@@ -827,8 +769,6 @@ namespace Cyberbear_View
         }
         public void stopTimelapse()
         {
-
-            // cycle.Stop();
             if (tokenSource != null)
             {
                 tokenSource.Cancel();
@@ -947,15 +887,23 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void CameraSelectionCb_DropDownOpened(object sender, EventArgs e)
         {
-            machine.CameraControl.UpdateCameraList();
-
-            List<string> cameraNames = machine.CameraControl.GetCameraListNames();
-
-            CameraSelectionCb.Items.Clear();
-
-            foreach(string name in cameraNames)
+            try
             {
-                CameraSelectionCb.Items.Add(name);
+                machine.CameraControl.UpdateCameraList();
+
+                List<string> cameraNames = machine.CameraControl.GetCameraListNames();
+
+                CameraSelectionCb.Items.Clear();
+
+                foreach(string name in cameraNames)
+                {
+                    CameraSelectionCb.Items.Add(name);
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to select camera from drop down because: " + ex.Message);
+                MessageBox.Show("Failure to select camera from drop down because: " + ex.Message);
             }
             
 
@@ -1019,6 +967,9 @@ namespace Cyberbear_View
                 machine.LitArdunio.EndOfNight = (DateTime)w.EndOfNightTime.Value;
                 NightTimeEndTextbox.Text = machine.LitArdunio.EndOfNight.ToString("HH:mm:ss tt");
 
+                //logging
+                log.Debug("Start of night changed to: " + w.StartOfNightTime.Value.ToString());
+                log.Debug("End of night changed to: " + w.EndOfNightTime.Value.ToString());
             }
         }
 
@@ -1029,7 +980,15 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            machine.DayNightCycleEnable = true;
+            try
+            {
+                machine.DayNightCycleEnable = true;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failure to enable day/night cycle because: " + ex.Message);
+                MessageBox.Show("Failure to enable day/night cycle because: " + ex.Message);
+            }
         }
 
         /// <summary>

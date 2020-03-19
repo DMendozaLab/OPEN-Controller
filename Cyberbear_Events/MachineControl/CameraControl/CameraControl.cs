@@ -372,6 +372,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
             return task;
         }
+
         //changed return value from BitmapImage to void because of memory leak issues
         public void CapSaveImage()
         {
@@ -386,9 +387,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                 //Acquire an image synchronously (snap) from selected camera
                 Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
                 Image imageCopy = (Image)image.Clone();
-              //  BitmapImage img = UpdateImageBox(imageCopy);
-              //  BitmapImage imgCopy = img;
-
 
                 String filePath = createFilePath();
                 if (Directory.Exists(CameraConst.SaveFolderPath))
@@ -402,8 +400,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                 {
                     LogError("Invalid directory selected");
                 }
-
-              //  return imgCopy;
 
             }
             catch (Exception exception)
