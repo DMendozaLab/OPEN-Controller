@@ -221,9 +221,16 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         /// </summary>
         public void SelectCamera(int listPosition)
         {
-            selectedItem = cameras[listPosition]; //TODO make it so camera don't overlap with machines
+            try
+            {
+                selectedItem = cameras[listPosition];
 
-            _log.Info("New Selected Camera" + SelectedItem);
+                _log.Info("New Selected Camera" + SelectedItem);
+            }
+            catch(Exception ex)
+            {
+                _log.Error("Failure to select camera because: " + ex.Message);
+            }
         }
 
         public void OnCameraListChanged(object sender, EventArgs args)
@@ -245,7 +252,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         }
         public void loadCameraSettings()
         {
-            //     string cameraSettingsFileName = Directory.GetCurrentDirectory() + @".\Machine\CameraControl\CameraSettings\" + CameraConst.CameraSettingsPath;
             string cameraSettingsFileName = CameraConst.CameraSettingsPath;
             if (!String.Equals(cameraSettingsFileName, previousSettingsDir))
             {
@@ -346,6 +352,12 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
         public Task WriteImageToFile(System.Drawing.Image image)
         {
+            //if image passed was null
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             Task task = new Task(() => {
 
                 String filePath = createFilePath();
