@@ -47,14 +47,5 @@ namespace Cyberbear_View
             }
         }
 
-        private void SetText(string returnVal, TextBox textBox)
-        {
-           // TextBoxName = tbName.Text;
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
     }
 }
