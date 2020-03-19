@@ -84,8 +84,6 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         /// on for Sunbear if accurate</returns>
         public bool IsNightTime()
         {
-            //TimeSpan startOfNight = TimeSpan.Parse("11:27:00"); //replace with window values
-            //TimeSpan endOfNight = TimeSpan.Parse("12:32:00");
             DateTime now = DateTime.Now;
 
             //If current time is less than end of night and more than start of night, then it is night time 
@@ -151,6 +149,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             if (port != null && port.IsOpen)
             {
                 port.WriteLine(commandString);
+                _log.Debug("Command" + commandString + "was written to lights ardunio port");
             }
 
         }
@@ -161,7 +160,14 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         }
         public void Disconnect()
         {
-            port.Close();
+            try
+            {
+                port.Close();
+            }
+            catch(Exception ex)
+            {
+                _log.Error("Failure to close light arduino port because: " + ex.Message);
+            }
         }
     }
 }
