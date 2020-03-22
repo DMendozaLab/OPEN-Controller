@@ -57,9 +57,10 @@ namespace Cyberbear_View
                 timelapseControl.WorkerSupportsCancellation = true;
             }
             
+            //start up vimba
             Task task = new Task(() => machine.CameraControl.StartVimba());
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();  
+            task.Start(); 
         }
 
         #region Window Closing

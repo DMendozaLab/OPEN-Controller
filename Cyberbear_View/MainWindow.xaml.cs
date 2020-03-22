@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
 using Cyberbear_Events.MachineControl.GrblArdunio;
+using Cyberbear_Events.MachineControl;
 
 namespace Cyberbear_View
 {
@@ -32,6 +33,11 @@ namespace Cyberbear_View
         {
             log4net.Config.XmlConfigurator.Configure();
             log.Info("==============Entering Program===============");
+
+            //starting vimba, will start cameras individually for each, will look into for future 
+            /*Task task = new Task(() => Machine.CameraControl.StartVimba());
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();*/
 
             InitializeComponent();
         }
