@@ -89,10 +89,6 @@
     <Compile Include="MachineNameWindow.xaml.cs">
       <DependentUpon>MachineNameWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="ExperimentBuilderWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MachineConnectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,9 +106,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Consts\View_Consts.cs" />
-    <Compile Include="ExperimentBuilderWindow.xaml.cs">
-      <DependentUpon>ExperimentBuilderWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MachineConnectionWindow.xaml.cs">
       <DependentUpon>MachineConnectionWindow.xaml</DependentUpon>
     </Compile>
