@@ -26,7 +26,7 @@
             </TextBlock>
             
             <!--How to use textbloxk-->
-            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" TextWrapping="Wrap" Margin="10 0 10 0">
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" TextWrapping="Wrap" Margin="13 0 10 0" Width="710">
                 How to use: <LineBreak/>
                     1. Open a new machine connection window from the button below <LineBreak/>
                     2. Follow the user guide and tool tips to connect the machine as followed <LineBreak/>
@@ -36,7 +36,7 @@
         
         
         <!--Machine Connection Window Button-->
-        <Button x:Name="MachineWindow" Grid.Row="1" Margin="15" Click="MachineWindow_Click" FontSize="24">
+        <Button x:Name="MachineWindow" Grid.Row="1" Margin="15" Click="MachineWindow_Click" FontSize="24" ToolTip="Click to open new phenotyping machine connection">
             Open Machine Connect
         </Button>
 
