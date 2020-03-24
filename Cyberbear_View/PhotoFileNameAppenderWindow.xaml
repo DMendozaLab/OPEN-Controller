@@ -18,10 +18,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Center">Current Date + </TextBlock>
-            <TextBox Name="PhotoFileNameTextbox" Margin="5" Grid.Column="1"></TextBox>
+            <TextBox Name="PhotoFileNameTextbox" Margin="5" Grid.Column="1" ToolTip="Write to change filename of captured photos"></TextBox>
             <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <TextBlock VerticalAlignment="Center" Margin="3">+ Position Numbers</TextBlock>
-                <CheckBox Name="PositionNumbersBoolCheckbox" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"></CheckBox>
+                <CheckBox Name="PositionNumbersBoolCheckbox" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" ToolTip="Click to enable position numbers being added to filename"></CheckBox>
             </StackPanel>
         </Grid>
 
