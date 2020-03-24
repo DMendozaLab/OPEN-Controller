@@ -29,6 +29,6 @@
             <xctk:TimePicker Name="EndOfNightTime" Grid.Column="1" DefaultValue="7:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True" />
         </Grid>
 
-        <Button Name="ConfirmButton" Margin="20" Click="ConfirmButton_Click">Confirm</Button>
+        <Button Name="ConfirmButton" Margin="20" Click="ConfirmButton_Click" ToolTip="Click to confirm start and end of nighttime">Confirm</Button>
     </StackPanel>
 </Window>
