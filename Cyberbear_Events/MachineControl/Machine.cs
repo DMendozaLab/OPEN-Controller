@@ -213,6 +213,7 @@ namespace Cyberbear_Events.MachineControl
             //turn lights off (and growlights if night)
             LightOff();
 
+            cameraControl.CameraConst.positionNum = 0; //reseting position after single cycle
         }
 
         /// <summary>
