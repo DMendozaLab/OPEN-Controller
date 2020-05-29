@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cyberbear_View"
         mc:Ignorable="d"
-        Title="MachineName" Height="150" Width="300"
-        Closing="Window_Closing">
+        Title="MachineName" Height="150" Width="300">
     <Border Margin="10">
         <StackPanel>
             <Label HorizontalAlignment="Center">What is the name of this machine?</Label>

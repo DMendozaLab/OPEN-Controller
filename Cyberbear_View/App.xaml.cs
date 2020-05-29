@@ -19,7 +19,7 @@ namespace Cyberbear_View
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             log4net.Config.XmlConfigurator.Configure();
-            log.Info("        =============  Started Logging  =============        ");
+            log.Info("=========================  Started Logging  =========================");
         }
     }
 }

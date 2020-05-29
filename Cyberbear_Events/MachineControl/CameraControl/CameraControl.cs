@@ -23,13 +23,15 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly Camera instance = new Camera();
 
+        private CameraConst cameraConst = new CameraConst();
+
         #region Constructors
         /// <summary>
         /// Constructor for Camera Control Class
         /// </summary> 
         static Camera()
         {
-
+           
         }
         public static Camera Instance //instance is the object's understanding at the specific point in time when called.
         {
@@ -50,6 +52,8 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         private CameraInfo selectedItem;
         public VimbaHelper VimbaHelper { get => m_VimbaHelper; set => m_VimbaHelper = value; } //from VIMBAhelper.cs
         public CameraInfo SelectedItem { get => selectedItem; set => selectedItem = value; }
+        public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
+
         //Add log message to logging list box
         public delegate void ImageAcquired();
         public event EventHandler ImageAcquiredEvent;
@@ -62,9 +66,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         /// </summary>
         public void StartVimba()
         {
-            //cameraControl = new CameraControl();
-            //TODO Refactor to raise event
-            //updateCameraSettingsOptions();
             try
             {
                 //Start up Vimba API
@@ -220,9 +221,16 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         /// </summary>
         public void SelectCamera(int listPosition)
         {
-            selectedItem = cameras[listPosition]; //TODO make it so camera don't overlap with machines
+            try
+            {
+                selectedItem = cameras[listPosition];
 
-            _log.Info("New Selected Camera" + SelectedItem);
+                _log.Info("New Selected Camera" + SelectedItem);
+            }
+            catch(Exception ex)
+            {
+                _log.Error("Failure to select camera because: " + ex.Message);
+            }
         }
 
         public void OnCameraListChanged(object sender, EventArgs args)
@@ -244,7 +252,6 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         }
         public void loadCameraSettings()
         {
-            //     string cameraSettingsFileName = Directory.GetCurrentDirectory() + @".\Machine\CameraControl\CameraSettings\" + CameraConst.CameraSettingsPath;
             string cameraSettingsFileName = CameraConst.CameraSettingsPath;
             if (!String.Equals(cameraSettingsFileName, previousSettingsDir))
             {
@@ -252,9 +259,8 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                 forceSettingsReload();
             }
 
-
-
         }
+
         public void forceSettingsReload()
         {
             string cameraSettingsFileName = CameraConst.CameraSettingsPath;
@@ -330,12 +336,14 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         {
             StringBuilder sb = new StringBuilder();
             
-            
-            
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd--H-mm-ss");
 
             sb.Append(currentDate + "_");
             sb.Append(CameraConst.FileName);
+            if(cameraConst.AddPositionNumbers == true)
+            {
+                sb.Append("_PositionNumber" + cameraConst.positionNum);
+            }
             sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
 
             String filePath = Path.Combine(CameraConst.SaveFolderPath, sb.ToString());
@@ -344,6 +352,12 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
         public Task WriteImageToFile(System.Drawing.Image image)
         {
+            //if image passed was null
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             Task task = new Task(() => {
 
                 String filePath = createFilePath();
@@ -358,6 +372,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
 
             return task;
         }
+
         //changed return value from BitmapImage to void because of memory leak issues
         public void CapSaveImage()
         {
@@ -369,19 +384,13 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                     throw new NullReferenceException("No camera selected.");
                 }
 
-
                 //Acquire an image synchronously (snap) from selected camera
                 Image image = VimbaHelper.AcquireSingleImage(SelectedItem.ID);
-                System.Drawing.Image imageCopy = (System.Drawing.Image)image.Clone();
-              //  BitmapImage img = UpdateImageBox(imageCopy);
-              //  BitmapImage imgCopy = img;
-
+                Image imageCopy = (Image)image.Clone();
 
                 String filePath = createFilePath();
                 if (Directory.Exists(CameraConst.SaveFolderPath))
                 {
-
-
                     Task witf = WriteImageToFile(imageCopy);
                     witf.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                     witf.Start();
@@ -392,13 +401,10 @@ namespace Cyberbear_Events.MachineControl.CameraControl
                     LogError("Invalid directory selected");
                 }
 
-              //  return imgCopy;
-
             }
             catch (Exception exception)
             {
                 LogError("Could not acquire image. Reason: " + exception.Message);
-                //return null;
             }
         }
         static void ExceptionHandler(Task task)

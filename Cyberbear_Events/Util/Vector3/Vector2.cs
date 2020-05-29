@@ -1,9 +1,9 @@
-﻿using GeometRi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 //using System.Windows.Media.Media3D;
 
 namespace Cyberbear_Events.Util
@@ -148,9 +148,9 @@ namespace Cyberbear_Events.Util
 			);
 		}
 
-		public Point3d ToPoint3D(double z)
+		public Point3D ToPoint3D(double z)
 		{
-			return new Point3d(X, Y, z);
+			return new Point3D(X, Y, z);
 		}
 
 		public double Magnitude { get { return Math.Sqrt(X * X + Y * Y); } }

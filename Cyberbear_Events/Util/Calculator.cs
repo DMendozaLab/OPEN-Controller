@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using log4net;
 using Cyberbear_Events.MachineControl.GrblArdunio;
-using Cyberbear_Events.MachineControl.GrblArdunio;
 
 namespace Cyberbear_Events.Util
 {

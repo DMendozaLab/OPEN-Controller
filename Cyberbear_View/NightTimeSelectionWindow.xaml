@@ -1,0 +1,34 @@
+﻿<Window x:Class="Cyberbear_View.NightTimeSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cyberbear_View"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="NightTimeSelectionWindow" Height="175" Width="350">
+    <StackPanel Orientation="Vertical" Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock FontWeight="Bold" Margin="5" Grid.Column="0">Start of Night:</TextBlock>
+            <xctk:TimePicker Name="StartOfNightTime" Grid.Column="1" DefaultValue="23:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True"/>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock FontWeight="Bold" Margin="5" Grid.Column="0">End of Night:</TextBlock>
+            <xctk:TimePicker Name="EndOfNightTime" Grid.Column="1" DefaultValue="7:00:00" Format="LongTime" InputValidationError="DateTimeUpDown_InputValidationError" DisplayDefaultValueOnEmptyText="True" />
+        </Grid>
+
+        <Button Name="ConfirmButton" Margin="20" Click="ConfirmButton_Click" ToolTip="Click to confirm start and end of nighttime">Confirm</Button>
+    </StackPanel>
+</Window>

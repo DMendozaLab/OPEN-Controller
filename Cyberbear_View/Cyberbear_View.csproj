@@ -44,9 +44,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GeometRi, Version=1.3.5.12, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GeometRi.1.3.5.12\lib\net20\GeometRi.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -92,10 +89,6 @@
     <Compile Include="MachineNameWindow.xaml.cs">
       <DependentUpon>MachineNameWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="ExperimentBuilderWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MachineConnectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,9 +106,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Consts\View_Consts.cs" />
-    <Compile Include="ExperimentBuilderWindow.xaml.cs">
-      <DependentUpon>ExperimentBuilderWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MachineConnectionWindow.xaml.cs">
       <DependentUpon>MachineConnectionWindow.xaml</DependentUpon>
     </Compile>
@@ -123,8 +113,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NightTimeSelectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PhotoFileNameAppenderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NightTimeSelectionWindow.xaml.cs">
+      <DependentUpon>NightTimeSelectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PhotoFileNameAppenderWindow.xaml.cs">
+      <DependentUpon>PhotoFileNameAppenderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,10 +164,6 @@
     <ProjectReference Include="..\Cyberbear_Events\Cyberbear_Events.csproj">
       <Project>{2bd5260e-08b4-46cc-bcdb-7acc64060365}</Project>
       <Name>Cyberbear_Events</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cyberbear_ViewModel\Cyberbear_ViewModel.csproj">
-      <Project>{2e374f2f-4da4-463d-ba11-aab644ad3078}</Project>
-      <Name>Cyberbear_ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

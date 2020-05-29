@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
 using Cyberbear_Events.MachineControl.GrblArdunio;
+using Cyberbear_Events.MachineControl;
 
 namespace Cyberbear_View
 {
@@ -26,11 +27,6 @@ namespace Cyberbear_View
     {
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        //windows
-        ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
-        int counter = 0;
-        //testing
        
 
         public MainWindow()
@@ -38,13 +34,18 @@ namespace Cyberbear_View
             log4net.Config.XmlConfigurator.Configure();
             log.Info("==============Entering Program===============");
 
+            //starting vimba, will start cameras individually for each, will look into for future 
+            /*Task task = new Task(() => Machine.CameraControl.StartVimba());
+            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+            task.Start();*/
+
             InitializeComponent();
         }
 
         private void ExperimentBuilder_Btn_Click(object sender, RoutedEventArgs e)
         {
            // ExperimentBuilderWindow experimentBuilderWindow = new ExperimentBuilderWindow();
-            experimentBuilderWindow.Show();
+            //experimentBuilderWindow.Show();
         }
 
         private void MachineWindow_Click(object sender, RoutedEventArgs e)

@@ -30,7 +30,11 @@ namespace Cyberbear_Events.MachineControl
         private TimelapseConst timelapseConst;
         private GRBLArdunio_Constants grblArdunio_Constants;
         private string name; //name of machine, may be user added or by front end automatically, or window
-        private int numPlants; 
+        private int numPlants;
+        private CameraConst cameraConst;
+        private bool growlightsOn;
+        private bool dayNightCycleEnable = false; //day night cycle is not enabled unless checked box checked
+        private int numOfPositions; //number of positions of machine, determined by grbl file chosen in GUI
 
         public GRBLArdunio GrblArdunio { get => grblArdunio; set => grblArdunio = value; }
         public LightsArdunio LitArdunio { get => litArdunio; set => litArdunio = value; }
@@ -39,8 +43,13 @@ namespace Cyberbear_Events.MachineControl
         public TimelapseConst TimelapseConst { get => timelapseConst; set => timelapseConst = value; }
         public int NumPlants { get => numPlants; set => numPlants = value; }
         public GRBLArdunio_Constants GrblArdunio_Constants { get => grblArdunio_Constants; set => grblArdunio_Constants = value; }
+        public CameraConst CameraConst { get => cameraConst; set => cameraConst = value; }
+        public bool GrowlightsOn { get => growlightsOn; set => growlightsOn = value; }
+        public bool DayNightCycleEnable { get => dayNightCycleEnable; set => dayNightCycleEnable = value; }
+        public int NumOfPositions { get => numOfPositions; set => numOfPositions = value; }
+        public bool LongerWaitCheck = false; //for single axis machines like the Gassman machine
 
-      
+
 
         //constructor
         /// <summary>
@@ -59,12 +68,13 @@ namespace Cyberbear_Events.MachineControl
 
             TimelapseConst = new TimelapseConst(); //for timelapses
             GrblArdunio_Constants = new GRBLArdunio_Constants();
+            cameraConst = new CameraConst();
         }
 
         /// <summary>
         /// Connects Machine object by connecting GRBL ardunio, lights ardunio, and camera control. Returns boolean for success or failure
         /// </summary>
-        /// <returns>Returns 1 if success, 0 if connection failed</returns>
+        /// <returns></returns>
         public void Connect()
         {
             try
@@ -97,29 +107,37 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void Disconnect()
         {
-            if (GrblArdunio.Connected == true)
+            try
             {
-                GrblArdunio.Disconnect();
-                log.Info("Grbl Ardunio Disconnected");
-            }
-            else if (litArdunio.Connected == true)
-            {
-                LightOff(); //turn lights off before disconnecting
+                //if grbl connected
+                if (GrblArdunio.Connected == true)
+                {
+                    GrblArdunio.Disconnect();
+                    log.Info("Grbl Ardunio Disconnected");
+                }
+                //if lit aruindio connected
+                if (litArdunio.Connected == true)
+                {
+                    LightOff(); //turn lights off before disconnecting
 
-                litArdunio.Disconnect();
-                log.Info("Lights Ardunio Disconnected");
-            }
-            else
-            {
-                cameraControl.ShutdownVimba();
+                    litArdunio.Disconnect();
+                    log.Info("Lights Ardunio Disconnected");
+                }
+                
+                cameraControl.ShutdownVimba(); //shutdown vimba
                 log.Info("Camera Control Shutdown");
-            }
 
-            log.Info("Machine Disconnected");
+                log.Info("Machine Disconnected");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
 
-                /// <summary>
+        /// <summary>
         /// Single Cycle of machine
         /// </summary>
         public void SingleCycle()
@@ -155,17 +173,22 @@ namespace Cyberbear_Events.MachineControl
 
                 if (line == "$H" && firstHome)
                 {
-                    System.Threading.Thread.Sleep(6000); //40 secs t0 home and not miss positions
+                    System.Threading.Thread.Sleep(6000); //6 secs t0 home and not miss positions
                     firstHome = false;
                 }
 
                 if (line.Contains('X'))
                 {
-                   System.Threading.Thread.Sleep(3000);
+                   System.Threading.Thread.Sleep(4000);
                 }
                 if (line == "$HY")
                 {
-                    Thread.Sleep(11000);
+                    Thread.Sleep(12000);
+                }
+
+                if(line == "$I")
+                {
+                    //something to do with the cameras for Sam in the future
                 }
 
                 //if line not homing command then take pics
@@ -173,16 +196,29 @@ namespace Cyberbear_Events.MachineControl
                 {
                     if (!line.Contains('X')) //if not moving y axis then take pics
                     {
+                        if(LongerWaitCheck == true)
+                        {
+                            Thread.Sleep(5000); //for gassman machine because takes longer to move
+                        }
+
+                        Thread.Sleep(1000); //presleep for capture to adjust
+
+                        cameraControl.CameraConst.positionNum++;
+
                         cameraControl.CapSaveImage(); //capture image
+
+                        Thread.Sleep(1500); //sleep for 1 seconds
 
                     }
                 }
 
-                System.Threading.Thread.Sleep(1000); //sleep for 1 seconds
+                
             }
 
-            //turn lights off
+            //turn lights off (and growlights if night)
             LightOff();
+
+            cameraControl.CameraConst.positionNum = 0; //reseting position after single cycle
         }
 
         /// <summary>
@@ -197,145 +233,18 @@ namespace Cyberbear_Events.MachineControl
 
         public void loadCameraSettingsMachine()
         {
-            cameraControl.loadCameraSettings();
+            try
+            {
+                cameraControl.loadCameraSettings();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Camera Settings failed to load because: " + ex.Message);
+                MessageBox.Show("Camera settings failed to load because: " + ex.Message);
+            }
         }
 
         #region Timelapse
-        //private CancellationTokenSource tokenSource;
-
-        //public delegate void SingleCycleCompleted();
-
-        //public bool runningTimeLapse = false;
-        //public bool runningSingleCycle = false;
-
-        //public string tlEnd;
-        //public string tlCount;
-        //public double totalMinutes;
-
-        //public void startTimelapse()
-        //{
-        //    log.Info("Timelapse Starting");
-
-        //    runningTimeLapse = true;
-        //    TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(TimelapseConst.TlInterval * TimelapseConst.TlIntervalType);
-        //    log.Debug(TimelapseConst.TlInterval * TimelapseConst.TlIntervalType);
-        //    log.Debug(timeLapseInterval.Seconds);
-
-        //    TimelapseConst.TlStartDate = DateTime.Now;
-
-        //    double endTime = TimelapseConst.TlEndInterval * TimelapseConst.TlEndIntervalType;
-
-        //    DateTime endDate = TimelapseConst.TlStartDate.AddMilliseconds(endTime);
-        //    tlEnd = endDate.ToString();
-
-        //    if (endTime <= timeLapseInterval.TotalMilliseconds)
-        //    {
-        //        MessageBox.Show("Timelapse interval is larger than ending timelapse time, did you make a mistake?");
-        //        return; //return to exit start method
-        //    }
-
-        //    tlCount = TimelapseConst.TlStartDate.ToString();
-        //    //  TimeLapseStatus.Raise(this, new EventArgs());
-        //    HandleTimelapseCalculations(timeLapseInterval, endTime);
-
-        //}
-
-        //async Task WaitForStartNow()
-        //{
-        //    await Task.Delay(5000);
-        //}
-
-        //async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
-        //{
-        //    log.Debug("Awaiting timelapse");
-        //    while (duration.TotalSeconds > 0)
-        //    {
-        //        totalMinutes = duration.TotalMinutes;
-        //        tlCount = duration.TotalMinutes.ToString() + " minute(s)";
-        //        // TimeLapseStatus.Raise(this, new EventArgs());
-        //        /* if (!cycle.runningCycle)
-        //          {
-        //              if (!litArdunio.IsNightTime() && !growLightsOn)
-        //              {
-        //                  litArdunio.SetLight(litArdunio.GrowLight, true, true);
-        //                  growLightsOn = true;
-        //              }
-        //              else if (litArdunio.IsNightTime() && growLightsOn)
-        //              {
-        //                  litArdunio.SetLight(litArdunio.GrowLight, false, false);
-        //                  growLightsOn = false;
-        //              }
-        //          }*/
-        //        await Task.Delay(60 * 1000, token);
-        //        duration = duration.Subtract(TimeSpan.FromMinutes(1));
-        //    }
-
-        //}
-
-        //public async void HandleTimelapseCalculations(TimeSpan timeLapseInterval, Double endDuration)
-        //{
-
-        //    if (((TimelapseConst.StartNow || TimelapseConst.TlStartDate <= DateTime.Now))
-        //     && endDuration > 0)
-        //    {
-        //        log.Info("Running single timelapse cycle");
-        //        tokenSource = new CancellationTokenSource();
-        //        runningSingleCycle = true;
-        //        log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
-        //        //single cycle here
-
-                
-
-        //        SingleCycle();
-
-        //        try
-        //        {
-        //            await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
-        //        }
-        //        catch (TaskCanceledException e)
-        //        {
-        //            log.Error("TimeLapse Cancelled: " + e);
-        //            //runningTimeLapse = false;
-        //            stopTimelapse();
-        //            //TimeLapseStatus.Raise(this, new EventArgs());
-        //            return;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            log.Error("Unknown timelapse error: " + e);
-        //        }
-
-
-
-        //        HandleTimelapseCalculations(timeLapseInterval, endDuration - timeLapseInterval.TotalMilliseconds);
-        //    }
-        //    else if (TimelapseConst.TlStartDate > DateTime.Now)
-        //    {
-        //        await WaitForStartNow();
-        //        HandleTimelapseCalculations(timeLapseInterval, endDuration);
-        //    }
-        //    else
-        //    {
-        //        log.Info("TimeLapse Finished");
-        //        runningTimeLapse = false;
-        //        //  TimeLapseStatus.Raise(this, new EventArgs());
-        //        return;
-        //    }
-
-        //}
-        //public void stopTimelapse()
-        //{
-
-        //    // cycle.Stop();
-        //    if (tokenSource != null)
-        //    {
-        //        tokenSource.Cancel();
-        //    }
-        //    runningTimeLapse = false;
-        //    log.Debug("Timelapse stopped manually");
-
-        //}
-
         /// <summary>
         /// returns next timelapse starting time
         /// </summary>
@@ -396,18 +305,39 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void GrowLightOn()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+
+                growlightsOn = true;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Growlights failed to turn on because: " + ex.Message);
+                MessageBox.Show("Growlights failed to turn on because: " + ex.Message);
+            }
+            
         }
         /// <summary>
         /// When called, turns growlights off
         /// </summary>
         public void GrowLightOff()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
+               task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+               task.Start();
+
+               growlightsOn = false;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Growlights failed to turn off because: " + ex.Message);
+                MessageBox.Show("Growlights failed to turn off because: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -415,23 +345,104 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void setLightWhiteMachine()
         {
-            Task task = new Task(() => LitArdunio.SetBacklightColorWhite());
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetBacklightColorWhite());
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Lights failed to change to white because: " + ex.Message);
+                MessageBox.Show("Lights failed to change to white because: " + ex.Message);
+            }
         }
 
         public void LightOn()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));    
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            if(litArdunio.LightStatus == false)
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+
+                litArdunio.LightStatus = true; //lights are on
+
+            }
+            else
+            {
+                return;
+            }
         }
 
         public void LightOff()
         {
-            Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            try
+            {
+                if(litArdunio.LightStatus == true)
+                {
+                    Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                    task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                    task.Start();
+
+                    Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                    task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                    task2.Start();
+
+                    litArdunio.LightStatus = false; //lights are off 
+
+                    if(dayNightCycleEnable == true)
+                    {
+                        NightTimeLightOff();
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Lights failed to turn off because: " + ex.Message);
+                MessageBox.Show("Lights failed to turn off because: " + ex.Message);
+            }
+            
+        }
+
+        /// <summary>
+        /// Checks if nightime then turns growlights off
+        /// </summary>
+        public void NightTimeLightOff()
+        {
+            try
+            {
+                if (litArdunio.IsNightTime() == true) //if night time
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(500);
+                        GrowLightOff();
+                    });
+                }
+                else
+                {
+                    if(growlightsOn == false) //if lights not on, like after coming off of night, turn on
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            Thread.Sleep(500);
+                            GrowLightOn();
+                        });
+
+                    }
+                    
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to turn growlights off during nighttime check because: " + ex.Message);
+                MessageBox.Show("Failed to turn off during nighttime check because: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -439,8 +450,56 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void SoftReset()
         {
-            GrblArdunio.SoftReset();
+            try
+            {
+                GrblArdunio.SoftReset();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to soft reset Grbl Arduino because: " + ex.Message);
+                MessageBox.Show("Failed to soft reset Grbl Arduino because: " + ex.Message);
+            }
         }
         #endregion
+
+        //add camera const changes
+        public void CameraSettingsPathChange(string filepath)
+        {
+            try
+            {
+                CameraControl.CameraConst.CameraSettingsPath = filepath;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to change camera settings path because: " + ex.Message);
+                MessageBox.Show("Failed to change camera settings path because: " + ex.Message);
+            }
+        }
+
+        public void CameraSaveFolderPathChange(string folderResult)
+        {
+            try
+            {
+                CameraControl.CameraConst.SaveFolderPath = folderResult;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to change camera save folder path because: " + ex.Message);
+                MessageBox.Show("Failed to change camera save folder path because: " + ex.Message);
+            }
+        }
+
+        public void GRBLCommandFileChange(string fileResult)
+        {
+            try
+            {
+                GrblArdunio_Constants.GRBLFilePath = fileResult;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to change GRBL command file path because: " + ex.Message);
+                MessageBox.Show("Failed to change GRBL command file path because: " + ex.Message);
+            }
+        }
     }
 }

@@ -1,29 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using log4net;
-using System.IO;
 using Cyberbear_Events.MachineControl;
-using Cyberbear_Events.MachineControl.GrblArdunio;
-using Cyberbear_Events.MachineControl.LightingControl;
-using Cyberbear_Events.MachineControl.CameraControl;
 using Cyberbear_Events;
 using Cyberbear_View.Consts;
 using System.Threading;
-using Cyberbear_Events.Util;
-using System.Drawing;
-using static Cyberbear_Events.MachineControl.LightingControl.LightsArdunio;
 using System.ComponentModel;
 
 namespace Cyberbear_View
@@ -35,10 +20,6 @@ namespace Cyberbear_View
     {
         //logger
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        //private GRBLArdunio gArdunio = GRBLArdunio.Instance;
-        //private LightsArdunio litArdunio = LightsArdunio.Instance;
-        //private Camera cameraControl = Camera.Instance;
 
         private Machine machine = new Machine();
 
@@ -56,7 +37,7 @@ namespace Cyberbear_View
 
             //setting name of window and machine
             var w = new MachineNameWindow();
-            if (w.ShowDialog() == true) //gotta make sure no memory leak
+            if (w.ShowDialog() == true)
             {
                 machine.Name = w.TextBoxName;
                 this.Title = machine.Name;
@@ -73,13 +54,13 @@ namespace Cyberbear_View
                 timelapseControl.WorkerReportsProgress = true;
                 timelapseControl.ProgressChanged += TimelapseControl_ProgressChanged;
                 timelapseControl.RunWorkerCompleted += TimelapseControl_RunWorkerCompleted;
+                timelapseControl.WorkerSupportsCancellation = true;
             }
             
+            //start up vimba
             Task task = new Task(() => machine.CameraControl.StartVimba());
             task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
-
-            //for now will initalize one machine in start  
+            task.Start(); 
         }
 
         #region Window Closing
@@ -191,18 +172,34 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void GrblSerialComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            log.Info("Grbl Serial Port Combo Box Opened");
+            try
+            {
+                log.Info("Grbl Serial Port Combo Box Opened");
 
-            updateSerialPortComboBox(GrblSerialComboBox);
+                updateSerialPortComboBox(GrblSerialComboBox);
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to display grbl serial port combo box because: " + ex.Message);
+                MessageBox.Show("Failed to show serial ports for grbl arduino");
+            }
         }
         /// <summary>
         /// Opens all available serial ports for lights ardunio serial port combo box
         /// </summary>
         private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            log.Info("Lights Ardunio Serial Port Combo Box Opened");
+            try
+            {
+                log.Info("Lights Ardunio Serial Port Combo Box Opened");
 
-            updateSerialPortComboBox(LightsSerialComboBox);
+                updateSerialPortComboBox(LightsSerialComboBox);
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to display lights serial port combo box because: " + ex.Message);
+                MessageBox.Show("Failed to show serial ports for lights arduino");
+            }
         }
 
         /// <summary>
@@ -218,25 +215,12 @@ namespace Cyberbear_View
 
             foreach (string port in ports)
             {
-                //if (string.Equals(cb.Name, "LightsSerialComboBox"))
-                //{
-                //    selectedIndex = i;
-                //}
-                //if (string.Equals(cb.Name, "GrblSerialComboBox"))
-                //{
-                //    selectedIndex = i;
-                //}
-
                 cb.Items.Add(port);
                 i++;
             }
 
-            
-                        
-
             log.Debug("Serial Ports Updated for Combo Box");
-
-         
+ 
         }
 
         /// <summary>
@@ -260,10 +244,11 @@ namespace Cyberbear_View
             
         }
 
+        //selection for combo box was chosen
         private void GrblSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectPort = GrblSerialComboBox.SelectedItem;
-            string selectPortString = selectPort.ToString();//Todo fix
+            string selectPortString = selectPort.ToString();
             UpdateSerialConst(selectPortString, GrblSerialComboBox);
 
             Connect_Btn_CanEnable();
@@ -277,6 +262,7 @@ namespace Cyberbear_View
 
             Connect_Btn_CanEnable();
         }
+
         /// <summary>
         /// If drop down opened
         /// </summary>
@@ -305,53 +291,7 @@ namespace Cyberbear_View
         #endregion
         
         #region Camera Settings 
-        //private void CameraList_cb_DropDownOpened(object sender, EventArgs e)
-        //{
-        //    updateCameraSettingsOptions();
-        //}
-
-        /// <summary>
-        /// Updates Camera Settings Options for combo box, may change in future
-        /// </summary>
-        /// Commenting out for now because not problem
-        //private void updateCameraSettingsOptions()
-        //{
-        //    string csPath = CameraConst.CameraSettingsPath;
-        //    CameraList_cb.Items.Clear();
-
-        //    DirectoryInfo d = new DirectoryInfo(@"C:\Users\sam998\Desktop\Cyberbear\Cyberbear\Cyberbear_Events\Machine\CameraControl\CameraSettings");//Assuming Test is your Folder
-        //    FileInfo[] Files = d.GetFiles("*.xml"); //Getting Text files with .xml at the end
-        //                                            //string str = "";
-
-        //    int i = 0;
-        //    int selectedIndex = i;
-        //    foreach (FileInfo file in Files)
-        //    {
-        //        if (string.Equals(file.Name, csPath))
-        //        {
-        //            selectedIndex = i;
-        //        }
-        //        CameraList_cb.Items.Add(file);
-        //        i++;
-        //    }
-        //    Dispatcher.Invoke(() =>
-        //    {//this refer to form in WPF application 
-        //        CameraList_cb.SelectedIndex = selectedIndex;
-        //    });
-
-        //}
-
-        /// <summary>
-        /// Updates Camera instance of new settings chosen
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void CameraList_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    Task task = new Task(() => cameraControl.loadCameraSettings());
-        //    task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-        //    task.Start();
-        //}
+        //removed 3/19/2020
         #endregion
          
         #region Save Folder Location 
@@ -366,7 +306,7 @@ namespace Cyberbear_View
 
             if(folderResult != null) //if user chose something
             {
-                CameraConst.SaveFolderPath = folderResult;
+                machine.CameraSaveFolderPathChange(folderResult);
 
                 SaveFolderPath.Text = folderResult; //set text to folder path
             }
@@ -402,13 +342,37 @@ namespace Cyberbear_View
         private void GRBLCommandFileBtn_Click(object sender, RoutedEventArgs e)
         {
             string fileResult = GetFileResult();
+            int numPositions = 0;
+            string[] lines;
 
-            if (fileResult != null) //if user chose something
+            try
             {
-                machine.GrblArdunio_Constants.GRBLFilePath = fileResult;
+                if (fileResult != null) //if user chose something
+                {
+                    machine.GRBLCommandFileChange(fileResult);
 
-                GRBLCommandFilePath.Text = fileResult; //set text to folder path
+                    GRBLCommandFilePath.Text = fileResult; //set text to folder path
+
+                    lines = System.IO.File.ReadAllLines(machine.GrblArdunio_Constants.GRBLFilePath);
+
+                    foreach(string line in lines)
+                    {
+                        if(!line.Contains("H"))
+                        {
+                            numPositions++;
+                        }
+                    }
+
+                    machine.NumOfPositions = numPositions; //machine object updating
+
+                    NumberofPositionsBox.Text = numPositions.ToString();
+                }
             }
+            catch
+            {
+                MessageBox.Show("Error..."); // will update in future
+            }
+            
         }
 
         /// <summary>
@@ -470,6 +434,7 @@ namespace Cyberbear_View
         private void ButtonBackLightOn()
         {
             machine.LightOn();
+            log.Debug("Back lights turned on");
         }
 
         /// <summary>
@@ -479,9 +444,8 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void ButtonBackLightOff()
         {
-            Task task = new Task(() => machine.LitArdunio.SetLight(Peripheral.Backlight, false));
-            task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-            task.Start();
+            machine.LightOff();
+            log.Debug("Back lights turned off");
         }
         #endregion
         
@@ -508,7 +472,18 @@ namespace Cyberbear_View
         {
             //TODO
             //reenable certian buttons and some other shiz
-            log.Info("Cycle Completed");
+            if(e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else if(e.Cancelled)
+            {
+                MessageBox.Show("Cycle was cancelled");
+            }
+            else
+            {
+                log.Info("Cycle Completed");
+            }
         }
 
         private void CycleWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -579,7 +554,8 @@ namespace Cyberbear_View
             log.Info("Starting Timelapse");
 
             View_Consts.runningTL = true;
-            timelapseControl.RunWorkerAsync();
+
+            startTimelapse();
         }
 
         private void TimelapseControl_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -635,6 +611,7 @@ namespace Cyberbear_View
 
         }
 
+       
         private void TimelapseControl_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             TimelapseCountTextBox.Text = machine.TimelapseStartDate(); //TODO Fix thuis bug and figure out how to report
@@ -650,7 +627,7 @@ namespace Cyberbear_View
         {
             if(View_Consts.runningTL == true)
             {
-                timelapseControl.CancelAsync();
+                stopTimelapse();
             }
             else
             {
@@ -683,7 +660,6 @@ namespace Cyberbear_View
             {
                 TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString();
             });
-           // TimelapseCountTextBox.Text = machine.TimelapseConst.TlStartDate.ToString();
 
             double endTime = machine.TimelapseConst.TlEndInterval * machine.TimelapseConst.TlEndIntervalType;
 
@@ -712,6 +688,7 @@ namespace Cyberbear_View
             await Task.Delay(5000);
         }
 
+
         async Task RunSingleTimeLapse(TimeSpan duration, CancellationToken token)
         {
             log.Debug("Awaiting timelapse");
@@ -724,20 +701,12 @@ namespace Cyberbear_View
                 {
                     TimelapseCountTextBox.Text = tlCount;
                 });
-                // TimeLapseStatus.Raise(this, new EventArgs());
-                /* if (!cycle.runningCycle)
-                  {
-                      if (!litArdunio.IsNightTime() && !growLightsOn)
-                      {
-                          litArdunio.SetLight(litArdunio.GrowLight, true, true);
-                          growLightsOn = true;
-                      }
-                      else if (litArdunio.IsNightTime() && growLightsOn)
-                      {
-                          litArdunio.SetLight(litArdunio.GrowLight, false, false);
-                          growLightsOn = false;
-                      }
-                  }*/
+
+                if(machine.DayNightCycleEnable == true)
+                {
+                    machine.NightTimeLightOff(); //check if nightime
+                }
+
                 await Task.Delay(60 * 1000, token);
                 duration = duration.Subtract(TimeSpan.FromMinutes(1));
             }
@@ -754,12 +723,14 @@ namespace Cyberbear_View
                 tokenSource = new CancellationTokenSource();
                 runningSingleCycle = true;
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
-                //single cycle here
 
-
-
-                SingleCycle();
-
+                //may need await, we will see
+                Task.Factory.StartNew(
+                    () =>
+                     {
+                         SingleCycle();
+                     });
+                
                 try
                 {
                     await RunSingleTimeLapse(timeLapseInterval, tokenSource.Token);
@@ -767,9 +738,7 @@ namespace Cyberbear_View
                 catch (TaskCanceledException e)
                 {
                     log.Error("TimeLapse Cancelled: " + e);
-                    //runningTimeLapse = false;
                     stopTimelapse();
-                    //TimeLapseStatus.Raise(this, new EventArgs());
                     return;
                 }
                 catch (Exception e)
@@ -795,15 +764,12 @@ namespace Cyberbear_View
                     TimelapseCountTextBox.Clear();
                     TimelapseEndTimeTextBox.Clear();
                 });
-                //  TimeLapseStatus.Raise(this, new EventArgs());
                 return;
             }
 
         }
         public void stopTimelapse()
         {
-
-            // cycle.Stop();
             if (tokenSource != null)
             {
                 tokenSource.Cancel();
@@ -902,7 +868,7 @@ namespace Cyberbear_View
 
             if (fileResult != null && fileResult.Contains(".xml")) //if user chose something
             {
-                CameraConst.CameraSettingsPath = fileResult;
+                machine.CameraSettingsPathChange(fileResult);
 
                 CameraSettingsPath.Text = fileResult; //set text to folder path
 
@@ -922,15 +888,23 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void CameraSelectionCb_DropDownOpened(object sender, EventArgs e)
         {
-            machine.CameraControl.UpdateCameraList();
-
-            List<string> cameraNames = machine.CameraControl.GetCameraListNames();
-
-            CameraSelectionCb.Items.Clear();
-
-            foreach(string name in cameraNames)
+            try
             {
-                CameraSelectionCb.Items.Add(name);
+                machine.CameraControl.UpdateCameraList();
+
+                List<string> cameraNames = machine.CameraControl.GetCameraListNames();
+
+                CameraSelectionCb.Items.Clear();
+
+                foreach(string name in cameraNames)
+                {
+                    CameraSelectionCb.Items.Add(name);
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to select camera from drop down because: " + ex.Message);
+                MessageBox.Show("Failure to select camera from drop down because: " + ex.Message);
             }
             
 
@@ -977,6 +951,89 @@ namespace Cyberbear_View
         private void HomeArdunioBtn_Click(object sender, RoutedEventArgs e)
         {
             machine.GrblArdunio.HomeMachine();
+        }
+
+        /// <summary>
+        /// Opens Nighttime Selection Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenNightTimeSelectionWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new NightTimeSelectionWindow();
+            if (w.ShowDialog() == true) //gotta make sure no memory leak
+            {
+                machine.LitArdunio.StartOfNight = (DateTime)w.StartOfNightTime.Value;
+                NightTimeStartsTextbox.Text = machine.LitArdunio.StartOfNight.ToString("HH:mm:ss tt");
+                machine.LitArdunio.EndOfNight = (DateTime)w.EndOfNightTime.Value;
+                NightTimeEndTextbox.Text = machine.LitArdunio.EndOfNight.ToString("HH:mm:ss tt");
+
+                //logging
+                log.Debug("Start of night changed to: " + w.StartOfNightTime.Value.ToString());
+                log.Debug("End of night changed to: " + w.EndOfNightTime.Value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Checkbox for enabling day night cycle is checked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                machine.DayNightCycleEnable = true;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failure to enable day/night cycle because: " + ex.Message);
+                MessageBox.Show("Failure to enable day/night cycle because: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Day night cycle is unenabled from checked mark
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            machine.DayNightCycleEnable = false;
+        }
+
+        private void LongerWaitTimeCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                machine.LongerWaitCheck = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
+        }
+
+        private void LongerWaitTimeCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                machine.LongerWaitCheck = false;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
+        }
+
+        private void AppendPhotoNameWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new PhotoFileNameAppenderWindow();
+            if (w.ShowDialog() == true) //gotta make sure no memory leak
+            {
+                machine.CameraControl.CameraConst.FileName = w.PhotoFileNameTextbox.Text;
+                machine.CameraControl.CameraConst.AddPositionNumbers = (bool)w.PositionNumbersBoolCheckbox.IsChecked;
+            }
         }
     }
 

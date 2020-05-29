@@ -20,12 +20,25 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         ConnectionType connectionType;
         public bool Connected { get => connected; set => connected = value; }
 
+        //false means off, true means on
+        private bool lightStatus = false;
+        public bool LightStatus { get => lightStatus; set => lightStatus = value; }
+
         SerialPort port;
 
         public enum Peripheral { Backlight = 6, GrowLight = 1 };
 
+        private bool nightTime = false;
+        public bool NightTime { get => nightTime; set => nightTime = value; }
+
         private bool connected = false;
         private static readonly LightsArdunio instance = new LightsArdunio();
+
+        private DateTime startOfNight;
+        private DateTime endOfNight;
+
+        public DateTime StartOfNight { get => startOfNight; set => startOfNight = value; }
+        public DateTime EndOfNight { get => endOfNight; set => endOfNight = value; }
 
         #region Constructors
         static LightsArdunio()
@@ -39,9 +52,11 @@ namespace Cyberbear_Events.MachineControl.LightingControl
                 return instance;
             }
         }
+
+      
         #endregion
 
-       
+
         public void Connect()
         {
             switch (connectionType)
@@ -61,18 +76,20 @@ namespace Cyberbear_Events.MachineControl.LightingControl
 
         }
 
-        //Is this needed?
-        
-        /*public bool IsNightTime()
+        /// <summary>
+        /// Method for finding an boolean statement to if the system is currently in nighttime
+        /// and should have the growlights on or not
+        /// </summary>
+        /// <returns>Returns a true or false (boolean) statement for if nighttime or not. Will turn on Growlights
+        /// on for Sunbear if accurate</returns>
+        public bool IsNightTime()
         {
-            TimeSpan startOfNight = Properties.Settings.Default.StartOfNight;
-            TimeSpan endOfNight = Properties.Settings.Default.EndOfNight;
-            TimeSpan now = DateTime.Now.TimeOfDay;
+            DateTime now = DateTime.Now;
 
-            //_log.Debug("Current total hours: " + now.TotalHours);
-            return (now >= startOfNight || now <= endOfNight) ? true : false;
+            //If current time is less than end of night and more than start of night, then it is night time 
+            return ((now.TimeOfDay <= EndOfNight.TimeOfDay) & (now.TimeOfDay >= StartOfNight.TimeOfDay)) ? true : false;
 
-        }*/
+        }
 
 
         public void SetLight(Peripheral peripheral, bool status, bool daytime)
@@ -116,6 +133,12 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             SendCommand(cmdStr);
         }
 
+        public void SetBrightness()
+        {
+            string cmdStr = "S4P0";
+            SendCommand(cmdStr);
+        }
+
         private int BtoI(bool value)
         {
             return (value == true) ? 1 : 0;
@@ -126,6 +149,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             if (port != null && port.IsOpen)
             {
                 port.WriteLine(commandString);
+                _log.Debug("Command" + commandString + "was written to lights ardunio port");
             }
 
         }
@@ -136,7 +160,14 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         }
         public void Disconnect()
         {
-            port.Close();
+            try
+            {
+                port.Close();
+            }
+            catch(Exception ex)
+            {
+                _log.Error("Failure to close light arduino port because: " + ex.Message);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿#region Imports
 
-using GeometRi;
 using System;
+using System.Windows.Media.Media3D;
 using System.Xml.Serialization;         // for various Xml attributes
 #endregion
 
@@ -1555,9 +1555,9 @@ namespace Cyberbear_Events.Util
 
         #endregion
 
-        public Point3d ToPoint3D()
+        public Point3D ToPoint3D()
         {
-            return new Point3d(X, Y, Z);
+            return new Point3D(X, Y, Z);
         }
 
         public Vector2 GetXY()
