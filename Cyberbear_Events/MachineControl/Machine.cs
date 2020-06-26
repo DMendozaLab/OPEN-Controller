@@ -177,18 +177,14 @@ namespace Cyberbear_Events.MachineControl
                     firstHome = false;
                 }
 
-                if (line.Contains('X'))
+                /*if (line.Contains('X'))
                 {
                    System.Threading.Thread.Sleep(4000);
-                }
+                }*/
+
                 if (line == "$HY")
                 {
                     Thread.Sleep(12000);
-                }
-
-                if(line == "$I")
-                {
-                    //something to do with the cameras for Sam in the future
                 }
 
                 //if line not homing command then take pics
