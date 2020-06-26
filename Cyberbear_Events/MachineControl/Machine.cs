@@ -194,7 +194,7 @@ namespace Cyberbear_Events.MachineControl
                 //if line not homing command then take pics
                 if (!line.Contains('H'))
                 {
-                    if (!line.Contains('X')) //if not moving y axis then take pics
+                    if (!line.Contains('Y')) //if not moving y axis then take pics
                     {
                         if(LongerWaitCheck == true)
                         {
