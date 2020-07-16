@@ -167,20 +167,20 @@ namespace Cyberbear_Events.MachineControl
 
             foreach (string line in lines)
             {
-                //TODO something about the timing
+                //X commands will take photos
                 GrblArdunio.SendLine(line); //sending line to ardunio
                 log.Info("G Command Sent: " + line);
 
                 if (line == "$H" && firstHome)
                 {
-                    System.Threading.Thread.Sleep(6000); //6 secs t0 home and not miss positions
+                    Thread.Sleep(6000); //6 secs t0 home and not miss positions
                     firstHome = false;
                 }
 
-                /*if (line.Contains('X'))
+                if (line.Contains('Y'))
                 {
                    System.Threading.Thread.Sleep(4000);
-                }*/
+                }
 
                 if (line == "$HY")
                 {

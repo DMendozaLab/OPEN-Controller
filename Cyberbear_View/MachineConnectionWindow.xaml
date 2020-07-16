@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="950" Width="800"
+        Title="MachineConnectionWindow" Height="950" Width="850"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
-    <StackPanel Margin="10">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10">
         <!--Title of Window-->
         <Border BorderThickness="10">
             <TextBlock FontWeight="Bold" TextAlignment="Center" TextDecorations="underline">Machine Connection</TextBlock>
@@ -20,7 +21,8 @@
         <Label FontWeight="Bold">Serial Port Selection:</Label>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.2*"/> <!--Just a little bigger so baudrate isn't cut off screen-->
+                <ColumnDefinition Width="1.2*"/>
+                <!--Just a little bigger so baudrate isn't cut off screen-->
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -36,7 +38,7 @@
                     <ComboBox Margin="10">
                         <ComboBoxItem>115200</ComboBoxItem>
                     </ComboBox>
-                    
+
                 </StackPanel>
                 <!--Lights Ardunio Connection-->
                 <StackPanel Orientation="Horizontal">
@@ -57,18 +59,18 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <!--Connect Button-->
                 <Button Grid.Column="0" x:Name="Connect_Btn" Click="Connect_Btn_Click" Margin="10" Content="Connect"
                     IsEnabled="False" ToolTip="Press to connect machine"></Button>
-                
+
                 <!--Disconnect Button-->
                 <Button Grid.Column="1" Name="Disconnect_Btn" Click="Disconnect_Btn_Click" Margin="10" Content="Disconnect"
                         IsEnabled="False" ToolTip="Press to disconnect machine"></Button>
             </Grid>
-            
+
         </Grid>
-        
+
         <!--Camera Settings Combo Box-->
         <Label FontWeight="Bold" ToolTip="The camera settings for the vimba camera of the machine">Camera Settings:</Label>
         <Border BorderThickness="6">
@@ -79,7 +81,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="0.625*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <!--Camera Settings Location Button-->
                 <Button Name="CameraSettingsBtn" Grid.Column="0" Click="CameraSettingsBtn_Click" ToolTip="Click to select camera settings file (.xml files)">
                     Click for File
@@ -94,7 +96,7 @@
                 <!--Camera selection combobox-->
                 <ComboBox Name ="CameraSelectionCb" Grid.Column="2" DropDownOpened="CameraSelectionCb_DropDownOpened" SelectionChanged="CameraSelectionCb_SelectionChanged"
                           ToolTip="Select vimba camera for machine based on serial number">
-                    
+
                 </ComboBox>
 
                 <!--Photo name appender button-->
@@ -104,7 +106,7 @@
 
             </Grid>
         </Border>
-                
+
 
         <!--Save Folder Location-->
         <Label FontWeight="Bold" ToolTip="Where photos from machine cycles will be saved on computer hard drive">Save Folder Location:</Label>
@@ -116,7 +118,7 @@
                     <ColumnDefinition Width="0.6*"/>
                     <ColumnDefinition Width="0.6*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <!--Save Folder Location Button-->
                 <Button Name="SaveFolderBtn" Grid.Column ="0"  Click="SaveFolderBtn_Click" ToolTip="Click to search for folder to save images to from cycles">
                     Click for Folder
@@ -163,16 +165,16 @@
 
                 </TextBox>
 
-                <!--Extra Wait Checkbox-->
+                <!--Extra Wait Checkbox
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
-                    <TextBlock VerticalAlignment="Center" Margin="3">Check to have longer wait: </TextBlock>
+                    <TextBlock VerticalAlignment="Center" Margin="3">Check to have longer wait:</TextBlock>
                     <CheckBox Name="LongerWaitTimeCheckbox" VerticalAlignment="Center" Margin="3" Checked="LongerWaitTimeCheckbox_Checked" 
                               Unchecked="LongerWaitTimeCheckbox_Unchecked" ToolTip="Click to enable longer wait times between positions (if current waiting times don't work)"></CheckBox>
-                </StackPanel>
-                
+                </StackPanel>-->
+
             </Grid>
-            
-         </Border>
+
+        </Border>
 
         <!--Single Cycle Buttons-->
         <Label FontWeight="Bold" ToolTip="Commands for single cycle of image capturing">Single Cycle</Label>
@@ -184,21 +186,21 @@
         <Border BorderThickness="10">
             <Button x:Name="StopManualCycleBtn" Click="StopManualCycleBtn_Click" IsEnabled="False" ToolTip="Click to stop single cycle of machine">Stop</Button>
         </Border>
-         <!--Stop Button for machine-->
+        <!--Stop Button for machine-->
         <Border BorderThickness="10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <!--Reset GRBL arduino button-->
                 <Button Grid.Column="0" x:Name="ResetArdunioBtn" Click="ResetArdunioBtn_Click" IsEnabled="False" ToolTip="Click to soft reset GRBL arduino, in case of malfunction">Reset GRBL Ardunio</Button>
-                
+
                 <!--Homing button-->
                 <Button Grid.Column="1" x:Name="HomeArdunioBtn" Click="HomeArdunioBtn_Click" IsEnabled="False" ToolTip="Click to send homing command to machine. Will not work if cycle in progress">Home</Button>
             </Grid>
-            
+
         </Border>
 
         <!--Timelapse-->
@@ -209,7 +211,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <!--Timelapse intervals-->
                 <StackPanel Grid.Column="0">
                     <StackPanel Orientation="Horizontal">
@@ -242,54 +244,54 @@
                         <TextBox Name="NightTimeEndTextbox" VerticalAlignment="Center" Margin="5" ToolTip="When nightime ends"></TextBox>
                     </StackPanel>
                 </StackPanel>
-                
+
                 <!--Next Timelapse and Ending Time textbox-->
                 <Border Margin="10" Grid.Column="1">
                     <StackPanel Orientation="Vertical">
-                        
+
                         <!--Next Timelapse Textbox-->
                         <Border Margin="3">
                             <StackPanel Orientation="Horizontal">
-                            <TextBlock FontWeight="Bold">Next Timelapse:</TextBlock>
-                            <TextBox Name="TimelapseCountTextBox" IsReadOnly="True" ToolTip="How long until next cycle in timelapse will run"></TextBox>
+                                <TextBlock FontWeight="Bold">Next Timelapse:</TextBlock>
+                                <TextBox Name="TimelapseCountTextBox" IsReadOnly="True" ToolTip="How long until next cycle in timelapse will run"></TextBox>
                             </StackPanel>
                         </Border>
-                        
+
                         <!--Ending Time of Timelapse Textbox-->
                         <Border Margin="3">
                             <StackPanel Orientation="Horizontal">
-                            <TextBlock FontWeight="Bold">Ending Time:</TextBlock>
-                            <TextBox Name="TimelapseEndTimeTextBox" IsReadOnly="True" ToolTip="Time at which timelapse will end"></TextBox>
+                                <TextBlock FontWeight="Bold">Ending Time:</TextBlock>
+                                <TextBox Name="TimelapseEndTimeTextBox" IsReadOnly="True" ToolTip="Time at which timelapse will end"></TextBox>
                             </StackPanel>
                         </Border>
-                        
+
                     </StackPanel>
-                    
+
                 </Border>
-                
+
             </Grid>
-            
+
         </Border>
-         
+
         <!--Start Timelapse button-->
         <Border BorderThickness="10">
             <Button Name="StartTimelapseCycleBtn" Click="StartTimelapseCycleBtn_Click" IsEnabled="False" ToolTip="Click to start timelapse">Start</Button>
         </Border>
-        
+
         <!--Stop Timelapse Button-->
         <Border BorderThickness="10">
             <Button Name="StopTimelapseCycleBtn" Click="StopTimelapseCycleBtn_Click" IsEnabled="False" ToolTip="Click to stop timelapse">Stop</Button>
         </Border>
-       
-        
+
+
         <!--Camera Lighting Control-->
         <Label FontWeight="Bold">Camera Lighting Control</Label>
-        
+
         <!--Lights On-->
         <Border BorderThickness="10">
             <Button Name="LightsOnBtn" Click="LightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
         </Border>
-        
+
         <!--Lights Off-->
         <Border BorderThickness="10">
             <Button Name="LightsOffBtn" Click="LightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
@@ -297,16 +299,17 @@
 
         <!--Growlight Lighting UI-->
         <Label FontWeight="Bold">Growlight Control</Label>
-        
+
         <!--Growlights On-->
         <Border BorderThickness="10">
             <Button Name="GrowlightOnBtn" Click="GrowlightOnBtn_Click" ToolTip="Click to turn growlights on (for root phenotyping machines)">Growlights On</Button>
         </Border>
-        
+
         <!--Growlights Off-->
         <Border BorderThickness="10">
             <Button Name="GrowlightsOffBtn" Click="GrowlightsOffBtn_Click" ToolTip="Click to turn growlights off (for root phenotyping machines)">Growlights Off</Button>
         </Border>
-        
-       </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
 </Window>
