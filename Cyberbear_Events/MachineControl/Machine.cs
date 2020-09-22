@@ -173,7 +173,7 @@ namespace Cyberbear_Events.MachineControl
 
                 if (line == "$H" && firstHome)
                 {
-                    Thread.Sleep(6000); //6 secs t0 home and not miss positions
+                    Thread.Sleep(8000); //6 secs t0 home and not miss positions
                     firstHome = false;
                 }
 
@@ -192,18 +192,13 @@ namespace Cyberbear_Events.MachineControl
                 {
                     if (!line.Contains('Y')) //if not moving y axis then take pics
                     {
-                        if(LongerWaitCheck == true)
-                        {
-                            Thread.Sleep(5000); //for gassman machine because takes longer to move
-                        }
-
-                        Thread.Sleep(1000); //presleep for capture to adjust
+                        Thread.Sleep(5000); //presleep for capture to adjust
 
                         cameraControl.CameraConst.positionNum++;
 
                         cameraControl.CapSaveImage(); //capture image
 
-                        Thread.Sleep(1500); //sleep for 1 seconds
+                        Thread.Sleep(2000); //sleep for 1 seconds
 
                     }
                 }
