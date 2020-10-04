@@ -155,9 +155,9 @@ namespace Cyberbear_Events.MachineControl
 
             
             LightOn();
-            setLightWhiteMachine();
+           // setLightWhiteMachine();
 
-            log.Debug("Backlights set to white");
+            //log.Debug("Backlights set to white");
 
             if (lines.Count == 0 || lines[0] != "$H")
             {
@@ -376,9 +376,10 @@ namespace Cyberbear_Events.MachineControl
                     task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                     task.Start();
 
-                    Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                    //will remove if testing proves that it works
+                   /* Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
                     task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-                    task2.Start();
+                    task2.Start();*/
 
                     litArdunio.LightStatus = false; //lights are off 
 

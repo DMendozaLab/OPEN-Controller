@@ -77,6 +77,42 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         }
 
         /// <summary>
+        /// Send command string to turn backlights on
+        /// </summary>
+        public void BacklightOn()
+        {
+            string cmdStr = "S0V1";
+            SendCommand(cmdStr);
+        }
+
+        /// <summary>
+        /// Send command string to turn backlights off
+        /// </summary>
+        public void BacklightOff()
+        {
+            string cmdStr = "S0V0";
+            SendCommand(cmdStr);
+        }
+
+        /// <summary>
+        /// Send command strng to turn growlights on
+        /// </summary>
+        public void GrowlightOn()
+        {
+            string cmdStr = "S1V1";
+            SendCommand(cmdStr);
+        }
+
+        /// <summary>
+        /// sends command string to turn growlights off
+        /// </summary>
+        public void GrowlightOff()
+        {
+            string cmdStr = "S1V0";
+            SendCommand(cmdStr);
+        }
+
+        /// <summary>
         /// Method for finding an boolean statement to if the system is currently in nighttime
         /// and should have the growlights on or not
         /// </summary>
@@ -106,21 +142,28 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             }
         }
 
+        /// <summary>
+        /// Will set lights according to command recieved
+        /// </summary>
+        /// <param name="peripheral">Which peripheral light to set</param>
+        /// <param name="value">1 to turn on and 0 to turn off</param>
         public void SetLight(Peripheral peripheral, bool value)
         { 
-           // PeripheralUpdate.Raise(this, new PeripheralEventArgs(peripheral, value));
             string cmdStr = "";
             if (peripheral == Peripheral.Backlight)
             {
-                cmdStr = "S2P" + peripheral.ToString("D") + "V" + BtoI(value);
+                cmdStr = "S2V" + BtoI(value);
             }
             else if (peripheral == Peripheral.GrowLight)
             {
-                cmdStr = "S1P" + peripheral.ToString("D") + "V" + BtoI(value);
+                cmdStr = "S1V" + BtoI(value);
             }
             SendCommand(cmdStr);
 
         }
+
+        //Remove lower three functions in future if new code works
+        
         public void SetBacklightColor(Color color)
         {
             string cmdStr = "S3P0R" + color.R.ToString() + "G" + color.G.ToString() + "B" + color.B.ToString();
@@ -138,11 +181,13 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             string cmdStr = "S4P0";
             SendCommand(cmdStr);
         }
-
+        ////////////////////////////////////////////////////////////
+        
         private int BtoI(bool value)
         {
             return (value == true) ? 1 : 0;
         }
+
         private void SendCommand(string commandString)
         {
             _log.Debug(commandString);
