@@ -353,9 +353,15 @@ namespace Cyberbear_Events.MachineControl
         {
             if(litArdunio.LightStatus == false)
             {
-                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));
+                //turn off growlights if on
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, false));
                 task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                 task.Start();
+
+                //turn on backlights
+                Task task1 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task1.Start();
 
                 litArdunio.LightStatus = true; //lights are on
 
@@ -372,20 +378,31 @@ namespace Cyberbear_Events.MachineControl
             {
                 if(litArdunio.LightStatus == true)
                 {
+                    //turn off backlights
                     Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
                     task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                     task.Start();
 
-                    //will remove if testing proves that it works
-                   /* Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
-                    task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
-                    task2.Start();*/
+                    
 
                     litArdunio.LightStatus = false; //lights are off 
 
-                    if(dayNightCycleEnable == true)
+                    if(dayNightCycleEnable == false)
                     {
-                        NightTimeLightOff();
+                        //turn on growlights
+                        Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
+                        task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                        task2.Start();
+                    }
+                    else //if night day cycle enabled then check if night before turning lights back on
+                    {
+                        if (litArdunio.IsNightTime() != true) //if not night time
+                        {
+                            //turn on growlights
+                            Task task2 = new Task(() => LitArdunio.SetLight(Peripheral.GrowLight, true));
+                            task2.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                            task2.Start();
+                        } 
                     }
                 }
                 else
