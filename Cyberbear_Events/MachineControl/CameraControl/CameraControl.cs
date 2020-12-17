@@ -340,10 +340,8 @@ namespace Cyberbear_Events.MachineControl.CameraControl
             
             sb.Append(currentDate + "_");
             sb.Append(CameraConst.FileName);
-            if(cameraConst.AddPositionNumbers == true)
-            {
-                sb.Append("P" + cameraConst.positionNum);
-            }
+            sb.Append("_P" + cameraConst.positionNum);
+  
             sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
 
             String filePath = Path.Combine(CameraConst.SaveFolderPath, sb.ToString());
