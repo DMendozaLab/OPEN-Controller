@@ -15,12 +15,12 @@
 
         <!--Introduction and some general how to use-->
         <StackPanel Grid.Row="0">
-            <TextBlock Margin="5" FontSize="30" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline">Cyberbear</TextBlock>
+            <TextBlock Margin="5" FontSize="30" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline">Single Row Leaf Phenotyper</TextBlock>
             <TextBlock HorizontalAlignment="Center" Margin="0 0 0 3">Version 1.0</TextBlock>
 
             <!--Cyberbear Overview and tooltips-->
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" TextWrapping="Wrap" Margin="10 5 10 0">
-                Welcome to Cyberbear, a desktop application designed to control, maintain, and photograph high-throughput phenotyping data from the 
+                Welcome to the Single Row Leaf Phenotyper (SRLP) controller, a desktop application designed to control, maintain, and photograph high-throughput phenotyping data from the 
                 robotics designed at the DMC labs at the University of Missouri Life Science Center. This product is open source and designed with user
                 interaction in mind. Any bugs or issues should be reported to the DMC github page
             </TextBlock>
