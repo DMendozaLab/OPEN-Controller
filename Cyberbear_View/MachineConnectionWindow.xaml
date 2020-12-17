@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyberbear_View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MachineConnectionWindow" Height="950" Width="850"
+        Title="MachineConnectionWindow" Height="650" Width="850"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closing="Window_Closing">
 
@@ -41,16 +41,16 @@
 
                 </StackPanel>
                 <!--Lights Ardunio Connection-->
-                <StackPanel Orientation="Horizontal">
+                <!--<StackPanel Orientation="Horizontal">
                     <TextBlock Margin="10">Serial port for lights ardunio</TextBlock>
                     <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened" SelectionChanged="LightsSerialComboBox_SelectionChanged"
                               ToolTip="The USB port that the lights arduino is connected to"></ComboBox>
-                    <!--Baud Rate Lights-->
+                    --><!--Baud Rate Lights--><!--
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10">
                         <ComboBoxItem>115200</ComboBoxItem>
                     </ComboBox>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
 
             <!--Connection and Disconnection Buttons (second Column)-->
@@ -115,8 +115,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.39*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="0.6*"/>
-                    <ColumnDefinition Width="0.6*"/>
+                    <!--<ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.6*"/>-->
                 </Grid.ColumnDefinitions>
 
                 <!--Save Folder Location Button-->
@@ -130,17 +130,17 @@
 
                 </TextBox>
 
-                <!--Nighttime selection window button-->
+                <!--Nighttime selection window button--><!--
                 <Button Name="OpenNightTimeSelectionWindow" Click="OpenNightTimeSelectionWindow_Click" Grid.Column="2" 
                         ToolTip="To select the times that experiment is set to night time conditions (currently only compartible with Sunbear models"
                         >Night Time Selection</Button>
 
-                <!--If night cycle on or not-->
+                --><!--If night cycle on or not--><!--
                 <StackPanel Orientation="Horizontal" Grid.Column="3">
                     <TextBlock VerticalAlignment="Center" Margin="2">Night Cycle Enable:</TextBlock>
                     <CheckBox VerticalAlignment="Center" Margin="2" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
                               ToolTip="Click to enable day/night cycles for machine timelapses"></CheckBox>
-                </StackPanel>
+                </StackPanel>-->
             </Grid>
 
         </Border>
@@ -152,7 +152,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=".36*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width=".75*"/>
                 </Grid.ColumnDefinitions>
                 <!--GRBL Location Button-->
                 <Button Name="GRBLCommandFileBtn" Grid.Column="0" Click="GRBLCommandFileBtn_Click" ToolTip="Click to select GBRL command file from filesystem (usually .txt file)">
@@ -284,31 +283,31 @@
         </Border>
 
 
-        <!--Camera Lighting Control-->
+        <!--Camera Lighting Control--><!--
         <Label FontWeight="Bold">Camera Lighting Control</Label>
 
-        <!--Lights On-->
+        --><!--Lights On--><!--
         <Border BorderThickness="10">
             <Button Name="LightsOnBtn" Click="LightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
         </Border>
 
-        <!--Lights Off-->
+        --><!--Lights Off--><!--
         <Border BorderThickness="10">
             <Button Name="LightsOffBtn" Click="LightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
         </Border>
 
-        <!--Growlight Lighting UI-->
+        --><!--Growlight Lighting UI--><!--
         <Label FontWeight="Bold">Growlight Control</Label>
 
-        <!--Growlights On-->
+        --><!--Growlights On--><!--
         <Border BorderThickness="10">
             <Button Name="GrowlightOnBtn" Click="GrowlightOnBtn_Click" ToolTip="Click to turn growlights on (for root phenotyping machines)">Growlights On</Button>
         </Border>
 
-        <!--Growlights Off-->
+        --><!--Growlights Off--><!--
         <Border BorderThickness="10">
             <Button Name="GrowlightsOffBtn" Click="GrowlightsOffBtn_Click" ToolTip="Click to turn growlights off (for root phenotyping machines)">Growlights Off</Button>
-        </Border>
+        </Border>-->
 
         </StackPanel>
     </ScrollViewer>
