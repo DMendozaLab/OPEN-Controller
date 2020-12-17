@@ -173,7 +173,7 @@ namespace Cyberbear_Events.MachineControl
 
                 if (line == "$H" && firstHome)
                 {
-                    Thread.Sleep(8000); //6 secs t0 home and not miss positions
+                    Thread.Sleep(6000); //6 secs t0 home and not miss positions
                     firstHome = false;
                 }
 

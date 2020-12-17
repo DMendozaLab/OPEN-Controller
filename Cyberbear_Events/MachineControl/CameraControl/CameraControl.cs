@@ -337,12 +337,12 @@ namespace Cyberbear_Events.MachineControl.CameraControl
             StringBuilder sb = new StringBuilder();
             
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd--H-mm-ss");
-
+            
             sb.Append(currentDate + "_");
             sb.Append(CameraConst.FileName);
             if(cameraConst.AddPositionNumbers == true)
             {
-                sb.Append("_PositionNumber" + cameraConst.positionNum);
+                sb.Append("P" + cameraConst.positionNum);
             }
             sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
 
