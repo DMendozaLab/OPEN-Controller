@@ -152,7 +152,6 @@ namespace Cyberbear_Events.MachineControl
 
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
             bool firstHome = true; //first time homing in cycle
-
             
             LightOn();
            // setLightWhiteMachine();

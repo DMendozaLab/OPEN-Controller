@@ -10,6 +10,7 @@ using Cyberbear_Events;
 using Cyberbear_View.Consts;
 using System.Threading;
 using System.ComponentModel;
+using System.IO;
 
 namespace Cyberbear_View
 {
@@ -648,6 +649,23 @@ namespace Cyberbear_View
         public void startTimelapse()
         {
             log.Info("Timelapse Starting");
+
+            //creating folders and subfolders for the experiment
+            log.Info("Creating folders for positions");
+
+            string expFolder = machine.CameraControl.CameraConst.SaveFolderPath;
+            DirectoryInfo dir = new DirectoryInfo(expFolder);
+            
+            for(int i = 1; i <= machine.NumOfPositions; i++)
+            {
+                Name = "Position" + i;
+
+                string subPath = Path.Combine(expFolder, Name);
+
+                //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
+                DirectoryInfo pos = Directory.CreateDirectory(subPath);
+
+            }
 
             runningTimeLapse = true;
             TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(machine.TimelapseConst.TlInterval * machine.TimelapseConst.TlIntervalType);
