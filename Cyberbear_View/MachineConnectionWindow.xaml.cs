@@ -650,7 +650,7 @@ namespace Cyberbear_View
         {
             log.Info("Timelapse Starting");
 
-            //creating folders and subfolders for the experiment
+            /*//creating folders and subfolders for the experiment
             log.Info("Creating folders for positions");
 
             string expFolder = machine.CameraControl.CameraConst.SaveFolderPath;
@@ -665,7 +665,7 @@ namespace Cyberbear_View
                 //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
                 DirectoryInfo pos = Directory.CreateDirectory(subPath);
 
-            }
+            }*/
 
             runningTimeLapse = true;
             TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(machine.TimelapseConst.TlInterval * machine.TimelapseConst.TlIntervalType);
