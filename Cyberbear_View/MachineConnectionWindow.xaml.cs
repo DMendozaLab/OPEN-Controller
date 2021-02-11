@@ -10,6 +10,7 @@ using Cyberbear_Events;
 using Cyberbear_View.Consts;
 using System.Threading;
 using System.ComponentModel;
+using System.IO;
 
 namespace Cyberbear_View
 {
@@ -458,12 +459,6 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //may move to initializing window
-            //BackgroundWorker cycleWorker = new BackgroundWorker();
-            //cycleWorker.WorkerReportsProgress = true;
-            //cycleWorker.DoWork += CycleWorker_DoWork; //does work
-            //cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
-            //cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
             cycleWorker.RunWorkerAsync();
 
         }
@@ -649,6 +644,23 @@ namespace Cyberbear_View
         {
             log.Info("Timelapse Starting");
 
+            /*//creating folders and subfolders for the experiment
+            log.Info("Creating folders for positions");
+
+            string expFolder = machine.CameraControl.CameraConst.SaveFolderPath;
+            DirectoryInfo dir = new DirectoryInfo(expFolder);
+            
+            for(int i = 1; i <= machine.NumOfPositions; i++)
+            {
+                Name = "Position" + i;
+
+                string subPath = Path.Combine(expFolder, Name);
+
+                //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
+                DirectoryInfo pos = Directory.CreateDirectory(subPath);
+
+            }*/
+
             runningTimeLapse = true;
             TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(machine.TimelapseConst.TlInterval * machine.TimelapseConst.TlIntervalType);
             log.Debug(machine.TimelapseConst.TlInterval * machine.TimelapseConst.TlIntervalType);
@@ -725,11 +737,7 @@ namespace Cyberbear_View
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
 
                 //may need await, we will see
-                Task.Factory.StartNew(
-                    () =>
-                     {
-                         SingleCycle();
-                     });
+                Task.Factory.StartNew(() =>{SingleCycle();}, TaskCreationOptions.LongRunning);
                 
                 try
                 {

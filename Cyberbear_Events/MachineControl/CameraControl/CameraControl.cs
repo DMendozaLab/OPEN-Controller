@@ -344,7 +344,17 @@ namespace Cyberbear_Events.MachineControl.CameraControl
   
             sb.Append("." + fileType.ToString().ToLower()); //putting the .png 
 
-            String filePath = Path.Combine(CameraConst.SaveFolderPath, sb.ToString());
+            //putting into position folders
+            //DirectoryInfo directory = new DirectoryInfo(CameraConst.SaveFolderPath);
+            //DirectoryInfo[] directories = directory.GetDirectories(searchPattern: CameraConst.positionNum.ToString());
+
+            string dirName;
+            string positionFolderName = "Position" + CameraConst.positionNum.ToString();
+            dirName = positionFolderName;
+            String savePath = Path.Combine(CameraConst.SaveFolderPath, dirName);
+
+            //combining it all
+            String filePath = Path.Combine(savePath, sb.ToString());
             return filePath;
         }
 

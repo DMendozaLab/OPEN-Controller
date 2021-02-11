@@ -142,6 +142,26 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void SingleCycle()
         {
+            //creating folders and subfolders for the experiment
+            //Only have to do once
+            log.Info("Creating folders for positions");
+
+            string expFolder = CameraControl.CameraConst.SaveFolderPath;
+            DirectoryInfo dir = new DirectoryInfo(expFolder);
+
+            for (int i = 1; i <= NumOfPositions; i++)
+            {
+                Name = "Position" + i;
+
+                string subPath = Path.Combine(expFolder, Name);
+
+                //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
+                DirectoryInfo pos = Directory.CreateDirectory(subPath);
+
+            }
+
+            //single cycle
+
             cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
 
             log.Info("Starting a Manual Cycle");
@@ -152,7 +172,6 @@ namespace Cyberbear_Events.MachineControl
 
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
             bool firstHome = true; //first time homing in cycle
-
             
             //LightOn();
            // setLightWhiteMachine();
@@ -210,6 +229,8 @@ namespace Cyberbear_Events.MachineControl
             //LightOff();
 
             cameraControl.CameraConst.positionNum = 0; //reseting position after single cycle
+
+            GC.Collect();
         }
 
         /// <summary>
@@ -219,7 +240,7 @@ namespace Cyberbear_Events.MachineControl
         /// <param name="e"></param>
         private void CameraControl_ImageAcquiredEvent(object sender, EventArgs e)
         {
-            log.Debug("Photo taken by program");
+            //log.Debug("Photo taken by program");
         }
 
         public void loadCameraSettingsMachine()
