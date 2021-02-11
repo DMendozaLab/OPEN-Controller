@@ -229,6 +229,8 @@ namespace Cyberbear_Events.MachineControl
             LightOff();
 
             cameraControl.CameraConst.positionNum = 0; //reseting position after single cycle
+
+            GC.Collect();
         }
 
         /// <summary>
@@ -238,7 +240,7 @@ namespace Cyberbear_Events.MachineControl
         /// <param name="e"></param>
         private void CameraControl_ImageAcquiredEvent(object sender, EventArgs e)
         {
-            log.Debug("Photo taken by program");
+            //log.Debug("Photo taken by program");
         }
 
         public void loadCameraSettingsMachine()

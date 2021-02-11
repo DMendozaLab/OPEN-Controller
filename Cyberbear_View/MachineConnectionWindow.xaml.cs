@@ -459,12 +459,6 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //may move to initializing window
-            //BackgroundWorker cycleWorker = new BackgroundWorker();
-            //cycleWorker.WorkerReportsProgress = true;
-            //cycleWorker.DoWork += CycleWorker_DoWork; //does work
-            //cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
-            //cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
             cycleWorker.RunWorkerAsync();
 
         }
@@ -743,11 +737,7 @@ namespace Cyberbear_View
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
 
                 //may need await, we will see
-                Task.Factory.StartNew(
-                    () =>
-                     {
-                         SingleCycle();
-                     });
+                Task.Factory.StartNew(() =>{SingleCycle();}, TaskCreationOptions.LongRunning);
                 
                 try
                 {
