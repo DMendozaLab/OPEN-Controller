@@ -227,7 +227,7 @@
                         <TextBox Name="NightTimeStartsTextbox" VerticalAlignment="Center" Margin="5" ToolTip="Start of Nightime"></TextBox>
                         <!--Number of Positions Textbox-->
                         <TextBlock VerticalAlignment="Center" Margin="5">Number of Positions:</TextBlock>
-                        <TextBox Name="NumberofPositionsBox" VerticalAlignment="Center" Margin="5"></TextBox>
+                        <xctk:IntegerUpDown Name="NumberofPositionsBox" VerticalAlignment="Center" Margin="5" Minimum="1" ValueChanged="NumberPositionValueChanged"></xctk:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>
@@ -240,8 +240,8 @@
                             ></ComboBox>
                         <!--Nighttime end Textbox-->
                         <TextBlock VerticalAlignment="Center" Margin="5">Nightime End:</TextBlock>
-                        <TextBox Name="NightTimeEndTextbox" VerticalAlignment="Center" Margin="5" ToolTip="When nightime ends"></TextBox>
-                    </StackPanel>
+                            <TextBox Name="NightTimeEndTextbox" VerticalAlignment="Center" Margin="5" ToolTip="When nightime ends"></TextBox>
+                        </StackPanel>
                 </StackPanel>
 
                 <!--Next Timelapse and Ending Time textbox-->

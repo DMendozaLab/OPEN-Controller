@@ -366,7 +366,9 @@ namespace Cyberbear_View
 
                     machine.NumOfPositions = numPositions; //machine object updating
 
-                    NumberofPositionsBox.Text = numPositions.ToString();
+                    NumberofPositionsBox.Value = numPositions;
+
+                    NumberofPositionsBox.Maximum = numPositions;
                 }
             }
             catch
@@ -374,6 +376,11 @@ namespace Cyberbear_View
                 MessageBox.Show("Error..."); // will update in future
             }
             
+        }
+
+        private void NumberPositionValueChanged(object sender, RoutedEventArgs e)
+        {
+            machine.NumOfPositions = (int)NumberofPositionsBox.Value;
         }
 
         /// <summary>
