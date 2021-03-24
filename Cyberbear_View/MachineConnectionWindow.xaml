@@ -227,7 +227,7 @@
                         <TextBox Name="NightTimeStartsTextbox" VerticalAlignment="Center" Margin="5" ToolTip="Start of Nightime"></TextBox>
                         <!--Number of Positions Textbox-->
                         <TextBlock VerticalAlignment="Center" Margin="5">Number of Positions:</TextBlock>
-                        <xctk:IntegerUpDown Name="NumberofPositionsBox" VerticalAlignment="Center" Margin="5" Minimum="1" ValueChanged="NumberPositionValueChanged"></xctk:IntegerUpDown>
+                        <xctk:IntegerUpDown Name="NumberofPositionsBox" VerticalAlignment="Center" Margin="5" Minimum="1" ValueChanged="NumberPositionValueChanged" IsEnabled="False"></xctk:IntegerUpDown>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5">End In:</TextBlock>

@@ -336,7 +336,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         {
             StringBuilder sb = new StringBuilder();
             
-            string currentDate = DateTime.Now.ToString("yyyy-MM-dd--H-mm-ss");
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss");
             
             sb.Append(currentDate + "_");
             sb.Append(CameraConst.FileName);
