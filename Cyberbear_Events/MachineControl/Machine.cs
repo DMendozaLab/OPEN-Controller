@@ -48,6 +48,7 @@ namespace Cyberbear_Events.MachineControl
         public bool DayNightCycleEnable { get => dayNightCycleEnable; set => dayNightCycleEnable = value; }
         public int NumOfPositions { get => numOfPositions; set => numOfPositions = value; }
         public bool LongerWaitCheck = false; //for single axis machines like the Gassman machine
+        public int Max_pos;
 
 
 
@@ -149,17 +150,6 @@ namespace Cyberbear_Events.MachineControl
             string expFolder = CameraControl.CameraConst.SaveFolderPath;
             DirectoryInfo dir = new DirectoryInfo(expFolder);
 
-            for (int i = 1; i <= NumOfPositions; i++)
-            {
-                Name = "Position" + i;
-
-                string subPath = Path.Combine(expFolder, Name);
-
-                //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
-                DirectoryInfo pos = Directory.CreateDirectory(subPath);
-
-            }
-
             //single cycle
 
             cameraControl.ImageAcquiredEvent += CameraControl_ImageAcquiredEvent;
@@ -172,7 +162,27 @@ namespace Cyberbear_Events.MachineControl
 
             List<string> lines = File.ReadAllLines(filePath).ToList(); //putting all the lines in a list
             bool firstHome = true; //first time homing in cycle
-            
+
+            int length = lines.Count;
+
+            //List<string> sublist = lines.GetRange(1, length - 1)
+
+            for(int i = lines.Count; i > NumOfPositions + 2; i--)
+            {
+                lines.RemoveAt(i - 2);
+            }
+
+            for (int i = 1; i <= NumOfPositions; i++)
+            {
+                Name = "Position" + i;
+
+                string subPath = Path.Combine(expFolder, Name);
+
+                //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
+                DirectoryInfo pos = Directory.CreateDirectory(subPath);
+
+            }
+
             //LightOn();
            // setLightWhiteMachine();
 

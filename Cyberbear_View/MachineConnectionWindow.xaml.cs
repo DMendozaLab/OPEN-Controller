@@ -365,6 +365,7 @@ namespace Cyberbear_View
                     }
 
                     machine.NumOfPositions = numPositions; //machine object updating
+                    machine.Max_pos = numPositions;
 
                     NumberofPositionsBox.IsEnabled = true;
 
