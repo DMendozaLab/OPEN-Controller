@@ -231,11 +231,11 @@ namespace Cyberbear_View
         /// <param name="cb">The name of the combo box that will have the const updated</param>
         private void UpdateSerialConst(string comPort, ComboBox cb)
         {
-            //if (string.Equals(cb.Name, "LightsSerialComboBox"))
-            //{
-            //    SerialConsts.defaultComPortLights = comPort;
-            //    log.Debug("Serial Port for lights is: " + comPort);
-            //}
+            if (string.Equals(cb.Name, "LightsSerialComboBox"))
+            {
+                SerialConsts.defaultComPortLights = comPort;
+                log.Debug("Serial Port for lights is: " + comPort);
+            }
             if (string.Equals(cb.Name, "GrblSerialComboBox"))
             {
                 SerialConsts.defaultComPortGrbl = comPort;

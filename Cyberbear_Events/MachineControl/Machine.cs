@@ -62,8 +62,8 @@ namespace Cyberbear_Events.MachineControl
 
             GrblArdunio = new GRBLArdunio();
             log.Info("New Grbl Ardunio added");
-            //litArdunio = new LightsArdunio();
-            //log.Info("New Lights Ardunuio added");
+            litArdunio = new LightsArdunio();
+            log.Info("New Lights Ardunuio added");
             cameraControl = new Camera();
             log.Info("New Camera Control added");
 
@@ -86,14 +86,14 @@ namespace Cyberbear_Events.MachineControl
                     GrblArdunio.Connect();
                     log.Info("GRBL Ardunio Connected");
                 }
-                //if (litArdunio.Connected == false)
-                //{
-                //    litArdunio.Connect();
-                //    log.Info("Lights Ardunio Connected");
+                if (litArdunio.Connected == false)
+                {
+                    litArdunio.Connect();
+                    log.Info("Lights Ardunio Connected");
 
-                //    //TODO set lights to white when turned on
-                //    //setLightWhite();
-                //}
+                    //TODO set lights to white when turned on
+                    //setLightWhite();
+                }
 
             }
             catch (Exception ex)
@@ -116,15 +116,15 @@ namespace Cyberbear_Events.MachineControl
                     GrblArdunio.Disconnect();
                     log.Info("Grbl Ardunio Disconnected");
                 }
-                ////if lit aruindio connected
-                //if (litArdunio.Connected == true)
-                //{
-                //    LightOff(); //turn lights off before disconnecting
+                //if lit aruindio connected
+                if (litArdunio.Connected == true)
+                {
+                    LightOff(); //turn lights off before disconnecting
 
-                //    litArdunio.Disconnect();
-                //    log.Info("Lights Ardunio Disconnected");
-                //}
-                
+                    litArdunio.Disconnect();
+                    log.Info("Lights Ardunio Disconnected");
+                }
+
                 cameraControl.ShutdownVimba(); //shutdown vimba
                 log.Info("Camera Control Shutdown");
 
@@ -183,8 +183,8 @@ namespace Cyberbear_Events.MachineControl
 
             }
 
-            //LightOn();
-           // setLightWhiteMachine();
+            LightOn();
+            setLightWhiteMachine();
 
             //log.Debug("Backlights set to white");
 
@@ -236,7 +236,7 @@ namespace Cyberbear_Events.MachineControl
             }
 
             //turn lights off (and growlights if night)
-            //LightOff();
+            LightOff();
 
             cameraControl.CameraConst.positionNum = 0; //reseting position after single cycle
 
@@ -275,19 +275,6 @@ namespace Cyberbear_Events.MachineControl
         {
             return TimelapseConst.TlStartDate.ToString();
         }
-
-        //find way to report timelapse timing and shiz 
-
-        //legacy code, don't known if needed or not
-        //public void CycleStatusUpdated(object sender, EventArgs e)
-        //{
-        //    if (!cycle.runningCycle && runningSingleCycle)
-        //    {
-        //        runningSingleCycle = false;
-        //        tempExperiment.SaveExperimentToSettings();
-        //        ExperimentStatus.Raise(this, new EventArgs());
-        //    }
-        //}
         #endregion
 
         #region Exception Handler
