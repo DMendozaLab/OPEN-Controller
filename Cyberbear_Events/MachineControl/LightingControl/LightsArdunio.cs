@@ -81,7 +81,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         /// </summary>
         public void BacklightOn()
         {
-            string cmdStr = "S0V1";
+            string cmdStr = "S1V1";
             SendCommand(cmdStr);
         }
 
@@ -90,7 +90,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         /// </summary>
         public void BacklightOff()
         {
-            string cmdStr = "S0V0";
+            string cmdStr = "S1V0";
             SendCommand(cmdStr);
         }
 
@@ -99,7 +99,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         /// </summary>
         public void GrowlightOn()
         {
-            string cmdStr = "S1V1";
+            string cmdStr = "S2V1";
             SendCommand(cmdStr);
         }
 
@@ -108,7 +108,7 @@ namespace Cyberbear_Events.MachineControl.LightingControl
         /// </summary>
         public void GrowlightOff()
         {
-            string cmdStr = "S1V0";
+            string cmdStr = "S2V0";
             SendCommand(cmdStr);
         }
 
@@ -152,11 +152,11 @@ namespace Cyberbear_Events.MachineControl.LightingControl
             string cmdStr = "";
             if (peripheral == Peripheral.Backlight)
             {
-                cmdStr = "S2V" + BtoI(value);
+                cmdStr = "S1V" + BtoI(value);
             }
             else if (peripheral == Peripheral.GrowLight)
             {
-                cmdStr = "S1V" + BtoI(value);
+                cmdStr = "S2V" + BtoI(value);
             }
             SendCommand(cmdStr);
 

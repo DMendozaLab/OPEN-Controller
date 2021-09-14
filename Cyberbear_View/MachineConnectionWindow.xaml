@@ -286,14 +286,14 @@
         <!--Camera Lighting Control-->
         <Label FontWeight="Bold">Camera Lighting Control</Label>
 
-        <!--Lights On-->
+        <!--Camera Lights On-->
         <Border BorderThickness="10">
-            <Button Name="LightsOnBtn" Click="LightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
+            <Button Name="LightsOnBtn" Click="CameraLightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
         </Border>
 
-        <!--Lights Off-->
+        <!--Camera Lights Off-->
         <Border BorderThickness="10">
-            <Button Name="LightsOffBtn" Click="LightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
+            <Button Name="LightsOffBtn" Click="CameraLightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
         </Border>
 
         <!--Growlight Lighting UI-->

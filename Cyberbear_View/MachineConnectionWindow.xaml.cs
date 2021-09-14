@@ -421,9 +421,10 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LightsOnBtn_Click(object sender, RoutedEventArgs e)
+        private void CameraLightsOnBtn_Click(object sender, RoutedEventArgs e)
         {
-            ButtonBackLightOn();
+            //ButtonBackLightOn();
+            machine.CameraLightOn();
             log.Info("Lights Turned On");
         }
         /// <summary>
@@ -431,9 +432,10 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LightsOffBtn_Click(object sender, RoutedEventArgs e)
+        private void CameraLightsOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            ButtonBackLightOff();
+            //ButtonBackLightOff();
+            machine.CameraLightOff();
             log.Info("Lights Turned Off");
         } 
         

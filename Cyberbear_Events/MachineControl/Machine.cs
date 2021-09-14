@@ -143,6 +143,10 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void SingleCycle()
         {
+            //resetting grbl to avoid any issues
+            GrblArdunio.SoftReset();
+            Thread.Sleep(1000);
+
             //creating folders and subfolders for the experiment
             //Only have to do once
             log.Info("Creating folders for positions");
@@ -350,6 +354,47 @@ namespace Cyberbear_Events.MachineControl
         }
 
         /// <summary>
+        /// When called, turns camera light on in machine object
+        /// </summary>
+        public void CameraLightOn()
+        {
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+
+                growlightsOn = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Growlights failed to turn on because: " + ex.Message);
+                MessageBox.Show("Growlights failed to turn on because: " + ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// When called, turns camera light off
+        /// </summary>
+        public void CameraLightOff()
+        {
+            try
+            {
+                Task task = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, false));
+                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task.Start();
+
+                growlightsOn = false;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Growlights failed to turn off because: " + ex.Message);
+                MessageBox.Show("Growlights failed to turn off because: " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Sets lights to white on lights ardunio
         /// </summary>
         public void setLightWhiteMachine()
@@ -378,7 +423,7 @@ namespace Cyberbear_Events.MachineControl
 
                 //turn on backlights
                 Task task1 = new Task(() => LitArdunio.SetLight(Peripheral.Backlight, true));
-                task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
+                task1.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                 task1.Start();
 
                 litArdunio.LightStatus = true; //lights are on
@@ -401,7 +446,7 @@ namespace Cyberbear_Events.MachineControl
                     task.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                     task.Start();
 
-                    
+
 
                     litArdunio.LightStatus = false; //lights are off 
 
