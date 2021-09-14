@@ -143,6 +143,10 @@ namespace Cyberbear_Events.MachineControl
         /// </summary>
         public void SingleCycle()
         {
+            //resetting grbl to avoid any issues
+            GrblArdunio.SoftReset();
+            Thread.Sleep(1000);
+
             //creating folders and subfolders for the experiment
             //Only have to do once
             log.Info("Creating folders for positions");
