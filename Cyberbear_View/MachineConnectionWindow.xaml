@@ -42,8 +42,8 @@
                 </StackPanel>
                 <!--Lights Ardunio Connection-->
                 <!--<StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="10">Serial port for lights ardunio</TextBlock>
-                    <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened" SelectionChanged="LightsSerialComboBox_SelectionChanged"
+                        <TextBlock Margin="10">Serial port for lights ardunio</TextBlock>
+                        <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened" SelectionChanged="LightsSerialComboBox_SelectionChanged"
                               ToolTip="The USB port that the lights arduino is connected to"></ComboBox>
                     --><!--Baud Rate Lights--><!--
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
@@ -115,8 +115,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.39*"/>
                     <ColumnDefinition Width="2*"/>
-                    <!--<ColumnDefinition Width="0.6*"/>
-                    <ColumnDefinition Width="0.6*"/>-->
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.6*"/>
                 </Grid.ColumnDefinitions>
 
                 <!--Save Folder Location Button-->
@@ -130,17 +130,17 @@
 
                 </TextBox>
 
-                <!--Nighttime selection window button--><!--
+                <!--Nighttime selection window button-->
                 <Button Name="OpenNightTimeSelectionWindow" Click="OpenNightTimeSelectionWindow_Click" Grid.Column="2" 
                         ToolTip="To select the times that experiment is set to night time conditions (currently only compartible with Sunbear models"
                         >Night Time Selection</Button>
 
-                --><!--If night cycle on or not--><!--
+                <!--If night cycle on or not-->
                 <StackPanel Orientation="Horizontal" Grid.Column="3">
                     <TextBlock VerticalAlignment="Center" Margin="2">Night Cycle Enable:</TextBlock>
                     <CheckBox VerticalAlignment="Center" Margin="2" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
                               ToolTip="Click to enable day/night cycles for machine timelapses"></CheckBox>
-                </StackPanel>-->
+                </StackPanel>
             </Grid>
 
         </Border>
@@ -286,14 +286,14 @@
         <!--Camera Lighting Control--><!--
         <Label FontWeight="Bold">Camera Lighting Control</Label>
 
-        --><!--Lights On--><!--
+        --><!--Camera Lights On--><!--
         <Border BorderThickness="10">
-            <Button Name="LightsOnBtn" Click="LightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
+            <Button Name="LightsOnBtn" Click="CameraLightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
         </Border>
 
-        --><!--Lights Off--><!--
+        --><!--Camera Lights Off--><!--
         <Border BorderThickness="10">
-            <Button Name="LightsOffBtn" Click="LightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
+            <Button Name="LightsOffBtn" Click="CameraLightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
         </Border>
 
         --><!--Growlight Lighting UI--><!--

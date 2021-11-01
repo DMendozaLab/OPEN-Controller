@@ -196,7 +196,7 @@ namespace Cyberbear_View
 
         //        updateSerialPortComboBox(LightsSerialComboBox);
         //    }
-        //    catch(Exception ex)
+        //    catch (Exception ex)
         //    {
         //        log.Error("Failed to display lights serial port combo box because: " + ex.Message);
         //        MessageBox.Show("Failed to show serial ports for lights arduino");
@@ -231,11 +231,11 @@ namespace Cyberbear_View
         /// <param name="cb">The name of the combo box that will have the const updated</param>
         private void UpdateSerialConst(string comPort, ComboBox cb)
         {
-            //if (string.Equals(cb.Name, "LightsSerialComboBox"))
-            //{
-            //    SerialConsts.defaultComPortLights = comPort;
-            //    log.Debug("Serial Port for lights is: " + comPort);
-            //}
+            if (string.Equals(cb.Name, "LightsSerialComboBox"))
+            {
+                SerialConsts.defaultComPortLights = comPort;
+                log.Debug("Serial Port for lights is: " + comPort);
+            }
             if (string.Equals(cb.Name, "GrblSerialComboBox"))
             {
                 SerialConsts.defaultComPortGrbl = comPort;
@@ -264,12 +264,12 @@ namespace Cyberbear_View
         //    Connect_Btn_CanEnable();
         //}
 
-        /// <summary>
-        /// If drop down opened
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboBox_DropDownOpened(object sender, EventArgs e)
+    /// <summary>
+    /// If drop down opened
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
             ((ComboBox)sender).Items.Clear();
 
@@ -421,9 +421,10 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LightsOnBtn_Click(object sender, RoutedEventArgs e)
+        private void CameraLightsOnBtn_Click(object sender, RoutedEventArgs e)
         {
-            ButtonBackLightOn();
+            //ButtonBackLightOn();
+            machine.CameraLightOn();
             log.Info("Lights Turned On");
         }
         /// <summary>
@@ -431,9 +432,10 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LightsOffBtn_Click(object sender, RoutedEventArgs e)
+        private void CameraLightsOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            ButtonBackLightOff();
+            //ButtonBackLightOff();
+            machine.CameraLightOff();
             log.Info("Lights Turned Off");
         } 
         
