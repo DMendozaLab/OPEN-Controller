@@ -10,6 +10,7 @@ using Cyberbear_Events;
 using Cyberbear_View.Consts;
 using System.Threading;
 using System.ComponentModel;
+using System.IO;
 
 namespace Cyberbear_View
 {
@@ -128,7 +129,7 @@ namespace Cyberbear_View
         private void Connect_Btn_CanEnable()
         {
             //if selected index greater than -1 then something was selected in the combo box
-            if(GrblSerialComboBox.SelectedIndex > -1 && LightsSerialComboBox.SelectedIndex > -1)
+            if(GrblSerialComboBox.SelectedIndex > -1)
             {
                 Connect_Btn.IsEnabled = true;
                 Disconnect_Btn.IsEnabled = true;
@@ -187,20 +188,20 @@ namespace Cyberbear_View
         /// <summary>
         /// Opens all available serial ports for lights ardunio serial port combo box
         /// </summary>
-        private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-            try
-            {
-                log.Info("Lights Ardunio Serial Port Combo Box Opened");
+        //private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        log.Info("Lights Ardunio Serial Port Combo Box Opened");
 
-                updateSerialPortComboBox(LightsSerialComboBox);
-            }
-            catch(Exception ex)
-            {
-                log.Error("Failed to display lights serial port combo box because: " + ex.Message);
-                MessageBox.Show("Failed to show serial ports for lights arduino");
-            }
-        }
+        //        updateSerialPortComboBox(LightsSerialComboBox);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("Failed to display lights serial port combo box because: " + ex.Message);
+        //        MessageBox.Show("Failed to show serial ports for lights arduino");
+        //    }
+        //}
 
         /// <summary>
         /// Updates Combo Box Selection of Serial ports for connecting ardunios
@@ -254,21 +255,21 @@ namespace Cyberbear_View
             Connect_Btn_CanEnable();
         }
 
-        private void LightsSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selectPort = LightsSerialComboBox.SelectedItem;
-            string selectPortString = selectPort.ToString();
-            UpdateSerialConst(selectPortString, LightsSerialComboBox);
+        //private void LightsSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var selectPort = LightsSerialComboBox.SelectedItem;
+        //    string selectPortString = selectPort.ToString();
+        //    UpdateSerialConst(selectPortString, LightsSerialComboBox);
 
-            Connect_Btn_CanEnable();
-        }
+        //    Connect_Btn_CanEnable();
+        //}
 
-        /// <summary>
-        /// If drop down opened
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboBox_DropDownOpened(object sender, EventArgs e)
+    /// <summary>
+    /// If drop down opened
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
             ((ComboBox)sender).Items.Clear();
 
@@ -364,8 +365,13 @@ namespace Cyberbear_View
                     }
 
                     machine.NumOfPositions = numPositions; //machine object updating
+                    machine.Max_pos = numPositions;
 
-                    NumberofPositionsBox.Text = numPositions.ToString();
+                    NumberofPositionsBox.IsEnabled = true;
+
+                    NumberofPositionsBox.Value = numPositions;
+
+                    NumberofPositionsBox.Maximum = numPositions;
                 }
             }
             catch
@@ -373,6 +379,11 @@ namespace Cyberbear_View
                 MessageBox.Show("Error..."); // will update in future
             }
             
+        }
+
+        private void NumberPositionValueChanged(object sender, RoutedEventArgs e)
+        {
+            machine.NumOfPositions = (int)NumberofPositionsBox.Value;
         }
 
         /// <summary>
@@ -410,9 +421,10 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LightsOnBtn_Click(object sender, RoutedEventArgs e)
+        private void CameraLightsOnBtn_Click(object sender, RoutedEventArgs e)
         {
-            ButtonBackLightOn();
+            //ButtonBackLightOn();
+            machine.CameraLightOn();
             log.Info("Lights Turned On");
         }
         /// <summary>
@@ -420,9 +432,10 @@ namespace Cyberbear_View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LightsOffBtn_Click(object sender, RoutedEventArgs e)
+        private void CameraLightsOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            ButtonBackLightOff();
+            //ButtonBackLightOff();
+            machine.CameraLightOff();
             log.Info("Lights Turned Off");
         } 
         
@@ -458,12 +471,6 @@ namespace Cyberbear_View
         /// <param name="e"></param>
         private void StartManualCycleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //may move to initializing window
-            //BackgroundWorker cycleWorker = new BackgroundWorker();
-            //cycleWorker.WorkerReportsProgress = true;
-            //cycleWorker.DoWork += CycleWorker_DoWork; //does work
-            //cycleWorker.ProgressChanged += CycleWorker_ProgressChanged; //changes progress
-            //cycleWorker.RunWorkerCompleted += CycleWorker_RunWorkerCompleted; //wen cycle finished
             cycleWorker.RunWorkerAsync();
 
         }
@@ -649,6 +656,23 @@ namespace Cyberbear_View
         {
             log.Info("Timelapse Starting");
 
+            /*//creating folders and subfolders for the experiment
+            log.Info("Creating folders for positions");
+
+            string expFolder = machine.CameraControl.CameraConst.SaveFolderPath;
+            DirectoryInfo dir = new DirectoryInfo(expFolder);
+            
+            for(int i = 1; i <= machine.NumOfPositions; i++)
+            {
+                Name = "Position" + i;
+
+                string subPath = Path.Combine(expFolder, Name);
+
+                //DirectoryInfo pos = dir.CreateSubdirectory(subPath);
+                DirectoryInfo pos = Directory.CreateDirectory(subPath);
+
+            }*/
+
             runningTimeLapse = true;
             TimeSpan timeLapseInterval = TimeSpan.FromMilliseconds(machine.TimelapseConst.TlInterval * machine.TimelapseConst.TlIntervalType);
             log.Debug(machine.TimelapseConst.TlInterval * machine.TimelapseConst.TlIntervalType);
@@ -725,11 +749,7 @@ namespace Cyberbear_View
                 log.Debug("TimeLapse Single Cycle Executed at: " + DateTime.Now);
 
                 //may need await, we will see
-                Task.Factory.StartNew(
-                    () =>
-                     {
-                         SingleCycle();
-                     });
+                Task.Factory.StartNew(() =>{SingleCycle();}, TaskCreationOptions.LongRunning);
                 
                 try
                 {

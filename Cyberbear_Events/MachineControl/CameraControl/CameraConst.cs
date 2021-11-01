@@ -16,7 +16,7 @@ namespace Cyberbear_Events.MachineControl.CameraControl
         public string CameraSettingsPath = @"C:\Users\sam998\Desktop\Cyberbear\Cyberbear\Cyberbear_Events\Machine\CameraControl\CameraSettings\wednesday_night_special.xml"; //where are camera settings saved
         public string SaveFolderPath = @"C:\Users\sam998\Desktop\TestPhotosFolder"; //save folder for photo capturing, hardcoded to desktop, remember to change when needed
         public string FileName = "NewImage"; //name of saved images
-        public bool AddPositionNumbers; //added position numbers to end of file? true for yes, no for no
+        public bool AddPositionNumbers = true; //added position numbers to end of file? true for yes, no for no
         public int positionNum = 0; //for position in cycle
 
         public CameraConst()
