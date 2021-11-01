@@ -1,2 +1,2 @@
-# CYBERBEAR
-A remaking of previous SPIPware program for use at the University of Missouri Life Sciences Plant Science Labs
+# OPEN Controller
+A C# Desktop application that controls the OPEN Series high-throughput phenotyping robotics created by the David Mendoza Lab at the University of Missouri
