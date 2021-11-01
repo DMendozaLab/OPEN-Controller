@@ -147,11 +147,11 @@ namespace Cyberbear_Events.MachineControl
         {
             //resetting grbl to avoid any issues
             GrblArdunio.SoftReset();
-<<<<<<< HEAD
-            Thread.Sleep(1000);
-=======
+///<<<<<<< HEAD
+            ///Thread.Sleep(1000);
+///=======
             Thread.Sleep(2000);
->>>>>>> New_Lights_with_relays
+///>>>>>>> New_Lights_with_relays
 
             //creating folders and subfolders for the experiment
             //Only have to do once
