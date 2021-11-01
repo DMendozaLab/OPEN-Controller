@@ -41,16 +41,16 @@
 
                 </StackPanel>
                 <!--Lights Ardunio Connection-->
-                <StackPanel Orientation="Horizontal">
+                <!--<StackPanel Orientation="Horizontal">
                         <TextBlock Margin="10">Serial port for lights ardunio</TextBlock>
                         <ComboBox Margin="10" Name="LightsSerialComboBox" DropDownOpened="LightsSerialComboBox_DropDownOpened" SelectionChanged="LightsSerialComboBox_SelectionChanged"
                               ToolTip="The USB port that the lights arduino is connected to"></ComboBox>
-                    <!--Baud Rate Lights-->
+                    --><!--Baud Rate Lights--><!--
                     <TextBlock Margin="10">Baud Rate:</TextBlock>
                     <ComboBox Margin="10">
                         <ComboBoxItem>115200</ComboBoxItem>
                     </ComboBox>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
 
             <!--Connection and Disconnection Buttons (second Column)-->
@@ -283,31 +283,31 @@
         </Border>
 
 
-        <!--Camera Lighting Control-->
+        <!--Camera Lighting Control--><!--
         <Label FontWeight="Bold">Camera Lighting Control</Label>
 
-        <!--Camera Lights On-->
+        --><!--Camera Lights On--><!--
         <Border BorderThickness="10">
             <Button Name="LightsOnBtn" Click="CameraLightsOnBtn_Click" ToolTip="Click to turn backing camera lights on">Lights On</Button>
         </Border>
 
-        <!--Camera Lights Off-->
+        --><!--Camera Lights Off--><!--
         <Border BorderThickness="10">
             <Button Name="LightsOffBtn" Click="CameraLightsOffBtn_Click" ToolTip="Click to turn backing camera lights off">Lights Off</Button>
         </Border>
 
-        <!--Growlight Lighting UI-->
+        --><!--Growlight Lighting UI--><!--
         <Label FontWeight="Bold">Growlight Control</Label>
 
-        <!--Growlights On-->
+        --><!--Growlights On--><!--
         <Border BorderThickness="10">
             <Button Name="GrowlightOnBtn" Click="GrowlightOnBtn_Click" ToolTip="Click to turn growlights on (for root phenotyping machines)">Growlights On</Button>
         </Border>
 
-        <!--Growlights Off-->
+        --><!--Growlights Off--><!--
         <Border BorderThickness="10">
             <Button Name="GrowlightsOffBtn" Click="GrowlightsOffBtn_Click" ToolTip="Click to turn growlights off (for root phenotyping machines)">Growlights Off</Button>
-        </Border>
+        </Border>-->
 
         </StackPanel>
     </ScrollViewer>

@@ -188,20 +188,20 @@ namespace Cyberbear_View
         /// <summary>
         /// Opens all available serial ports for lights ardunio serial port combo box
         /// </summary>
-        private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-            try
-            {
-                log.Info("Lights Ardunio Serial Port Combo Box Opened");
+        //private void LightsSerialComboBox_DropDownOpened(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        log.Info("Lights Ardunio Serial Port Combo Box Opened");
 
-                updateSerialPortComboBox(LightsSerialComboBox);
-            }
-            catch (Exception ex)
-            {
-                log.Error("Failed to display lights serial port combo box because: " + ex.Message);
-                MessageBox.Show("Failed to show serial ports for lights arduino");
-            }
-        }
+        //        updateSerialPortComboBox(LightsSerialComboBox);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("Failed to display lights serial port combo box because: " + ex.Message);
+        //        MessageBox.Show("Failed to show serial ports for lights arduino");
+        //    }
+        //}
 
         /// <summary>
         /// Updates Combo Box Selection of Serial ports for connecting ardunios
@@ -255,14 +255,14 @@ namespace Cyberbear_View
             Connect_Btn_CanEnable();
         }
 
-        private void LightsSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selectPort = LightsSerialComboBox.SelectedItem;
-            string selectPortString = selectPort.ToString();
-            UpdateSerialConst(selectPortString, LightsSerialComboBox);
+        //private void LightsSerialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var selectPort = LightsSerialComboBox.SelectedItem;
+        //    string selectPortString = selectPort.ToString();
+        //    UpdateSerialConst(selectPortString, LightsSerialComboBox);
 
-            Connect_Btn_CanEnable();
-        }
+        //    Connect_Btn_CanEnable();
+        //}
 
     /// <summary>
     /// If drop down opened

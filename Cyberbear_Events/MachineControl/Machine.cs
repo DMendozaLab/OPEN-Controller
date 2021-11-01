@@ -84,16 +84,18 @@ namespace Cyberbear_Events.MachineControl
                 if (GrblArdunio.Connected == false)
                 {
                     GrblArdunio.Connect();
+                    GrblArdunio.SoftReset();
                     log.Info("GRBL Ardunio Connected");
+                    Thread.Sleep(1000);
                 }
-                if (litArdunio.Connected == false)
-                {
-                    litArdunio.Connect();
-                    log.Info("Lights Ardunio Connected");
+                //if (litArdunio.Connected == false)
+                //{
+                //    litArdunio.Connect();
+                //    log.Info("Lights Ardunio Connected");
 
-                    //TODO set lights to white when turned on
-                    //setLightWhite();
-                }
+                //    //TODO set lights to white when turned on
+                //    //setLightWhite();
+                //}
 
             }
             catch (Exception ex)
@@ -116,14 +118,14 @@ namespace Cyberbear_Events.MachineControl
                     GrblArdunio.Disconnect();
                     log.Info("Grbl Ardunio Disconnected");
                 }
-                //if lit aruindio connected
-                if (litArdunio.Connected == true)
-                {
-                    LightOff(); //turn lights off before disconnecting
+                ////if lit aruindio connected
+                //if (litArdunio.Connected == true)
+                //{
+                //    LightOff(); //turn lights off before disconnecting
 
-                    litArdunio.Disconnect();
-                    log.Info("Lights Ardunio Disconnected");
-                }
+                //    litArdunio.Disconnect();
+                //    log.Info("Lights Ardunio Disconnected");
+                //}
 
                 cameraControl.ShutdownVimba(); //shutdown vimba
                 log.Info("Camera Control Shutdown");
@@ -145,7 +147,7 @@ namespace Cyberbear_Events.MachineControl
         {
             //resetting grbl to avoid any issues
             GrblArdunio.SoftReset();
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
 
             //creating folders and subfolders for the experiment
             //Only have to do once
